@@ -1,0 +1,79 @@
+.common-phrases-modal {
+  width: 500px;
+  background: #fff;
+  padding: 32px;
+  border-radius: 16px;
+  border: 1px solid #000;
+  margin: 0 auto;
+  font-family: 'sans-serif';
+  text-align: center;
+}
+h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+.phrase-container {
+  border: 1px solid #000;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+.phrase-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  padding: 12px 20px;
+  font-weight: bold;
+  font-size: 16px;
+  border-bottom: 1px solid #000;
+}
+.phrase-actions {
+  display: flex;
+  gap: 0;
+  margin-left: auto;
+}
+.edit-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  margin-right: 0;
+}
+.delete-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  margin-left: 0;
+}
+.phrase-list {
+  height: 200px;
+  background: #ddd;
+  padding: 12px;
+  overflow-y: auto;
+  text-align: left;
+}
+.phrase-item {
+  padding: 4px 8px;
+  font-size: 14px;
+}
+.button-group {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+.cancel-btn,
+.submit-btn {
+  padding: 10px 32px;
+  font-size: 14px;
+  border-radius: 10px;
+  border: 1px solid #000;
+  cursor: pointer;
+}
+.cancel-btn {
+  background: #fff;
+}
+.submit-btn {
+  background: yellow;
+} 

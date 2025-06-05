@@ -1,0 +1,17 @@
+{
+  "files": [],
+  "references": [
+    //{ "path": "./tsconfig.app.json" },
+    //{ "path": "./tsconfig.node.json" }
+  ],
+  "compilerOptions": {
+    "target": "ESNext",             // 또는 최소 'es2020'
+    "module": "ESNext",             // ✅ 반드시 es2020 이상이어야 함
+    "moduleResolution": "bundler",  // 또는 'node', 'node16' 가능
+    "esModuleInterop": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true
+  },
+  "include": ["src"]
+}

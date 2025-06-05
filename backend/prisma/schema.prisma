@@ -1,0 +1,252 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model tradeRequest {
+  request_id Int  @id @default(autoincrement())
+  customer   user @relation("Customer", fields: [customerId], references: [user_id])
+  customerId Int
+
+  seller   user @relation("Seller", fields: [sellerId], references: [user_id])
+  sellerId Int
+
+  status    String   @default("PENDING") // APPROVED, REJECTED 등
+  createdAt DateTime @default(now())
+}
+
+model inquiry {
+  inquiry_id Int             @id @default(autoincrement())
+  user_id    Int
+  title      String          @db.VarChar(100)
+  content    String          @db.Text
+  file_path  String?         @db.VarChar(255)
+  status     inquiry_status?
+  created_at DateTime?       @default(now()) @db.DateTime(0)
+  user       user            @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "inquiry_ibfk_1")
+
+  @@index([user_id], map: "user_id")
+}
+
+model notice {
+  notice_id  Int         @id @default(autoincrement())
+  admin_id   Int
+  title      String      @db.VarChar(100)
+  content    String      @db.Text
+  type       notice_type
+  file_path  String?     @db.VarChar(255)
+  pinned     Boolean?    @default(false)
+  created_at DateTime?   @default(now()) @db.DateTime(0)
+  user       user        @relation(fields: [admin_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "notice_ibfk_1")
+
+  @@index([admin_id], map: "admin_id")
+}
+
+model payment {
+  payment_id Int             @id @default(autoincrement())
+  user_id    Int
+  rental_id  Int
+  amount     Int
+  method     payment_method?
+  status     payment_status?
+  paid_at    DateTime?       @db.DateTime(0)
+  user       user            @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "payment_ibfk_1")
+  rental     rental          @relation(fields: [rental_id], references: [rental_id], onDelete: NoAction, onUpdate: NoAction, map: "payment_ibfk_2")
+
+  @@index([rental_id], map: "rental_id")
+  @@index([user_id], map: "user_id")
+}
+
+model pc {
+  pc_id         Int     @id @default(autoincrement())
+  pcName        String  @default("알수없음") @db.VarChar(100)
+  cpu           String? @db.VarChar(50)
+  ram           String? @db.VarChar(50)
+  graphic       String? @db.VarChar(50)
+  state         pc_state?
+  power_status  pc_power_status?
+  user_id       Int?
+  renter_id     Int?
+
+  rental_status RentalStatus? @default(AVAILABLE)
+  price         Int?
+  reg_date      DateTime?     @default(now()) @db.DateTime(0)
+  memo          String?       @db.VarChar(255)
+
+  user   user?  @relation(fields: [user_id], references: [user_id])
+  renter user?  @relation("RenterRelation", fields: [renter_id], references: [user_id])
+
+  rental           rental[]
+  purchase_request purchase_request[]
+  transaction      transaction[]
+
+  @@index([user_id], map: "user_id")
+  @@index([renter_id])
+}
+
+
+model rental {
+  rental_id  Int            @id @default(autoincrement())
+  user_id    Int
+  pc_id      Int
+  start_date DateTime?      @db.DateTime(0)
+  end_date   DateTime?      @db.DateTime(0)
+  auto_renew Boolean?       @default(false)
+  status     rental_status? @default(PENDING)
+  payment    payment[]
+  user       user           @relation(fields: [user_id], references: [user_id], onDelete: NoAction, onUpdate: NoAction, map: "rental_ibfk_1")
+  pc         pc             @relation(fields: [pc_id], references: [pc_id], onDelete: NoAction, onUpdate: NoAction, map: "rental_ibfk_2")
+
+  @@index([pc_id], map: "pc_id")
+  @@index([user_id], map: "user_id")
+}
+
+model user {
+  user_id            Int                @id @default(autoincrement())
+  name               String             @db.VarChar(100)
+  email              String             @unique(map: "email") @db.VarChar(100)
+  password           String             @db.VarChar(255)
+  phone              String?            @db.VarChar(20)
+  role               user_role          @default(Customer)
+  status             user_status        @default(ACTIVE)
+  two_factor_enabled Boolean?           @default(false)
+  join_date          DateTime?          @default(now()) @db.DateTime(0)
+  last_login         DateTime?          @db.DateTime(0)
+  inquiry            inquiry[]
+  notice             notice[]
+  payment            payment[]
+  pc                 pc[]
+  rental             rental[]
+  sentRequests       tradeRequest[]     @relation("Customer")
+  receivedRequests   tradeRequest[]     @relation("Seller")
+  purchase_request   purchase_request[] @relation("BuyerPurchase")
+  sales              transaction[]      @relation("UserSeller")
+  purchase           transaction[]      @relation("UserBuyer")
+  lead_request       lead_request[]
+
+  rented_pcs         pc[]               @relation("RenterRelation")
+}
+
+model purchase_request {
+  purchase_request_id Int                   @id @default(autoincrement())
+  pc_id               Int
+  buyer_id            Int
+  status              PurchaseRequestStatus @default(PENDING)
+  requested_at        DateTime              @default(now())
+  responded_at        DateTime?
+
+  pc    pc   @relation(fields: [pc_id], references: [pc_id])
+  buyer user @relation("BuyerPurchase", fields: [buyer_id], references: [user_id])
+
+  transaction transaction? @relation("RequestTransaction") // ✅ name만 지정
+
+  @@index([pc_id])
+  @@index([buyer_id])
+}
+
+model transaction {
+  transaction_id Int               @id @default(autoincrement())
+  pc_id          Int
+  seller_id      Int
+  buyer_id       Int
+  request_id     Int               @unique
+  transaction_at DateTime          @default(now())
+  status         TransactionStatus @default(COMPLETED)
+
+  pc      pc               @relation(fields: [pc_id], references: [pc_id])
+  seller  user             @relation("UserSeller", fields: [seller_id], references: [user_id])
+  buyer   user             @relation("UserBuyer", fields: [buyer_id], references: [user_id])
+  request purchase_request @relation("RequestTransaction", fields: [request_id], references: [purchase_request_id]) // ✅ 관계 정의
+
+  @@index([pc_id])
+  @@index([seller_id])
+  @@index([buyer_id])
+}
+
+model lead_request {
+  lead_request_id Int      @id @default(autoincrement())
+  name            String? // 회원이면 null
+  phone           String?
+  email           String?
+  note            String?
+  created_at      DateTime @default(now())
+  user_id         Int? // 회원이면 연결
+  user            user?    @relation(fields: [user_id], references: [user_id])
+}
+
+enum notice_type {
+  GENERAL
+  MAINTENANCE
+  UPDATE
+}
+
+enum payment_method {
+  CARD
+  BANK_TRANSFER
+  PAYPAL
+}
+
+enum pc_state {
+  AVAILABLE
+  IN_USE
+  MAINTENANCE
+}
+
+enum inquiry_status {
+  PENDING
+  ANSWERED
+  CLOSED
+}
+
+enum payment_status {
+  PENDING
+  PAID
+  FAILED
+}
+
+enum pc_power_status {
+  ON
+  OFF
+}
+
+enum user_role {
+  Customer
+  Seller
+  Admin
+}
+
+enum rental_status {
+  PENDING
+  ACTIVE
+  ENDED
+  CANCELLED
+}
+
+enum user_status {
+  ACTIVE
+  INACTIVE
+  BANNED
+}
+
+enum RentalStatus {
+  AVAILABLE
+  RENTED
+  RESERVED
+}
+
+enum PurchaseRequestStatus {
+  PENDING // 대기 중
+  APPROVED // 판매자 승인
+  REJECTED // 판매자 거절
+  CANCELLED // 구매자 취소
+}
+
+enum TransactionStatus {
+  COMPLETED // 완료됨
+  CANCELLED // 취소됨
+  REFUNDED // 환불됨
+}

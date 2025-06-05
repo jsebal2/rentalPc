@@ -1,0 +1,211 @@
+{
+  "meta": {
+    "generatedAt": "2025-05-12T06:37:22.914Z",
+    "tasksAnalyzed": 25,
+    "thresholdScore": 5,
+    "projectName": "Taskmaster",
+    "usedResearch": true
+  },
+  "complexityAnalysis": [
+    {
+      "taskId": 1,
+      "taskTitle": "프로젝트 초기 설정 및 개발 환경 구성",
+      "complexityScore": 6,
+      "recommendedSubtasks": 8,
+      "expansionPrompt": "Break down the project setup into granular steps such as repository creation, frontend and backend initialization, code quality tool configuration, environment setup, directory structuring, dependency installation, and environment variable management.",
+      "reasoning": "This task covers both frontend and backend initialization, code quality tools, and environment setup, each requiring distinct actions and verification. Each step is foundational and must be handled separately for clarity and reproducibility.[1][2][3][4][5]"
+    },
+    {
+      "taskId": 2,
+      "taskTitle": "데이터베이스 스키마 설계 및 구현",
+      "complexityScore": 7,
+      "recommendedSubtasks": 7,
+      "expansionPrompt": "Expand into subtasks for DB selection, schema design for each table, relationship mapping, migration script creation, seed data preparation, ORM setup, and initial CRUD validation.",
+      "reasoning": "Designing a normalized schema, handling relationships, and setting up migrations and ORM involve multiple technical decisions and implementation steps, each with its own complexity."
+    },
+    {
+      "taskId": 3,
+      "taskTitle": "인증 시스템 구현",
+      "complexityScore": 8,
+      "recommendedSubtasks": 9,
+      "expansionPrompt": "Decompose into subtasks for JWT design, backend middleware, login/logout endpoints, password security, token logic, frontend login UI, state management, and route guards.",
+      "reasoning": "Secure authentication spans backend and frontend, requires cryptography, token management, and UI/UX considerations, making it a high-complexity, multi-faceted task."
+    },
+    {
+      "taskId": 4,
+      "taskTitle": "기본 UI 컴포넌트 및 레이아웃 구현",
+      "complexityScore": 6,
+      "recommendedSubtasks": 6,
+      "expansionPrompt": "List subtasks for each core layout (header, sidebar, footer), reusable components (table, modal, form, notification, loader, card), responsive design, theming, and asset integration.",
+      "reasoning": "UI component development is modular but requires careful planning for reusability, theming, and responsiveness."
+    },
+    {
+      "taskId": 5,
+      "taskTitle": "API 서비스 레이어 구현",
+      "complexityScore": 7,
+      "recommendedSubtasks": 8,
+      "expansionPrompt": "Expand into subtasks for RESTful API design, backend routing/controllers, frontend API modules, Axios setup, error handling, state management, token refresh, and documentation.",
+      "reasoning": "Bridging frontend and backend with robust, secure, and well-documented APIs is a complex, multi-step process."
+    },
+    {
+      "taskId": 6,
+      "taskTitle": "대시보드 페이지 구현",
+      "complexityScore": 7,
+      "recommendedSubtasks": 6,
+      "expansionPrompt": "Break down into dashboard layout, metric cards, chart components, API integration, data refresh logic, and responsive design.",
+      "reasoning": "Combines UI, data visualization, and real-time data handling, each requiring specialized implementation."
+    },
+    {
+      "taskId": 7,
+      "taskTitle": "PC 관리 기능 구현",
+      "complexityScore": 7,
+      "recommendedSubtasks": 8,
+      "expansionPrompt": "List subtasks for PC list, registration form, detail view, edit, delete, status change, filtering/search, and backend API.",
+      "reasoning": "Full CRUD with state management and search/filtering increases both backend and frontend complexity."
+    },
+    {
+      "taskId": 8,
+      "taskTitle": "사용자 관리 기능 구현",
+      "complexityScore": 7,
+      "recommendedSubtasks": 8,
+      "expansionPrompt": "Expand into subtasks for user list, registration, detail, edit, delete, filtering/search, backend API, and privacy handling.",
+      "reasoning": "Similar to PC management but with added privacy/security considerations."
+    },
+    {
+      "taskId": 9,
+      "taskTitle": "계약 관리 기능 구현",
+      "complexityScore": 8,
+      "recommendedSubtasks": 8,
+      "expansionPrompt": "Decompose into contract list, registration, detail, edit, termination, extension, filtering/search, and backend API.",
+      "reasoning": "Involves complex business logic (dates, extensions, user/PC linkage) and full CRUD, increasing complexity."
+    },
+    {
+      "taskId": 10,
+      "taskTitle": "결제 관리 기능 구현",
+      "complexityScore": 7,
+      "recommendedSubtasks": 8,
+      "expansionPrompt": "List subtasks for payment list, registration, detail, status change, edit, filtering/search, backend API, and monthly summary.",
+      "reasoning": "Payment management requires careful handling of financial data, status changes, and summaries."
+    },
+    {
+      "taskId": 11,
+      "taskTitle": "수동 문자 발송 기능 구현",
+      "complexityScore": 6,
+      "recommendedSubtasks": 6,
+      "expansionPrompt": "Expand into subtasks for SMS API integration, send page, template management, history, backend API, and status tracking.",
+      "reasoning": "External API integration and message management are moderately complex but well-bounded."
+    },
+    {
+      "taskId": 12,
+      "taskTitle": "자동 알림 스케줄러 구현",
+      "complexityScore": 7,
+      "recommendedSubtasks": 6,
+      "expansionPrompt": "Break down into scheduler setup, condition logic, template management, log storage, settings UI, and test utilities.",
+      "reasoning": "Automated scheduling and conditional logic, with persistence and UI, add to the complexity."
+    },
+    {
+      "taskId": 13,
+      "taskTitle": "장애 및 수리 이력 관리 기능 구현",
+      "complexityScore": 7,
+      "recommendedSubtasks": 7,
+      "expansionPrompt": "List subtasks for incident report, list, repair entry, detail view, status change, filtering/search, and backend API.",
+      "reasoning": "Combines incident and repair tracking, requiring multiple forms, state transitions, and data linkage."
+    },
+    {
+      "taskId": 14,
+      "taskTitle": "데이터 내보내기 기능 구현",
+      "complexityScore": 6,
+      "recommendedSubtasks": 5,
+      "expansionPrompt": "Expand into subtasks for CSV export, PDF export, export options, backend API, and file download handling.",
+      "reasoning": "Exporting data in multiple formats with options is moderately complex but can be modularized."
+    },
+    {
+      "taskId": 15,
+      "taskTitle": "관리자 권한 제어 기능 구현",
+      "complexityScore": 7,
+      "recommendedSubtasks": 6,
+      "expansionPrompt": "Decompose into role model design, admin management UI, UI element control, API access control, activity logging, and backend API.",
+      "reasoning": "Role-based access control and logging require careful design and integration across layers."
+    },
+    {
+      "taskId": 16,
+      "taskTitle": "계약서 파일 첨부 기능 구현",
+      "complexityScore": 5,
+      "recommendedSubtasks": 6,
+      "expansionPrompt": "List subtasks for upload component, contract attachment, file listing/download, deletion, storage setup, and backend API.",
+      "reasoning": "File upload and management is straightforward but requires attention to security and storage."
+    },
+    {
+      "taskId": 17,
+      "taskTitle": "고객 요청 티켓 시스템 구현",
+      "complexityScore": 6,
+      "recommendedSubtasks": 7,
+      "expansionPrompt": "Expand into subtasks for ticket registration, list, detail, status change, reply/memo, filtering/search, and backend API.",
+      "reasoning": "Ticketing systems involve multiple states and interactions but are well-understood patterns."
+    },
+    {
+      "taskId": 18,
+      "taskTitle": "고객 전용 로그인 기능 구현",
+      "complexityScore": 6,
+      "recommendedSubtasks": 6,
+      "expansionPrompt": "Break down into login UI, account management, dashboard, password reset, profile management, and backend API.",
+      "reasoning": "Customer login and dashboard require authentication, data display, and account management."
+    },
+    {
+      "taskId": 19,
+      "taskTitle": "실시간 통계 및 리포트 기능 구현",
+      "complexityScore": 8,
+      "recommendedSubtasks": 6,
+      "expansionPrompt": "List subtasks for advanced dashboard, custom report creation, template management, scheduling, visualization components, and backend API.",
+      "reasoning": "Real-time analytics and reporting involve complex data aggregation, visualization, and scheduling."
+    },
+    {
+      "taskId": 20,
+      "taskTitle": "시스템 설정 관리 기능 구현",
+      "complexityScore": 6,
+      "recommendedSubtasks": 4,
+      "expansionPrompt": "Expand into subtasks for settings UI, save/load logic, history management, and backend API.",
+      "reasoning": "Settings management is essential but can be broken into a few clear modules."
+    },
+    {
+      "taskId": 21,
+      "taskTitle": "백업 및 복원 기능 구현",
+      "complexityScore": 7,
+      "recommendedSubtasks": 6,
+      "expansionPrompt": "Break down into DB backup, scheduling, file management, restore, logging, and backend API.",
+      "reasoning": "Backup and restore require careful handling of data integrity, scheduling, and logging."
+    },
+    {
+      "taskId": 22,
+      "taskTitle": "보안 강화 및 감사 로그 구현",
+      "complexityScore": 8,
+      "recommendedSubtasks": 8,
+      "expansionPrompt": "List subtasks for vulnerability assessment, HTTPS setup, input validation, SQL injection prevention, XSS/CSRF protection, activity logging, log filtering, and backend API.",
+      "reasoning": "Security hardening and audit logging are critical, multi-layered, and require specialized knowledge."
+    },
+    {
+      "taskId": 23,
+      "taskTitle": "성능 최적화",
+      "complexityScore": 7,
+      "recommendedSubtasks": 9,
+      "expansionPrompt": "Expand into subtasks for frontend code splitting, image optimization, caching, bundle optimization, backend query/index optimization, backend caching, API tuning, large data handling, and performance measurement.",
+      "reasoning": "Performance optimization spans frontend, backend, and database, each with distinct strategies."
+    },
+    {
+      "taskId": 24,
+      "taskTitle": "배포 파이프라인 구축",
+      "complexityScore": 7,
+      "recommendedSubtasks": 7,
+      "expansionPrompt": "Break down into CI/CD design, pipeline tool setup, test automation, build automation, deployment automation, environment config, and rollback strategy.",
+      "reasoning": "Automated deployment involves multiple tools and environments, requiring careful orchestration."
+    },
+    {
+      "taskId": 25,
+      "taskTitle": "사용자 매뉴얼 및 문서화",
+      "complexityScore": 6,
+      "recommendedSubtasks": 4,
+      "expansionPrompt": "Expand into subtasks for admin manual, technical docs, developer docs, and documentation management system.",
+      "reasoning": "Documentation is content-heavy but can be modularized by audience and purpose."
+    }
+  ]
+}

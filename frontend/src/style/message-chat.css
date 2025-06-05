@@ -1,0 +1,128 @@
+.message-container {
+  display: flex;
+  height: calc(100vh - 39px);
+  background: #f8f9fc;
+}
+.user-list {
+  width: 200px;
+  border-right: 1px solid #ddd;
+  padding: 16px;
+  box-sizing: border-box;
+}
+.tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.tab {
+  flex: 1;
+  font-size: 12px;
+  padding: 6px;
+  border: 1px solid #aaa;
+  border-radius: 20px;
+  background: #fff;
+}
+.tab.active {
+  background: black;
+  color: white;
+}
+.search-box {
+  width: 100%;
+  padding: 6px;
+  font-size: 12px;
+  margin-bottom: 16px;
+  border: 1px solid #ccc;
+}
+.user-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #ccc;
+}
+.user-info {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  font-size: 12px;
+}
+
+.chat-view {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid #ddd;
+  background: white;
+}
+.chat-header {
+  height: 50px;
+  padding: 12px;
+  font-weight: bold;
+  border-bottom: 1px solid #ccc;
+}
+.chat-body {
+  flex: 1;
+  padding: 12px;
+  overflow-y: auto;
+}
+.message-box {
+  padding: 8px;
+  background: #eee;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  width: fit-content;
+}
+.chat-input {
+  border-top: 1px solid #ccc;
+  padding: 12px;
+}
+.chat-input textarea {
+  width: 100%;
+  height: 60px;
+  padding: 8px;
+  font-size: 13px;
+  box-sizing: border-box;
+}
+.chat-actions {
+  margin-top: 8px;
+  display: flex;
+  justify-content: space-between;
+}
+.send-btn {
+  background: #ff0;
+  border: 1px solid #ccc;
+  padding: 6px 16px;
+  border-radius: 4px;
+}
+.side-panel {
+  width: 180px;
+  padding: 16px;
+  box-sizing: border-box;
+  background: white;
+}
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+.name {
+  font-weight: bold;
+  font-size: 13px;
+}
+.date {
+  font-size: 11px;
+  color: #888;
+}
+.customer-info, .memo-box {
+  padding: 12px;
+  border: 1px solid #aaa;
+  margin-bottom: 12px;
+  font-size: 12px;
+  height: 80px;
+} 
