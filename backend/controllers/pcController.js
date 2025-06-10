@@ -32,6 +32,7 @@ const getPcList = async (req, res) => {
   const token = authHeader && authHeader.split(' ')[1];
   const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
   const user_id = decoded.userId;
+  const keyword = req.query.keyword?.toLowerCase();
 
   if (!token) {
     return res.status(401).json({ message : '토큰이 없습니다.' });
@@ -41,6 +42,13 @@ const getPcList = async (req, res) => {
     const pcs = await prisma.pc.findMany({
       where : {
         user_id : user_id,
+        OR: keyword ? [
+          { pcName: { contains: keyword } },
+          { cpu: { contains: keyword } },
+          { ram: { contains: keyword } },
+          { graphic: { contains: keyword } },
+          { renter: { name: { contains: keyword } } }
+        ] : undefined
       },
       select : {
         pc_id : true,
@@ -50,11 +58,20 @@ const getPcList = async (req, res) => {
         cpu : true,
         ram : true,
         graphic : true,
+        memo: true,
+        reg_date: true,
         rental_status : true,
         renter_id : true,
         renter : {
           select : {
             name : true,
+            email : true,
+          }
+        },
+        rental: {
+          select: {
+            start_date: true,
+            end_date: true
           }
         }
       },
@@ -67,7 +84,7 @@ const getPcList = async (req, res) => {
       }
     ))
     
-    console.log(numberedPcs);
+    // console.log(numberedPcs);
     res.status(200).json(numberedPcs);
   } catch (error) {
     console.error('PC 목록 조회 오류:', error);
@@ -159,7 +176,7 @@ const deletePc = async (req, res) => {
 
 const findUser = async (req, res) => {
   const keyword = req.query.keyword?.toLowerCase();
-  console.log(keyword);
+  // console.log(keyword);
 
   try {
     const user = await prisma.user.findFirst({

@@ -18,7 +18,7 @@ const port = process.env.PORT || 3000;
 
 // 미들웨어 설정
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: true,
   credentials: true
 }));
 app.use(morgan('dev'));
@@ -50,6 +50,6 @@ app.use('/notice', noticeRouter);
 
 // 서버 실행
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+  console.log(`Server is running on http://211.239.114.71:${port}`);
 });
 
