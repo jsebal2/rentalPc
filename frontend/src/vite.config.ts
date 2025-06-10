@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     port: 5173,
     proxy: {
-      '/auth': 'http://localhost:3000' // 선택 사항
+      '/auth': 'http://211.239.114.71:3000' // 선택 사항
     }
   }
 });
