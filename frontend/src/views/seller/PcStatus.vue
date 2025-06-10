@@ -3,8 +3,8 @@
     <div class="main-inner">
       <div class="main-title">PC 상태 관리</div>
       <div class="search-box">
-        <input class="search-input" type="text" placeholder="검색어를 입력하세요">
-        <button class="search-btn">검색</button>
+        <input v-model="searchKeyword" class="search-input" type="text" placeholder="검색어를 입력하세요" @input="onTyping">
+        <button class="search-btn" @click="pc_status_search">검색</button>
       </div>
       <div class="table-section">
         <div class="table-header-row">
@@ -66,8 +66,7 @@
                 <input v-else v-model="pc.graphic" />
               </td>
               <td>
-                <span v-if="!isEditing">{{ pc.renter?.name || '미대여' }}</span>
-                <input v-else v-model="pc.renter.name" />
+                <span>{{ pc.renter?.name || '미대여' }}</span>
               </td>
             </tr>
 
@@ -94,6 +93,11 @@
       @close="showPcRentalModal = false"
       @rent="submitRentalInfo"
     />
+    <PcDetailModal
+      v-if="showDetailModal"
+      :pc="detailPc"
+      @close="showDetailModal = false"
+    />
     <div
         v-if="contextMenu.visible"
         class="context-menu"
@@ -109,12 +113,13 @@
 
 <script setup lang="ts">
 import axios from 'axios';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted} from 'vue';
 import AdminLayout from '../../layouts/AdminLayout.vue';
 import PcAddPopup from './PcAddPopup.vue';
 import BulkPcRegister from './BulkPcRegister.vue';
 import DeleteConfirmModal from './DeleteConfirmModal.vue';
 import PcRentalModal from './PcRentalModal.vue';
+import PcDetailModal from './PcDetailModal.vue';
 
 const showAddPopup = ref(false);
 const showBulkRegister = ref(false);
@@ -129,6 +134,10 @@ const pcToDelete = ref<any>(null);
 const count = ref(1);
 const showPcRentalModal = ref(false);
 const isSubmitting = ref(false);
+const searchKeyword = ref('');
+
+const showDetailModal = ref(false);
+const detailPc = ref(null);
 
 onMounted(() => {
   fetchPcList();
@@ -142,6 +151,9 @@ const fetchPcList = async () => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      params: {
+        keyword: searchKeyword.value
+      }
     });
 
     // 번호를 부여
@@ -221,7 +233,7 @@ const closeContextMenu = () => {
   contextMenu.value.visible = false;
 };
 
-const handleContextAction = (action: string) => {
+const handleContextAction = async(action: string) => {
   const pc = contextMenu.value.pc;
   if (!pc) return;
   console.log(pc);
@@ -238,10 +250,11 @@ const handleContextAction = (action: string) => {
       showDeleteConfirm.value = true;
       break;
     case 'details':
-      alert(`"${pc.pcName}" 상세 보기`);
+        // 상세 정보가 부족할 경우, 서버에서 최신 정보 요청
+      detailPc.value = pc;
+      showDetailModal.value = true;
       break;
   }
-
   closeContextMenu();
 };
 
@@ -322,7 +335,10 @@ const stateMap = {
 // 외부 클릭 시 우클릭 메뉴 닫기
 document.addEventListener('click', closeContextMenu);
 
-
+//pc상태 관리 검색
+const onTyping = () => {
+  fetchPcList();
+};
 
 </script>
 
