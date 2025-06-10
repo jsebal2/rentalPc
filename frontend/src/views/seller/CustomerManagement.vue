@@ -49,7 +49,7 @@ import { ref, onMounted, onUnmounted } from 'vue';
 import axios from 'axios';
 import UserDetailModal from './UserDetailModal.vue';
 import AdminLayout from '../../layouts/AdminLayout.vue';
-import '../../style/buyer_css/customer-management.css';
+import '../../style/seller_css/customer-management.css';
 
 const showDetailModal = ref(false);
 const customers = ref([]);
@@ -115,4 +115,4 @@ onUnmounted(() => {
 });
 // 추후 데이터/이벤트 바인딩을 위해 setup 영역을 비워둡니다.
 </script> 
-<style src="../../style/buyer_css/customer-management.css"></style>
+<style src="../../style/seller_css/customer-management.css"></style>

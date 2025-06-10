@@ -90,4 +90,4 @@ onMounted(async () => {
 
 </script>
 
-<style src="../../style/buyer_css/user-detail-modal.css"></style>
+<style src="../../style/seller_css/user-detail-modal.css"></style>

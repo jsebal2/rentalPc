@@ -1,11 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import type { RouteRecordRaw } from 'vue-router';
-import AdminDashboard from '../views/buyer/AdminDashboard.vue';
-import PcStatus from '../views/buyer/PcStatus.vue';
-import PcAddPopup from '../views/buyer/PcAddPopup.vue';
-import BulkPcRegister from '../views/buyer/BulkPcRegister.vue';
-import CustomerManagement from '../views/buyer/CustomerManagement.vue';
-import SalesManagement from '../views/buyer/SalesManagement.vue';
+import AdminDashboard from '../views/seller/AdminDashboard.vue';
+import PcStatus from '../views/seller/PcStatus.vue';
+import PcAddPopup from '../views/seller/PcAddPopup.vue';
+import BulkPcRegister from '../views/seller/BulkPcRegister.vue';
+import CustomerManagement from '../views/seller/CustomerManagement.vue';
+import SalesManagement from '../views/seller/SalesManagement.vue';
 import NoticeSupport from '../views/NoticeSupport.vue';
 import MessageChat from '../views/MessageChat.vue';
 import SellerLogin from '../views/SellerLogin.vue';

@@ -82,4 +82,4 @@ onUnmounted(() => {
 })
 </script>
 
-<style src="../../style/buyer_css/bulk-pc-register.css"></style>
+<style src="../../style/seller_css/bulk-pc-register.css"></style>

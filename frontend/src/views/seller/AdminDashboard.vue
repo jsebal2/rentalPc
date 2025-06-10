@@ -53,6 +53,6 @@
 import AdminLayout from '../../layouts/AdminLayout.vue';
 </script>
 
-<style src="../../style/buyer_css/admin-dashboard.css"></style>
+<style src="../../style/seller_css/admin-dashboard.css"></style>
 
 <!-- 스타일은 style 폴더의 admin-dashboard.css에서 import 하세요. --> 

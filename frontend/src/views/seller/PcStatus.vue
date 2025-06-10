@@ -326,7 +326,7 @@ document.addEventListener('click', closeContextMenu);
 
 </script>
 
-<style src="../../style/buyer_css/pc-status.css"></style>
+<style src="../../style/seller_css/pc-status.css"></style>
 <style>
 .modal-overlay {
   position: fixed;

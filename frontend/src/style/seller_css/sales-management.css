@@ -142,3 +142,10 @@
     background-color: #155bb2;
   }
   
+
+.cell.selected {
+  background-color: #aecef0;
+  color: #fff;
+  border-radius: 8px;
+  cursor: pointer;
+}
