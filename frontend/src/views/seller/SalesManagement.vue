@@ -4,7 +4,7 @@
       <h1 class="page-title">매출 관리</h1>
 
       <div class="alert-box">
-        만료 예정 고객 3명 / 오늘 기준 2명 만료됨 → 전체 목록 보기 / 문자 일괄 발송
+        만료 예정 고객 {{ upcomingCount }}명 / 오늘 기준 {{ todayCount }}명 만료됨 → 전체 목록 보기 / 문자 일괄 발송
       </div>
 
       <div class="month-selector">
@@ -88,9 +88,6 @@ import AdminLayout from '../../layouts/AdminLayout.vue';
 import { ref, computed, onMounted } from 'vue'
 import axios from 'axios'
 
-const daysInMonth = 31
-const startDay = 3 // 수요일 시작 (0:일 ~ 6:토)
-const pcList = ref([])
 const sales = [
   100000, 0, 50000, 120000, 130000, 150000, 80000,
   70000, 90000, 110000, 0, 50000, 50000, 40000,
@@ -98,41 +95,30 @@ const sales = [
   30000, 40000, 55000, 72000, 61000, 33000,
   20000, 19000, 18000, 0, 0
 ]
+
 const expirationData = ref([])
 const selectedDates = ref<Date[]>([])
+const upcomingCount = ref(0)
+const todayCount = ref(0)
 
-
-
-// 누적 및 금일 매출 계산
 const todaySales = sales[new Date().getDate() - 1] || 0
 const totalSales = sales.reduce((sum, n) => sum + n, 0)
 const currentYear = ref(new Date().getFullYear())
 const currentMonth = ref(new Date().getMonth() + 1)
 
-const getDaysInMonth = (year : number, month : number) => {
-  return new Date(year, month, 0).getDate()
-}
-const getStartDay = (year : number, month : number) => {
-  return new Date(year, month - 1, 1).getDay()
-}
+const getDaysInMonth = (year: number, month: number) => new Date(year, month, 0).getDate()
+const getStartDay = (year: number, month: number) => new Date(year, month - 1, 1).getDay()
 
-
-// 요일 헤더
 const weekDays = ['일', '월', '화', '수', '목', '금', '토']
 
-
-
-// 달력 생성
 const calendarGrid = computed(() => {
   const year = currentYear.value
   const month = currentMonth.value
-
   const days = getDaysInMonth(year, month)
   const startDay = getStartDay(year, month)
 
   const grid = []
   let currentDay = 1
-  
   for (let row = 0; row < 6; row++) {
     const week = []
     for (let col = 0; col < 7; col++) {
@@ -152,11 +138,10 @@ const calendarGrid = computed(() => {
   return grid
 })
 
-// 월 이동 (임시용, 실제 달력과 연동하려면 Date API 사용 필요)
 const prevMonth = () => {
   if (currentMonth.value === 1) {
     currentMonth.value = 12
-    currentYear.value -=1
+    currentYear.value -= 1
   } else {
     currentMonth.value--
   }
@@ -167,7 +152,7 @@ const nextMonth = () => {
     currentMonth.value = 1
     currentYear.value += 1
   } else {
-    currentMonth.value ++
+    currentMonth.value++
   }
 }
 
@@ -181,16 +166,11 @@ function isSameDate(date1: Date, date2: Date): boolean {
 
 function handleDateClick(day: number | null) {
   if (!day) return
-
   const clicked = new Date(currentYear.value, currentMonth.value - 1, day)
-
   const index = selectedDates.value.findIndex((d) => isSameDate(d, clicked))
-
   if (index !== -1) {
-    // 이미 선택된 날짜 → 해제
     selectedDates.value.splice(index, 1)
   } else {
-    // 새로 선택
     selectedDates.value.push(clicked)
   }
 }
@@ -203,7 +183,6 @@ function isDateSelected(day: number): boolean {
       d.getDate() === day
   )
 }
-
 
 onMounted(async () => {
   const token = localStorage.getItem('token')
@@ -220,10 +199,10 @@ onMounted(async () => {
     })
 
     expirationData.value = response.data.map((item: any) => {
-      const endDateObj = item.endDate ? new Date(item.endDate) : null
-      const dday = endDateObj ? calculateDday(endDateObj.toISOString()) : ''
-      const ddayColorInfo = endDateObj ? calculateDdayColor(endDateObj.toISOString()) : { text: '', color: '' }
-
+      const endDateObj = item.endDate ? toStartOfDay(new Date(item.endDate)) : null
+      const dday = endDateObj ? calculateDday(endDateObj) : ''
+      const ddayColorInfo = endDateObj ? calculateDdayColor(endDateObj) : { text: '', color: '' }
+      const ddayValue = endDateObj ? calculateDdayValue(endDateObj) : null
       const autoRenewText = item.autoRenew === true ? '자동갱신' : item.autoRenew === false ? '수동갱신' : ''
 
       return {
@@ -233,51 +212,52 @@ onMounted(async () => {
         autoRenew: autoRenewText,
         dday: dday,
         ddayColor: ddayColorInfo.color,
+        ddayValue: ddayValue
       }
     })
+
+    upcomingCount.value = expirationData.value.filter((row: any) => row.ddayValue > 0 && row.ddayValue <= 7).length
+    todayCount.value = expirationData.value.filter((row: any) => row.ddayValue === 0).length
 
   } catch (error) {
     console.error('PC 목록 가져오기 실패:', error)
   }
 })
 
-function calculateDday(endDateStr: string): string {
-  if (!endDateStr) return ''
+function toStartOfDay(date: Date): Date {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate())
+}
 
-  const today = new Date()
-  const endDate = new Date(endDateStr)
-
-  // 하루 차이를 밀리초로 계산
+function calculateDday(endDate: Date): string {
+  const today = toStartOfDay(new Date())
   const diffTime = endDate.getTime() - today.getTime()
   const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24))
-
   if (isNaN(diffDays)) return ''
-
   return diffDays === 0 ? 'D-Day' : `D${diffDays > 0 ? '-' : '+'}${Math.abs(diffDays)}`
 }
 
-function calculateDdayColor(endDateStr: string): { text: string, color: string } {
-  if (!endDateStr) return { text: '', color: '' }
-
-  const today = new Date()
-  const endDate = new Date(endDateStr)
+function calculateDdayColor(endDate: Date): { text: string, color: string } {
+  const today = toStartOfDay(new Date())
   const diffTime = endDate.getTime() - today.getTime()
   const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24))
 
   if (diffDays > 7 || isNaN(diffDays)) return { text: '', color: '' }
 
   const label = diffDays === 0 ? 'D-Day' : `D-${diffDays}`
-
-  if (diffDays >= 4 && diffDays <= 7) return { text: label, color: 'orange' }      
-  if (diffDays >= 0 && diffDays <= 3) return { text: label, color: 'red' }         
+  if (diffDays === 0) return { text: label, color: 'red' }
+  if (diffDays >= 4 && diffDays <= 7) return { text: label, color: 'orange' }
+  if (diffDays >= 1 && diffDays <= 3) return { text: label, color: 'red' }
 
   return { text: '', color: '' }
 }
 
-
-
-
-
+function calculateDdayValue(endDate: Date): number | null {
+  const today = toStartOfDay(new Date())
+  const diffTime = endDate.getTime() - today.getTime()
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24))
+  return isNaN(diffDays) ? null : diffDays
+}
 </script>
+
 
 <style src="../../style/seller_css/sales-management.css"></style> 

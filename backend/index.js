@@ -7,6 +7,8 @@ const errorHandler = require('./middlewares/errorHandler');
 const cookieParser = require('cookie-parser');
 const pcRouter = require('./routes/pcRoutes');
 const customerRouter = require('./routes/customerRoutes');
+const salesRouter = require('./routes/salesRoutes');
+const noticeRouter = require('./routes/noticeRoutes');
 // 환경변수 로드
 dotenv.config();
 
@@ -39,6 +41,12 @@ app.use('/pcs', pcRouter);
 
 // 고객 라우터 등록
 app.use('/customers', customerRouter);
+
+// 매출 라우터 등록
+app.use('/sales', salesRouter);
+
+// 공지 라우터 등록
+app.use('/notice', noticeRouter);
 
 // 서버 실행
 app.listen(port, () => {

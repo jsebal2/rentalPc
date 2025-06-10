@@ -6,7 +6,7 @@ import PcAddPopup from '../views/seller/PcAddPopup.vue';
 import BulkPcRegister from '../views/seller/BulkPcRegister.vue';
 import CustomerManagement from '../views/seller/CustomerManagement.vue';
 import SalesManagement from '../views/seller/SalesManagement.vue';
-import NoticeSupport from '../views/NoticeSupport.vue';
+import NoticeSupport from '../views/seller/NoticeSupport.vue';
 import MessageChat from '../views/MessageChat.vue';
 import SellerLogin from '../views/SellerLogin.vue';
 import MainPage from '../views/home/MainPage.vue';

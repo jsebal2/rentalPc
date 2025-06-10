@@ -22,7 +22,7 @@ const getPcList = async (req, res) => {
           pc_id: true,
           pcName: true,
           rental: {
-            orderBy: { end_date: 'desc' },
+            orderBy: { created_at: 'desc' },
             take: 1,
             select: {
               start_date: true,

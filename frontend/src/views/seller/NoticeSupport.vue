@@ -57,12 +57,19 @@
         <div class="write-box">
           <h3>글쓰기</h3>
           <div class="options">
-            <label><input type="checkbox" /> [공지]</label>
-            <label><input type="checkbox" /> FAQ</label>
+            <label for = 'noticeType'>유형 선택</label>
+            <select id="noticeType" v-model="noticeType">
+              <option value="GENERAL">공지</option>
+              <option value="FAQ">FAQ</option>
+            </select>
+            <label for="">
+              <input type="checkbox" v-model="isPinned" />
+              고정 공지로 등록
+            </label>
           </div>
 
-          <input type="text" placeholder="제목을 입력하세요" />
-          <textarea placeholder="내용을 입력하세요">공지드립니다..</textarea>
+          <input type="text" v-model="title" placeholder="제목을 입력하세요" />
+          <textarea v-model="content" placeholder="내용을 입력하세요">공지드립니다..</textarea>
 
           <div class="file-upload" v-for="n in 2" :key="n">
             첨부파일{{ n }}:
@@ -75,7 +82,7 @@
             <label><input type="checkbox" /> 사용자에게 알림 발송</label>
           </div>
 
-          <button class="btn-register">등록</button>
+          <button class="btn-register" @click="submitNotice">등록</button>
         </div>
       </div>
     </div>
@@ -83,7 +90,16 @@
 </template>
 
 <script setup lang="ts">
-import AdminLayout from '../layouts/AdminLayout.vue';
+import AdminLayout from '../../layouts/AdminLayout.vue';
+import { ref } from 'vue';
+import axios from 'axios';
+
+const noticeType = ref('GENERAL');
+const title = ref('');
+const content = ref('');
+const token = localStorage.getItem('token');
+const isPinned = ref(false);
+
 const notices = [
   { title: '[공지] 서버 점검 안내', date: '2025.04.20' },
   { title: '[안내] 행사기간 시작', date: '2025.04.20' },
@@ -97,6 +113,39 @@ const faqs = [
 ]
 
 const qnas = ['연장 문의', '문의', '결제가 안됐나요']
+
+const submitNotice = async () => {
+  if (!title.value || !content.value) {
+    alert('제목과 내용을 입력해주세요.');
+    return;
+  }
+
+  try {
+    const payload = {
+      title: title.value,
+      content: content.value,
+      type: noticeType.value,
+      pinned: isPinned.value,
+    };
+    
+    const response = await axios.post(import.meta.env.VITE_API_URL + '/notice', payload, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    if (response.status === 200 || response.status === 201) {
+      alert('공지가 등록되었습니다.');
+      title.value = '';
+      content.value = '';
+    } else {
+      alert('공지 등록에 실패했습니다.');
+    }
+  } catch (error) {
+    console.error('공지 등록 오류:', error);
+    alert('공지 등록 중 오류가 발생했습니다.');
+  }
+}
 </script>
 
-<style src="../style/notice-support.css"></style>
+<style src="../../style/seller_css/notice-support.css"></style>
