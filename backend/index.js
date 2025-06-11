@@ -50,6 +50,6 @@ app.use('/notice', noticeRouter);
 
 // 서버 실행
 app.listen(port, () => {
-  console.log(`Server is running on http://211.239.114.71:${port}`);
+  console.log(`Server is running on http://localhost:${port}`);
 });
 

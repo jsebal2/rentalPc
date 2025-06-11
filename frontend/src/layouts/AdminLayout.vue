@@ -4,12 +4,21 @@
     <div class="sidebar">
       <router-link class="sidebar-header" to="/">Admin Portal</router-link>
       <div class="sidebar-menu">
-        <router-link class="sidebar-menu-item" to="/">home</router-link>
-        <router-link class="sidebar-menu-item" to="/pc-status">PC 상태 관리</router-link>
-        <router-link class="sidebar-menu-item" to="/customer-management">고객 관리</router-link>
-        <router-link class="sidebar-menu-item" to="/sales-management">요금 및 결제 관리</router-link>
-        <router-link class="sidebar-menu-item" to="#">설정</router-link>
-        <router-link class="sidebar-menu-item" to="/notice-support">고객 및 공지 관리</router-link>
+        <div v-if="user_role === 'Admin'">
+
+        </div>
+        <div v-else-if="user_role === 'Seller'">
+          <router-link class="sidebar-menu-item" to="/">home</router-link>
+          <router-link class="sidebar-menu-item" to="/pc-status">PC 상태 관리</router-link>
+          <router-link class="sidebar-menu-item" to="/customer-management">고객 관리</router-link>
+          <router-link class="sidebar-menu-item" to="/sales-management">요금 및 결제 관리</router-link>
+          <router-link class="sidebar-menu-item" to="#">설정</router-link>
+          <router-link class="sidebar-menu-item" to="/notice-support">고객 및 공지 관리</router-link>
+        </div>
+        <div v-else-if="user_role === 'Customer'">
+          <router-link class="sidebar-menu-item" to="/custom-dashboard">home</router-link>
+          <router-link class="sidebar-menu-item" to="/custom-moniter">monitering</router-link>
+        </div>
       </div>
     </div>
 
@@ -42,17 +51,36 @@
   </div>
 </template>
 
-<script lang="ts">
-export default {
-  name: 'AdminLayout',
-  props: {
-    headerTitle: {
-      type: String,
-      default: 'PC 상태 관리',
-    },
+<script setup lang="ts">
+import axios from 'axios';
+import { ref, onMounted } from 'vue';
+const token = localStorage.getItem('token');
+const userStatuses = ref([]);
+const user_role = ref();
+
+const props = defineProps({
+  headerTitle: {
+    type: String,
+    default: 'PC 상태 관리',
   },
-};
+});
+
+
+onMounted(async () => {
+  try {
+    const res = await axios.get(import.meta.env.VITE_API_URL + '/users/status',{
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    userStatuses.value = res.data;
+    user_role.value = userStatuses.value[0].role;
+  } catch (err) {
+    console.error(err);
+  }
+});
 </script>
+
 
 <style scoped>
 /* 전체 프레임 */
@@ -103,7 +131,6 @@ export default {
 .main-content {
   flex: 1;
   margin-left: 165px;  /* 사이드바 너비만큼 밀기 */
-  padding-top: 39px;   /* ✅ 헤더 높이만큼 여백 추가 */
   box-sizing: border-box;
 }
 
@@ -147,8 +174,6 @@ export default {
 
 /* 실제 콘텐츠가 헤더에 가리지 않도록 마진 추가 */
 .page-body {
-  margin-top: 39px;
-  padding: 32px;
   box-sizing: border-box;
 }
 </style>

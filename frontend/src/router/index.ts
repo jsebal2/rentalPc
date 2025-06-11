@@ -12,6 +12,8 @@ import SellerLogin from '../views/SellerLogin.vue';
 import MainPage from '../views/home/MainPage.vue';
 import LoginPopup from '../views/home/LoginPopup.vue';
 import SignupPage from '../views/home/SignupPage.vue';
+import CustomDashboard from '../views/buyer/CustomDashboard.vue';
+import CustomMoniter from '../views/buyer/CustomMoniter.vue';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -68,6 +70,16 @@ const routes: RouteRecordRaw[] = [
     path: '/signup',
     name: 'SignupPage',
     component: SignupPage,
+  },
+  {
+    path: '/custom-dashboard',
+    name: 'CustomDashboard',
+    component: CustomDashboard,
+  },
+  {
+    path: '/custom-moniter',
+    name: 'CustomMoniter',
+    component: CustomMoniter,
   },
   // 기존 라우트가 있다면 아래에 추가
 ];

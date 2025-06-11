@@ -64,40 +64,75 @@ const getCustomerList = async (req, res) => {
 };
 
 
-  const getUserRentals = async (req, res) => {
-    const userId = parseInt(req.params.id);
-  
-    if (isNaN(userId)) {
-      return res.status(400).json({ message: '잘못된 사용자 ID입니다.' });
-    }
-  
-    try {
-      const rentals = await prisma.rental.findMany({
-        where: { user_id: userId },
-        select: {
-          start_date: true,
-          end_date: true,
-          pc: {
-            select: {
-              pc_id: true,
-              cpu: true,
-              ram: true,
-            },
+const getUserRentals = async (req, res) => {
+  const userId = parseInt(req.params.id);
+
+  if (isNaN(userId)) {
+    return res.status(400).json({ message: '잘못된 사용자 ID입니다.' });
+  }
+
+  try {
+    const rentals = await prisma.rental.findMany({
+      where: { user_id: userId },
+      select: {
+        start_date: true,
+        end_date: true,
+        pc: {
+          select: {
+            pc_id: true,
+            cpu: true,
+            ram: true,
           },
         },
-        orderBy: {
-          start_date: 'desc',
-        },
-      });
-  
-      res.status(200).json(rentals);
-      console.log(userId);
-      console.log(rentals);
-    } catch (error) {
-      console.error('대여 내역 조회 오류:', error);
-      res.status(500).json({ message: '대여 내역 조회 오류' });
-    }
-  };
-  
+      },
+      orderBy: {
+        start_date: 'desc',
+      },
+    });
 
-module.exports = {getCustomerList, getUserRentals};
+    res.status(200).json(rentals);
+    console.log(userId);
+    console.log(rentals);
+  } catch (error) {
+    console.error('대여 내역 조회 오류:', error);
+    res.status(500).json({ message: '대여 내역 조회 오류' });
+  }
+};
+  
+const getCustomerRentalList = async (req, res) =>{
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+
+    if (!token) {
+    return res.status(401).json({ message : '토큰이 없습니다.' });
+    }
+
+    try {
+        const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+        const user_id = decoded.userId;
+        
+        const rental = await prisma.pc.findMany({
+          where: { renter_id: user_id },
+          select: {
+            pc_id: true,
+            pcName:true,
+            cpu:true,
+            ram:true,
+            rental: {
+              orderBy: { created_at: 'desc' },
+              take: 1,
+              select: {
+                start_date: true,
+                end_date: true,
+              },
+            }
+          }
+        });
+        res.json(rental);
+    } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: '서버 오류' });
+  }
+};
+
+module.exports = {getCustomerList, getUserRentals, getCustomerRentalList};

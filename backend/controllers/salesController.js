@@ -33,6 +33,7 @@ const getPcList = async (req, res) => {
         },
       })
   
+      console.log(pcs)
       const result = pcs.map(pc => ({
         pcName: pc.pcName,
         startDate: pc.rental[0]?.start_date ?? null,

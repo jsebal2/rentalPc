@@ -1,0 +1,127 @@
+.dashboard-container {
+  padding: 20px;
+  font-family: 'Arial', sans-serif;
+}
+
+.summary-boxes {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.summary-box {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 200px;
+  padding: 16px;
+  text-align: center;
+}
+
+.icon {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 8px;
+}
+
+.label {
+  font-size: 14px;
+  color: #333;
+}
+
+.value {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.section {
+
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.usage-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.usage-table th,
+.usage-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.status {
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 13px;
+}
+
+.status.activate {
+  background-color: #e0f8ec;
+  color: #2abf7a;
+}
+
+.status.unactivate {
+  background-color: #fdecea;
+  color: #e74c3c;
+}
+
+.status.error {
+  background-color: #fff4e5;
+  color: #f39c12;
+}
+
+.notice-box {
+  border: 1px solid #007aff;
+  padding: 16px;
+  border-radius: 8px;
+  background-color: #f5faff;
+  white-space: pre-line;
+}
+
+/* 👇 좌우 분할 추가 */
+.dashboard-split-wrapper {
+  display: flex;
+  gap: 20px;
+  margin-top: 30px;
+  align-items: flex-start;
+}
+
+.dashboard-left {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.dashboard-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.chart-placeholder {
+  height: 200px;
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  background-color: #fafafa;
+}
+
+.table-scroll-wrapper {
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+/* 가독성을 위해 테이블 헤더 고정도 추가하고 싶다면: */
+.table-scroll-wrapper thead th {
+  position: sticky;
+  top: -0.1px;
+  background-color: #b1c0d4;
+  z-index: 1;
+}

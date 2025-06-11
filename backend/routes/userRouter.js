@@ -48,5 +48,30 @@ router.post('/refresh', (req, res) => {
     });
 });
     
+router.get('/status', async (req, res) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+
+    if (!token) {
+    return res.status(401).json({ message : '토큰이 없습니다.' });
+    }
+
+    try {
+        const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+        const user_id = decoded.userId;
+        
+        const users = await prisma.user.findMany({
+            where: { user_id: user_id },
+            select: {
+                user_id: true,
+                role: true,
+            },
+        });
+        res.json(users);
+    } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: '서버 오류' });
+  }
+});
 
 module.exports = router;

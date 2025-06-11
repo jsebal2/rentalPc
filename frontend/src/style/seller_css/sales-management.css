@@ -1,6 +1,5 @@
 .sales-container {
     padding: 40px;
-    padding-top: 300px; /* ✅ 헤더 공간 확보 (기존 40px → 상단만 여유 있게) */
     background: #fff;
     font-family: sans-serif;
   }

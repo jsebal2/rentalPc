@@ -1,0 +1,109 @@
+.monitoring-page {
+  padding: 30px;
+  font-family: 'Arial', sans-serif;
+}
+
+.c_m_header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.subtitle {
+  color: #198754;
+  font-weight: bold;
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.search-input {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  width: 200px;
+}
+
+.sort-select {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.monitoring-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.monitoring-table th,
+.monitoring-table td {
+  border-bottom: 1px solid #eee;
+  padding: 12px 10px;
+  white-space: nowrap;
+}
+
+.monitoring-table th {
+  background-color: #f9f9f9;
+  font-weight: bold;
+  color: #333;
+}
+
+.status-badge {
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  display: inline-block;
+}
+
+.status-badge.active {
+  background-color: #d1f5e2;
+  color: #198754;
+}
+
+.status-badge.inactive {
+  background-color: #f8d7da;
+  color: #dc3545;
+}
+
+.c-usage-table {
+  width: 100%;
+  min-width: 1000px;
+  border-collapse: collapse;
+}
+
+.c-usage-table th,
+.c-usage-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.c-table-scroll-wrapper {
+  max-height: 700px;
+  overflow-y: auto;
+}
+
+/* 가독성을 위해 테이블 헤더 고정도 추가하고 싶다면: */
+.c-table-scroll-wrapper thead th {
+  position: sticky;
+  top: -0.1px;
+  background-color: #b1c0d4;
+  z-index: 1;
+}
