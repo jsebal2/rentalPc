@@ -7,17 +7,24 @@
         <div class="section">
           <h3>공지사항</h3>
           <ul>
-            <li v-for="(item, index) in notices" :key="index">
-              <span>{{ item.title }}</span>
-              <span class="btn-group">
-                <button>수정</button>
-                <button>삭제</button>
-                <span>{{ item.date }}</span>
+            <li v-for="(item, index) in [...notices, ...Array(Math.max(0, 5 - notices.length)).fill(null)]" :key="index">
+              <template v-if="item">
+                <span>{{ item.title }}</span>
+                <span class="btn-group">
+                  <button @click="startEditNotice(item)">수정</button>
+                <button @click="deleteNotice(item.notice_id)">삭제</button>
+                <span>{{ item.created_at.slice(0, 10) }}</span>
               </span>
+              </template>
+              <template v-else>
+                <span class="empty-placeholder">&nbsp;</span>
+              </template>
             </li>
           </ul>
           <div class="pagination">
-            <button>&lt;</button><button>1</button><button>2</button><button>&gt;</button>
+            <button @click="goToPage(currentPage - 1)" :disabled="currentPage === 1"> &lt;</button>
+            <button v-for="page in totalPages" :key="page" @click="goToPage(page)">{{ page }}</button>
+            <button @click="goToPage(currentPage + 1)" :disabled="currentPage === totalPages"> &gt;</button>
           </div>
         </div>
 
@@ -25,16 +32,23 @@
         <div class="section">
           <h3>자주 묻는 질문 (FAQ)</h3>
           <ul>
-            <li v-for="(faq, index) in faqs" :key="index">
-              <span>Q {{ faq }}</span>
-              <span class="btn-group">
-                <button>수정</button>
-                <button>삭제</button>
-              </span>
+            <li v-for="(faq, index) in [...faqs, ...Array(Math.max(0, 5 - faqs.length)).fill(null)]" :key="index">
+              <template v-if="faq">
+                <span>Q. {{ faq.title }}</span>
+                <span class="btn-group">
+                  <button @click="startEditNotice(faq)">수정</button>
+                  <button @click="deleteNotice(faq.notice_id)">삭제</button>
+                </span>
+              </template>
+              <template v-else>
+                <span class="empty-placeholder">&nbsp;</span>
+              </template>
             </li>
           </ul>
           <div class="pagination">
-            <button>&lt;</button><button>1</button><button>2</button><button>&gt;</button>
+            <button @click="goToFaqPage(faqCurrentPage - 1)" :disabled="faqCurrentPage === 1"> &lt;</button>
+            <button v-for="page in faqTotalPages" :key="page" @click="goToFaqPage(page)">{{ page }}</button>
+            <button @click="goToFaqPage(faqCurrentPage + 1)" :disabled="faqCurrentPage === faqTotalPages"> &gt;</button>
           </div>
         </div>
 
@@ -91,7 +105,7 @@
 
 <script setup lang="ts">
 import AdminLayout from '../../layouts/AdminLayout.vue';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
 const noticeType = ref('GENERAL');
@@ -99,18 +113,14 @@ const title = ref('');
 const content = ref('');
 const token = localStorage.getItem('token');
 const isPinned = ref(false);
-
-const notices = [
-  { title: '[공지] 서버 점검 안내', date: '2025.04.20' },
-  { title: '[안내] 행사기간 시작', date: '2025.04.20' },
-  { title: '[공지] 사용시 유의 사항', date: '2025.04.20' }
-]
-
-const faqs = [
-  '접속이 자주 끊겨요',
-  '추가 결제는 어떻게..',
-  '상담 시간은 어떻게..'
-]
+const notices = ref([]);
+const currentPage = ref(1);
+const totalPages = ref(1);
+const faqs = ref([]);
+const faqTotalPages = ref(1);
+const faqCurrentPage = ref(1);
+const isEditMode = ref(false);
+const editNoticeId = ref(null);
 
 const qnas = ['연장 문의', '문의', '결제가 안됐나요']
 
@@ -127,25 +137,152 @@ const submitNotice = async () => {
       type: noticeType.value,
       pinned: isPinned.value,
     };
-    
-    const response = await axios.post(import.meta.env.VITE_API_URL + '/notice', payload, {
+
+    const token = localStorage.getItem('token');
+
+    let response;
+    if (isEditMode.value) {
+      // ✅ 수정 요청 (PUT)
+      response = await axios.put(
+        `${import.meta.env.VITE_API_URL}/notice/${editNoticeId.value}`,
+        payload,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+    } else {
+      // ✅ 등록 요청 (POST)
+      response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/notice`,
+        payload,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+    }
+
+    if (response.status === 200 || response.status === 201) {
+      alert(isEditMode.value ? '공지가 수정되었습니다.' : '공지가 등록되었습니다.');
+
+      // ✅ 초기화
+      title.value = '';
+      content.value = '';
+      isPinned.value = false;
+      isEditMode.value = false;
+      editNoticeId.value = null;
+
+      // ✅ 목록 갱신
+      if (noticeType.value === 'GENERAL') {
+        await fetchNotices();
+      } else if (noticeType.value === 'FAQ') {
+        await fetchFaqs();
+      }
+    } else {
+      alert('공지 처리에 실패했습니다.');
+    }
+  } catch (error) {
+    console.error('공지 등록/수정 오류:', error);
+    alert('공지 처리 중 오류가 발생했습니다.');
+  }
+};
+
+
+const fetchNotices = async () => {
+  try {
+    const token = localStorage.getItem('token');
+    const response = await axios.get(
+      `${import.meta.env.VITE_API_URL}/notice?type=GENERAL&page=${currentPage.value}&limit=5`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+    notices.value = response.data.notices;
+    totalPages.value = response.data.totalPages;
+  } catch (error) {
+    console.error('공지 조회 오류:', error);
+  }
+};
+
+const fetchFaqs = async () => {
+  try {
+    const token = localStorage.getItem('token');
+    const response = await axios.get(
+      `${import.meta.env.VITE_API_URL}/notice?type=FAQ&page=${faqCurrentPage.value}&limit=5`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
+    );
+    faqs.value = response.data.notices;
+    faqTotalPages.value = response.data.totalPages;
+  } catch (error) {
+    console.error('FAQ 조회 오류:', error);
+  }
+};
+
+
+const goToPage = (page) => {
+  if (page >= 1 && page <= totalPages.value) {
+    currentPage.value = page;
+    fetchNotices();
+  }
+};
+
+const goToFaqPage = (page) => {
+  if (page >= 1 && page <= faqTotalPages.value) {
+    faqCurrentPage.value = page;
+    fetchFaqs();
+  }
+};
+
+const deleteNotice = async (noticeId) => {
+  const confirmDelete = confirm('정말 삭제하시겠습니까?');
+  if (!confirmDelete) return;
+
+  try {
+    await axios.delete(`${import.meta.env.VITE_API_URL}/notice/${noticeId}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
     });
 
-    if (response.status === 200 || response.status === 201) {
-      alert('공지가 등록되었습니다.');
-      title.value = '';
-      content.value = '';
-    } else {
-      alert('공지 등록에 실패했습니다.');
+    alert('삭제되었습니다.');
+
+    // 타입에 따라 목록 새로고침
+    if (noticeType.value === 'GENERAL') {
+      fetchNotices();
+    } else if (noticeType.value === 'FAQ') {
+      fetchFaqs();
     }
   } catch (error) {
-    console.error('공지 등록 오류:', error);
-    alert('공지 등록 중 오류가 발생했습니다.');
+    console.error('삭제 실패:', error);
+    alert('삭제 중 오류가 발생했습니다.');
   }
-}
+};
+
+const startEditNotice = (notice) => {
+  title.value = notice.title;
+  content.value = notice.content;
+  noticeType.value = notice.type;
+  isPinned.value = notice.pinned;
+  editNoticeId.value = notice.notice_id; // 또는 item.id
+  isEditMode.value = true;
+};
+
+
+
+onMounted(async () => {
+  await fetchNotices();
+  await fetchFaqs();
+});
+
 </script>
 
 <style src="../../style/seller_css/notice-support.css"></style>

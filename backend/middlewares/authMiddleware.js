@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const authenicateToken = (req, res, next) => {
+const authenticateToken = (req, res, next) => {
     const authHeader = req.headers['authorization']; //Bearer 토큰
     const token = authHeader && authHeader.split(' ')[1];
 
@@ -14,4 +14,4 @@ const authenicateToken = (req, res, next) => {
     });
 };
 
-module.exports = { authenicateToken };
+module.exports = { authenticateToken };

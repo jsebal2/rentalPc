@@ -101,3 +101,10 @@ textarea {
 .btn-register:hover {
   background-color: #005fcc;
 } 
+
+.empty-placeholder {
+  display: inline-block;
+  height: 30px;
+  width: 100%;
+  background-color: #f8f8f8;
+}
