@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { login } = require('../controllers/authController');
-const { authenicateToken } = require('../middlewares/authMiddleware');
+const { authenticateToken } = require('../middlewares/authMiddleware');
 const jwt = require('jsonwebtoken');
 const { register } = require('../controllers/authController');
 const { PrismaClient } = require('@prisma/client');
@@ -9,7 +9,7 @@ const prisma = new PrismaClient();
 
 router.post('/login', login);
 
-router.get('/profile', authenicateToken, async(req, res) => {
+router.get('/profile', authenticateToken, async(req, res) => {
     const user = await prisma.user.findUnique({
         where: { user_id: req.user.userId },
         select: {user_id: true, name: true, email: true,},
