@@ -1,10 +1,9 @@
 <template>
   <AdminLayout>
     <div class="main-inner">
-      <div class="main-title">PC 상태 관리</div>
+      <h1 class="main-title">PC 상태 관리</h1>
       <div class="search-box">
         <input v-model="searchKeyword" class="search-input" type="text" placeholder="검색어를 입력하세요" @input="onTyping">
-        <button class="search-btn" @click="pc_status_search">검색</button>
       </div>
       <div class="table-section">
         <div class="table-header-row">

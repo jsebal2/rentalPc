@@ -109,7 +109,7 @@ textarea {
 .btn-group {
   display: flex;
   justify-content: space-between;
-  margin-top: 12px;
+  align-items: center;
 }
 .cancel-btn {
   padding: 8px 16px;

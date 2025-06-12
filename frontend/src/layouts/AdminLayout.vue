@@ -85,6 +85,8 @@ onMounted(async () => {
 <style scoped>
 /* 전체 프레임 */
 .dashboard-frame {
+  width: calc(100% - 200px);
+  margin-left: 200px;
   display: flex;
 }
 
@@ -100,14 +102,16 @@ onMounted(async () => {
   z-index: 999;
 }
 .sidebar-header {
+  justify-content: center;
+  display: flex;
+  align-items: center;
   background: #00003e;
+  height: 60px;
   color: #fff;
   font-weight: 800;
   font-size: 12px;
-  padding: 24px 16px;
   width: 100%;
   box-sizing: border-box;
-  display: block;
   text-decoration: none;
 }
 .sidebar-menu {
@@ -130,24 +134,33 @@ onMounted(async () => {
 /* 메인 콘텐츠 영역 */
 .main-content {
   flex: 1;
-  margin-left: 165px;  /* 사이드바 너비만큼 밀기 */
   box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  overflow-x: auto;
+  flex-direction: column;
+  min-height: 100vh;
+  background: #f5f6fa;
+  padding: 60px 0;
+  position: relative;
 }
 
 
 /* 고정 헤더 */
 .header {
   position: fixed;
+  padding: 0 30px;
+  left: 200px;
+  width: calc(100% - 200px);
   top: 0;
-  left: 165px;
   right: 0;
-  height: 39px;
+  height: 60px;
   background: #00003e;
   color: white;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 32px;
   z-index: 1000;         /* ✅ 다른 요소보다 위에 표시 */
   box-sizing: border-box; /* ✅ 내부 패딩 포함 계산 */
 }

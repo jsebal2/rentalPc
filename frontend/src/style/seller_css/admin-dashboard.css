@@ -5,9 +5,7 @@ body {
 }
 .dashboard-frame {
     width: 100%;
-    max-width: 1440px;
     height: auto; /* 고정 높이 제거 */
-    margin: 0 auto;
     display: flex;
     flex-direction: row;
     background: #fff;
@@ -29,7 +27,6 @@ body {
   color: #fff;
   font-weight: 800;
   font-size: 12px;
-  padding: 24px 16px;
   letter-spacing: 0;
   width: 100%;
   box-sizing: border-box;
@@ -46,15 +43,15 @@ body {
   font-weight: 400;
   cursor: pointer;
 }
-.main-content {
+/* .main-content {
   flex: 1;
   padding: 24px 32px;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
   height: auto;
-}
-.header {
+} */
+/* .header {
   width: 100%;
   height: 39px;
   background: #00003e;
@@ -65,7 +62,7 @@ body {
   box-sizing: border-box;
   position: relative;
   padding: 0 32px 0 67px;
-}
+} */
 .header .header-title {
   font-size: 12px;
   font-weight: 800;

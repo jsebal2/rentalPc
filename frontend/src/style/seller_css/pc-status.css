@@ -32,7 +32,6 @@ html, body {
   color: #fff;
   font-weight: 800;
   font-size: 16px;
-  padding: 32px 20px;
   letter-spacing: 0;
   width: 100%;
   box-sizing: border-box;
@@ -53,7 +52,7 @@ html, body {
 .sidebar-menu-item:hover {
   color: #155bb2;
 }
-.main-content {
+/* .main-content {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -62,8 +61,8 @@ html, body {
   align-items: flex-start;
   width: 100%;
   overflow-x: auto;
-}
-.header {
+} */
+/* .header {
   width: 100%;
   height: 56px;
   background: #00003e;
@@ -79,7 +78,7 @@ html, body {
   position: sticky;
   top: 0;
   z-index: 10;
-}
+} */
 .header-right {
   display: flex;
   align-items: center;
@@ -128,13 +127,10 @@ html, body {
   font-size: 28px;
   font-weight: 800;
   color: #00003e;
-  margin-bottom: 12px;
+  margin-bottom: 30px;
   letter-spacing: 1px;
 }
 .search-box {
-  display: flex;
-  align-items: center;
-  gap: 8px;
   margin-bottom: 32px;
 }
 .search-input {
@@ -226,7 +222,6 @@ html, body {
     padding: 24px 8px 40px 8px;
   }
   .sidebar {
-    min-width: 140px;
     width: 140px;
   }
 }

@@ -1,14 +1,20 @@
 .sales-container {
-    padding: 40px;
+    width: 1200px;
     background: #fff;
     font-family: sans-serif;
+    margin-top: 40px;
+    border-radius: 16px;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
+    padding: 40px 40px 60px 40px;
+    box-sizing: border-box;
   }
   
   
   .page-title {
-    font-size: 20px;
-    font-weight: bold;
-    margin-bottom: 16px;
+    font-size: 28px;
+    font-weight: 800;
+    margin: 0;
+    margin-bottom: 30px;
   }
   
   .alert-box {

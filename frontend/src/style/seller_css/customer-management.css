@@ -1,12 +1,17 @@
 .customer-container {
-  padding: 40px;
-  padding-top: 300px;
-  background-color: #f9f9f9;
-  min-height: 100vh;
+  margin-top: 40px;
+  width: 800px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
+  padding: 40px 40px 60px 40px;
+  box-sizing: border-box;
 }
 h1 {
-  font-size: 18px;
-  margin-bottom: 20px;
+  font-size: 28px;
+  font-weight: 800;
+  margin: 0;
+  margin-bottom: 30px;
 }
 .toolbar {
   display: flex;
@@ -20,15 +25,17 @@ h1 {
 }
 .toolbar-bottom {
   display: flex;
-  justify-content: space-between;
+  justify-content: end;
   align-items: center;
+  gap: 20px;
 }
 .toolbar-left {
   display: flex;
-  gap: 20px;
+  gap: 6px;
   align-items: center;
 }
 .toolbar-right {
+  width: 300px;
   display: flex;
   align-items: center;
   gap: 6px;

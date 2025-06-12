@@ -60,7 +60,15 @@ const handleLogout = async () => {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 40px;
+  background: #00003e;
+  color: white;
+  padding: 0px 20px;
+  height: 60px;
 }
+.header span{
+  font-size: 14px;
+}
+
 
 .logo {
   font-size: 20px;

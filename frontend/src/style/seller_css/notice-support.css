@@ -1,13 +1,14 @@
 .notice-support-container {
     display: flex;
     width: 100%;
-    max-width: none; /* 기존 제한 제거 */
-    margin: 0; /* 중앙 정렬 제거 */
-    padding: 40px 80px; /* 좌우 패딩만 유지 */
-    padding-top: 80px;
     gap: 40px;
     font-family: 'Outfit', sans-serif;
     background: #fff;
+    box-sizing: border-box;
+    margin-top: 40px;
+    border-radius: 16px;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
+    padding: 40px 40px 60px 40px;
     box-sizing: border-box;
   }
   
@@ -23,23 +24,26 @@
   margin-bottom: 32px;
 }
 .section h3 {
+  margin: 0;
   font-size: 16px;
-  margin-bottom: 8px;
+  margin-bottom: 15px;
 }
 .section ul {
   list-style: none;
   padding: 0;
   margin: 0;
+  margin-bottom: 30px;
 }
 .section li {
   margin-bottom: 8px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 40px;
 }
 .btn-group button {
   font-size: 11px;
-  margin-left: 4px;
+  margin-right: 8px;
 }
 .pagination {
   text-align: center;
