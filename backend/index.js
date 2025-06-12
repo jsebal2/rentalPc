@@ -9,6 +9,7 @@ const pcRouter = require('./routes/pcRoutes');
 const customerRouter = require('./routes/customerRoutes');
 const salesRouter = require('./routes/salesRoutes');
 const noticeRouter = require('./routes/noticeRoutes');
+const dashboardRouter = require('./routes/dashboardRoutes');
 // 환경변수 로드
 dotenv.config();
 
@@ -47,6 +48,9 @@ app.use('/sales', salesRouter);
 
 // 공지 라우터 등록
 app.use('/notice', noticeRouter);
+
+// 대시보드 라우터 등록
+app.use('/admin-dashboard', dashboardRouter);
 
 // 서버 실행
 app.listen(port, () => {

@@ -39,11 +39,11 @@
         </thead>
         <tbody>
           <tr v-for="(rental, i) in rentals" :key="i">
-            <td>{{ rental.pc.pc_id }}</td>
-            <td>{{ rental.pc.cpu }}</td>
-            <td>{{ rental.pc.ram }}</td>
-            <td>{{ formatDate(rental.start_date) }}</td>
-            <td>{{ formatDate(rental.end_date) }}</td>
+            <td>{{ rental.pc_id }}</td>
+            <td>{{ rental.cpu }}</td>
+            <td>{{ rental.ram }}</td>
+            <td>{{ formatDate(rental.rental[0]?.start_date) }}</td>
+            <td>{{ formatDate(rental.rental[0]?.end_date) }}</td>
           </tr>
         </tbody>
       </table>
@@ -80,9 +80,6 @@ onMounted(async () => {
   try {
     const response = await axios.get(import.meta.env.VITE_API_URL + `/customers/${props.user.user_id}/rentals`);
     rentals.value = response.data;
-    console.log(rentals.value);
-    console.log(props.user.user_id);
-    console.log(import.meta.env.VITE_API_URL + `/customers/${props.user.user_id}/rentals`);
   } catch (error) {
     console.error('대여 내역 조회 오류:', error);
   }

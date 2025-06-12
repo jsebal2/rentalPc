@@ -2,8 +2,8 @@
   <AdminLayout headerTitle="고객 관리">
     <div class="customer-container">
       <h1>고객 관리</h1>
+
       <div class="toolbar">
-        
         <div class="toolbar-bottom">
           <div class="toolbar-left">
             <label><input type="checkbox" class="filter-checkbox" />전체</label>
@@ -11,10 +11,16 @@
             <label><input type="checkbox" class="filter-checkbox" />자동 연장</label>
           </div>
           <div class="toolbar-right">
-            <input type="text" placeholder="이름 또는 이메일" v-model="searchQuery" @input="filterCustomers" />
+            <input
+              type="text"
+              placeholder="이름 또는 이메일"
+              v-model="searchQuery"
+              @input="filterCustomers"
+            />
           </div>
         </div>
       </div>
+
       <table class="customer-table">
         <thead>
           <tr>
@@ -31,7 +37,7 @@
             <td>{{ customer.name }}</td>
             <td>{{ customer.email }}</td>
             <td>{{ customer.pcCount }}대</td>
-            <td>{{ customer.paymentStatus }}</td>
+            <td>{{ customer.paymentStatus || '-' }}</td>
             <td>{{ customer.autoExtend ? 'O' : 'X' }}</td>
             <td>
               <a href="#" @click.prevent="openDetailModal(customer)">[상세보기]</a>
@@ -39,7 +45,12 @@
           </tr>
         </tbody>
       </table>
-      <UserDetailModal v-if="showDetailModal" :user="selectedCustomer" @close="showDetailModal = false" />
+
+      <UserDetailModal
+        v-if="showDetailModal"
+        :user="selectedCustomer"
+        @close="showDetailModal = false"
+      />
     </div>
   </AdminLayout>
 </template>
@@ -51,19 +62,31 @@ import UserDetailModal from './UserDetailModal.vue';
 import AdminLayout from '../../layouts/AdminLayout.vue';
 import '../../style/seller_css/customer-management.css';
 
-const showDetailModal = ref(false);
-const customers = ref([]);
-const filteredCustomers = ref([]);
-const searchQuery = ref('');
-const selectedCustomer = ref(null);
+interface Customer {
+  user_id: number;
+  name: string;
+  email: string;
+  phone?: string;
+  join_date?: string;
+  pcCount: number;
+  paymentStatus?: string;
+  autoExtend?: boolean;
+}
 
-function getCustomers() {
-  axios.get(import.meta.env.VITE_API_URL + '/customers/list')
-    .then(response => {
-      customers.value = response.data;
-      filteredCustomers.value = customers.value;
-    })
-    .catch(error => console.error('Error fetching customers:', error));
+const showDetailModal = ref(false);
+const customers = ref<Customer[]>([]);
+const filteredCustomers = ref<Customer[]>([]);
+const searchQuery = ref('');
+const selectedCustomer = ref<Customer | null>(null);
+
+async function fetchCustomers() {
+  try {
+    const response = await axios.get(`${import.meta.env.VITE_API_URL}/customers/list`);
+    customers.value = response.data;
+    filteredCustomers.value = response.data;
+  } catch (error) {
+    console.error('고객 목록 조회 오류:', error);
+  }
 }
 
 function filterCustomers() {
@@ -71,35 +94,17 @@ function filterCustomers() {
   if (!keyword) {
     filteredCustomers.value = customers.value;
   } else {
-    filteredCustomers.value = customers.value.filter((customer) => {
-      return (
-        customer.name.toLowerCase().includes(keyword) ||
-        customer.email.toLowerCase().includes(keyword)
-      );
-    });
+    filteredCustomers.value = customers.value.filter((customer) =>
+      customer.name.toLowerCase().includes(keyword) ||
+      customer.email.toLowerCase().includes(keyword)
+    );
   }
 }
 
-async function fetchCustomers() {
-  try {
-    const response = await axios.get(import.meta.env.VITE_API_URL + '/customers/list');
-    customers.value = response.data;
-    filteredCustomers.value = customers.value;
-  } catch (error) {
-    console.error('Error fetching customers:', error);
-  }
-}
-
-function openDetailModal(user) {
+function openDetailModal(user: Customer) {
   selectedCustomer.value = user;
   showDetailModal.value = true;
 }
-
-
-onMounted(() => {
-  getCustomers();
-  window.addEventListener('keydown', handleKeydown);
-});
 
 function handleKeydown(e: KeyboardEvent) {
   if (showDetailModal.value && e.key === 'Escape') {
@@ -108,11 +113,13 @@ function handleKeydown(e: KeyboardEvent) {
 }
 
 onMounted(() => {
+  fetchCustomers();
   window.addEventListener('keydown', handleKeydown);
 });
+
 onUnmounted(() => {
   window.removeEventListener('keydown', handleKeydown);
 });
-// 추후 데이터/이벤트 바인딩을 위해 setup 영역을 비워둡니다.
-</script> 
+</script>
+
 <style src="../../style/seller_css/customer-management.css"></style>

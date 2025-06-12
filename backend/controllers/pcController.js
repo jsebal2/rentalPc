@@ -208,20 +208,34 @@ const rentPc = async (req, res) => {
   const { pc_id, user_id, start_date, end_date } = req.body;
 
   try {
+    // 1. 기존 ACTIVE 상태의 rental이 있다면 ENDED로 변경
+    await prisma.rental.updateMany({
+      where: {
+        pc_id: Number(pc_id),
+        status: 'ACTIVE',
+      },
+      data: {
+        status: 'ENDED',
+      },
+    });
+
+    // 2. 새로운 rental 생성
     const rental = await prisma.rental.create({
       data: {
         pc_id: Number(pc_id),
         user_id: Number(user_id),
         start_date: new Date(start_date),
         end_date: new Date(end_date),
+        status: 'ACTIVE', // 새로 생성된 rental은 ACTIVE로 설정
       },
     });
 
+    // 3. 해당 PC 상태도 갱신
     await prisma.pc.update({
-      where: { pc_id },
+      where: { pc_id: Number(pc_id) },
       data: {
         state: 'IN_USE',
-        renter_id: user_id,
+        renter_id: Number(user_id),
         rental_status: 'RENTED',
       },
     });
@@ -232,6 +246,7 @@ const rentPc = async (req, res) => {
     res.status(500).json({ message: '대여 등록 오류', error });
   }
 };
+
 
 
 
