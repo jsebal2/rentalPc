@@ -22,6 +22,9 @@ const getPcList = async (req, res) => {
           pc_id: true,
           pcName: true,
           rental: {
+            where: {
+              status: 'ACTIVE', // ✅ status가 ACTIVE인 rental만 조회
+            },
             orderBy: { created_at: 'desc' },
             take: 1,
             select: {
@@ -32,6 +35,7 @@ const getPcList = async (req, res) => {
           },
         },
       })
+      
   
       console.log(pcs)
       const result = pcs.map(pc => ({
