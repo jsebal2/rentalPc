@@ -13,9 +13,6 @@ model notification_log {
   notice_id Int
   sent_at   DateTime @default(now())
 
-  user   user   @relation(fields: [user_id], references: [user_id], map: "fk_notification_user")
-  notice notice @relation(fields: [notice_id], references: [notice_id], map: "fk_notification_notice")
-
   @@index([user_id])
   @@index([notice_id])
 }
@@ -24,10 +21,8 @@ model notice_file {
   file_id       Int      @id @default(autoincrement())
   notice_id     Int
   file_path     String   @db.VarChar(255)
-  original_name String?  @db.VarChar(255) // 사용자가 업로드한 실제 파일명
-  uploaded_at   DateTime @default(now())  // 업로드 시각
-
-  notice notice @relation(fields: [notice_id], references: [notice_id], map: "fk_notice_file_notice")
+  original_name String?  @db.VarChar(255)
+  uploaded_at   DateTime @default(now())
 
   @@index([notice_id])
 }
@@ -41,8 +36,6 @@ model qna {
   created_at  DateTime   @default(now())
   answered_at DateTime?
 
-  user user @relation(fields: [user_id], references: [user_id])
-
   @@index([user_id])
 }
 
@@ -55,10 +48,6 @@ model notice {
   file_path  String?     @db.VarChar(255)
   pinned     Boolean?    @default(false)
   created_at DateTime?   @default(now()) @db.DateTime(0)
-  user       user        @relation(fields: [admin_id], references: [user_id])
-
-  files         notice_file[]
-  notifications notification_log[]
 
   @@index([admin_id])
 }
@@ -71,35 +60,25 @@ model payment {
   method     payment_method?
   status     payment_status?
   paid_at    DateTime?       @db.DateTime(0)
-  user       user            @relation(fields: [user_id], references: [user_id])
-  rental     rental          @relation(fields: [rental_id], references: [rental_id])
 
   @@index([rental_id])
   @@index([user_id])
 }
 
 model pc {
-  pc_id        Int              @id @default(autoincrement())
-  pcName       String           @default("알수없음") @db.VarChar(100)
-  cpu          String?          @db.VarChar(50)
-  ram          String?          @db.VarChar(50)
-  graphic      String?          @db.VarChar(50)
-  state        pc_state?
-  power_status pc_power_status?
-  user_id      Int?
-  renter_id    Int?
-
-  rental_status RentalStatus? @default(AVAILABLE)
+  pc_id         Int              @id @default(autoincrement())
+  pcName        String           @default("알수없음") @db.VarChar(100)
+  cpu           String?          @db.VarChar(50)
+  ram           String?          @db.VarChar(50)
+  graphic       String?          @db.VarChar(50)
+  state         pc_state?
+  power_status  pc_power_status?
+  user_id       Int?
+  renter_id     Int?
+  rental_status RentalStatus?    @default(AVAILABLE)
   price         Int?
-  reg_date      DateTime?     @default(now()) @db.DateTime(0)
-  memo          String?       @db.VarChar(255)
-
-  user   user? @relation(fields: [user_id], references: [user_id])
-  renter user? @relation("RenterRelation", fields: [renter_id], references: [user_id])
-
-  rental           rental[]
-  purchase_request purchase_request[]
-  transaction      transaction[]
+  reg_date      DateTime?        @default(now()) @db.DateTime(0)
+  memo          String?          @db.VarChar(255)
 
   @@index([user_id])
   @@index([renter_id])
@@ -114,9 +93,6 @@ model rental {
   auto_renew Boolean?       @default(false)
   status     rental_status? @default(PENDING)
   created_at DateTime       @default(now()) @db.DateTime(0)
-  payment    payment[]
-  user       user           @relation(fields: [user_id], references: [user_id])
-  pc         pc             @relation(fields: [pc_id], references: [pc_id])
 
   @@index([pc_id])
   @@index([user_id])
@@ -133,19 +109,6 @@ model user {
   two_factor_enabled Boolean?    @default(false)
   join_date          DateTime?   @default(now()) @db.DateTime(0)
   last_login         DateTime?   @db.DateTime(0)
-
-  notice           notice[]
-  payment          payment[]
-  pc               pc[]
-  rental           rental[]
-  purchase_request purchase_request[] @relation("BuyerPurchase")
-  sales            transaction[]      @relation("UserSeller")
-  purchase         transaction[]      @relation("UserBuyer")
-  lead_request     lead_request[]
-
-  rented_pcs        pc[]               @relation("RenterRelation")
-  qnas              qna[]
-  notification_logs notification_log[]
 }
 
 model purchase_request {
@@ -155,11 +118,6 @@ model purchase_request {
   status              PurchaseRequestStatus @default(PENDING)
   requested_at        DateTime              @default(now())
   responded_at        DateTime?
-
-  pc    pc   @relation(fields: [pc_id], references: [pc_id])
-  buyer user @relation("BuyerPurchase", fields: [buyer_id], references: [user_id])
-
-  transaction transaction? @relation("RequestTransaction")
 
   @@index([pc_id])
   @@index([buyer_id])
@@ -174,11 +132,6 @@ model transaction {
   transaction_at DateTime          @default(now())
   status         TransactionStatus @default(COMPLETED)
 
-  pc      pc               @relation(fields: [pc_id], references: [pc_id])
-  seller  user             @relation("UserSeller", fields: [seller_id], references: [user_id])
-  buyer   user             @relation("UserBuyer", fields: [buyer_id], references: [user_id])
-  request purchase_request @relation("RequestTransaction", fields: [request_id], references: [purchase_request_id])
-
   @@index([pc_id])
   @@index([seller_id])
   @@index([buyer_id])
@@ -192,9 +145,31 @@ model lead_request {
   note            String?
   created_at      DateTime @default(now())
   user_id         Int?
-  user            user?    @relation(fields: [user_id], references: [user_id])
 
   @@index([user_id])
+}
+
+model follow {
+  id        Int       @id @default(autoincrement())
+  seller_id Int
+  buyer_id  Int
+  createdAt DateTime? @default(now()) @db.DateTime(0)
+
+  @@unique([seller_id, buyer_id], map: "unique_follow")
+  @@index([buyer_id], map: "fk_buyer")
+}
+
+model follow_request {
+  id          Int       @id @default(autoincrement())
+  requesterId Int
+  receiverId  Int
+  approved    Boolean?  @default(false)
+  requestedAt DateTime? @default(now()) @db.DateTime(0)
+  approvedAt  DateTime? @db.DateTime(0)
+
+  @@unique([requesterId, receiverId], map: "unique_request")
+  @@index([receiverId], map: "idx_receiver")
+  @@index([requesterId], map: "idx_requester")
 }
 
 enum notice_type {

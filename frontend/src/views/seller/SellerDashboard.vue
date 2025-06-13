@@ -67,7 +67,7 @@ const fetchDashboardData = async () => {
   if (!user_id) return;
 
   try {
-    const response = await axios.get(import.meta.env.VITE_API_URL + `/admin-dashboard?user_id=${user_id}`);
+    const response = await axios.get(import.meta.env.VITE_API_URL + `/seller-dashboard?user_id=${user_id}`);
     stats.value = response.data;
   } catch (error) {
     console.error('대시보드 데이터 로드 오류:', error);
