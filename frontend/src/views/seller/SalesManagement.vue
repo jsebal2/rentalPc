@@ -1,5 +1,5 @@
 <template>
-  <AdminLayout headerTitle="매출 관리">
+  <Layout headerTitle="매출 관리">
     <div class="sales-container">
       <h1 class="page-title">매출 관리</h1>
 
@@ -80,11 +80,11 @@
   </div>
 
     </div>
-  </AdminLayout>
+  </Layout>
 </template>
 
 <script setup lang="ts">
-import AdminLayout from '../../layouts/AdminLayout.vue';
+import Layout from '../../layouts/Layout.vue';
 import { ref, computed, onMounted } from 'vue'
 import axios from 'axios'
 

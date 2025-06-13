@@ -1,5 +1,5 @@
 <template>
-  <AdminLayout>
+  <Layout>
     <div class="main-inner">
       <h1 class="main-title">PC 상태 관리</h1>
       <div class="search-box">
@@ -107,13 +107,13 @@
         <li @click="handleContextAction('details')">상세 보기</li>
       </ul>
     </div>
-  </AdminLayout>
+  </Layout>
 </template>
 
 <script setup lang="ts">
 import axios from 'axios';
 import { ref, onMounted} from 'vue';
-import AdminLayout from '../../layouts/AdminLayout.vue';
+import Layout from '../../layouts/Layout.vue';
 import PcAddPopup from './PcAddPopup.vue';
 import BulkPcRegister from './BulkPcRegister.vue';
 import DeleteConfirmModal from './DeleteConfirmModal.vue';

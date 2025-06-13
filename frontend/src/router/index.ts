@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import type { RouteRecordRaw } from 'vue-router';
-import AdminDashboard from '../views/seller/AdminDashboard.vue';
+import SellerDashboard from '../views/seller/SellerDashboard.vue';
 import PcStatus from '../views/seller/PcStatus.vue';
 import PcAddPopup from '../views/seller/PcAddPopup.vue';
 import BulkPcRegister from '../views/seller/BulkPcRegister.vue';
@@ -17,9 +17,9 @@ import CustomMoniter from '../views/buyer/CustomMoniter.vue';
 
 const routes: RouteRecordRaw[] = [
   {
-    path: '/admin-dashboard',
-    name: 'AdminDashboard',
-    component: AdminDashboard,
+    path: '/seller-dashboard',
+    name: 'SellerDashboard',
+    component: SellerDashboard,
   },
   {
     path: '/pc-status',

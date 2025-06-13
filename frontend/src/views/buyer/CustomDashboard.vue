@@ -1,5 +1,5 @@
 <template>
-  <AdminLayout headerTitle="고객 Dashboard">
+  <Layout headerTitle="고객 Dashboard">
     <div class="dashboard-container">
       <!-- 상단 요약 박스 -->
       <div class="summary-boxes">
@@ -92,11 +92,11 @@
         </div>
       </div>
     </div>
-  </AdminLayout>
+  </Layout>
 </template>
 
 <script setup lang="ts">
-import AdminLayout from '../../layouts/AdminLayout.vue';
+import Layout from '../../layouts/Layout.vue';
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 
