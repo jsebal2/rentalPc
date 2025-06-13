@@ -35,6 +35,7 @@
   margin-bottom: 30px;
 }
 .section li {
+  width: 368px;
   margin-bottom: 8px;
   display: flex;
   justify-content: space-between;
@@ -62,11 +63,12 @@
 }
 .write-box {
   border: 1px solid #ccc;
-  padding: 16px;
+  padding: 16px 30px;
 }
 .write-box h3 {
+  margin: 0;
   font-size: 16px;
-  margin-bottom: 12px;
+  margin-bottom: 15px;
 }
 .write-box input[type="text"],
 .write-box textarea {
@@ -79,8 +81,20 @@
 textarea {
   height: 120px;
 }
+.options{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
 .options label {
   margin-right: 16px;
+}
+.options .Announ_box{
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 .file-upload {
   display: flex;

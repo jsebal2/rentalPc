@@ -22,7 +22,7 @@
 </form>
 
 
-    <div class="options">
+    <div class="login-options">
       <label><input type="checkbox" /> 로그인 유지</label>
       <a href="#" class="find-link">아이디/비밀번호 찾기</a>
     </div>

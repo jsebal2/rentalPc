@@ -72,14 +72,16 @@
           <h3>글쓰기</h3>
           <div class="options">
             <label for = 'noticeType'>유형 선택</label>
-            <select id="noticeType" v-model="noticeType">
-              <option value="GENERAL">공지</option>
-              <option value="FAQ">FAQ</option>
-            </select>
-            <label for="">
-              <input type="checkbox" v-model="isPinned" />
-              고정 공지로 등록
-            </label>
+            <div class="Announ_box">
+              <select id="noticeType" v-model="noticeType">
+                <option value="GENERAL">공지</option>
+                <option value="FAQ">FAQ</option>
+              </select>
+              <label for="Announ_Regi">
+                <input type="checkbox" v-model="isPinned" id="Announ_Regi"/>
+                고정 공지로 등록
+              </label>
+            </div>
           </div>
 
           <input type="text" v-model="title" placeholder="제목을 입력하세요" />

@@ -13,15 +13,19 @@
 .summary-box {
   border: 1px solid #ccc;
   border-radius: 8px;
-  width: 200px;
+  width: 353px;
   padding: 16px;
   text-align: center;
+  height: 160px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .icon {
   width: 32px;
   height: 32px;
-  margin-bottom: 8px;
 }
 
 .label {
@@ -32,10 +36,11 @@
 .value {
   font-size: 18px;
   font-weight: bold;
+  margin: 0px 0px;
 }
 
 .section {
-
+  margin: 0;
 }
 
 .section-title {
