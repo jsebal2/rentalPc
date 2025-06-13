@@ -260,4 +260,4 @@ function calculateDdayValue(endDate: Date): number | null {
 </script>
 
 
-<style src="../../style/seller_css/sales-management.css"></style> 
+<style src="../../style/seller_css/sales-management.css" scoped></style> 

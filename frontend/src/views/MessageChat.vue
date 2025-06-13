@@ -94,4 +94,4 @@ onUnmounted(() => {
 });
 </script>
 
-<style src="../style/message-chat.css"></style> 
+<style src="../style/message-chat.css" scoped></style> 

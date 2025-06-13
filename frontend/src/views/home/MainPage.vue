@@ -71,8 +71,8 @@ function handleLogout() {
 
 </script>
 
-<style src="../../style/home_css/main-page.css"></style>
-<style>
+<style src="../../style/home_css/main-page.css" scoped></style>
+<style scoped>
 .modal-overlay {
   position: fixed;
   top: 0;

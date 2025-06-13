@@ -95,4 +95,4 @@ const handleLogin = async () => {
 // })
 </script>
 
-<style src="../../style/home_css/login-popup.css"></style> 
+<style src="../../style/home_css/login-popup.css" scoped></style> 

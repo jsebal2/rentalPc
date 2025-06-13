@@ -35,6 +35,6 @@ const handleSubmit = () => {
 };
 </script>
 
-<style src="../style/add-phrase-modal.css"></style>
+<style src="../style/add-phrase-modal.css" scoped></style>
 
 export default {} 

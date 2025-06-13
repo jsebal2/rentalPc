@@ -41,10 +41,11 @@ h1 {
   gap: 6px;
 }
 .toolbar-right input {
-  padding: 6px;
-  font-size: 12px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  width: 100%;
+  padding: 8px;
+  font-size: 13px;
+  border: 1px solid #1d77ff;
+  border-radius: 8px;
 }
 .btn {
   padding: 6px 12px;

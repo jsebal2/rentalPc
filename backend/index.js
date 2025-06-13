@@ -5,11 +5,15 @@ const morgan = require('morgan');
 const { PrismaClient } = require('@prisma/client');
 const errorHandler = require('./middlewares/errorHandler');
 const cookieParser = require('cookie-parser');
+// sellerRouters
 const pcRouter = require('./routes/seller/pcRoutes');
 const customerRouter = require('./routes/seller/customerRoutes');
 const salesRouter = require('./routes/seller/salesRoutes');
 const noticeRouter = require('./routes/seller/noticeRoutes');
 const dashboardRouter = require('./routes/seller/dashboardRoutes');
+
+// buyerRouters
+const b_dashboardRouter = require('./routes/buyer/b_dashboardRoutes');
 // 환경변수 로드
 dotenv.config();
 
@@ -37,6 +41,7 @@ app.get('/', (req, res) => {
 const userRouter = require('./routes/seller/userRouter');
 app.use('/users', userRouter);
 
+// sellerRouters
 // PC 라우터 등록
 app.use('/pcs', pcRouter);
 
@@ -51,6 +56,9 @@ app.use('/notice', noticeRouter);
 
 // 대시보드 라우터 등록
 app.use('/seller-dashboard', dashboardRouter);
+
+// buyer
+app.use('/buyer-dashboard', b_dashboardRouter);
 
 // 서버 실행
 app.listen(port, () => {

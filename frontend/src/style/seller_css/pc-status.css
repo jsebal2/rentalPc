@@ -11,12 +11,6 @@ html, body {
   background: #f5f6fa;
   font-family: 'Outfit', sans-serif;
 }
-.dashboard-frame {
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  background: #f5f6fa;
-}
 .sidebar {
   width: 200px;
   min-width: 200px;
@@ -135,12 +129,12 @@ html, body {
 }
 .search-input {
   height: 36px;
-  border: 1px solid #ccc;
+  border: 1px solid #1d77ff;
   border-radius: 6px;
   padding: 0 14px;
   font-size: 15px;
   font-family: 'Outfit', sans-serif;
-  width: 260px;
+  width: calc(100% - 30px);
   background: #fafbfc;
 }
 .search-btn {
