@@ -1,5 +1,5 @@
 <template>
-  <AdminLayout headerTitle="고객 관리">
+  <Layout headerTitle="고객 관리">
     <div class="customer-container">
       <h1>고객 관리</h1>
 
@@ -52,14 +52,14 @@
         @close="showDetailModal = false"
       />
     </div>
-  </AdminLayout>
+  </Layout>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
 import axios from 'axios';
 import UserDetailModal from './UserDetailModal.vue';
-import AdminLayout from '../../layouts/AdminLayout.vue';
+import Layout from '../../layouts/Layout.vue';
 import '../../style/seller_css/customer-management.css';
 
 interface Customer {

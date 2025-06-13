@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const pcController = require('../controllers/pcController');
+const pcController = require('../../controllers/seller/pcController');
 
 router.post('/register', pcController.createPc);
 router.get('/list', pcController.getPcList);

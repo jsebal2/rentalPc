@@ -1,5 +1,5 @@
 <template>
-  <AdminLayout>
+  <Layout>
     <div class="message-container">
       <!-- 좌측 사용자 목록 -->
       <div class="user-list">
@@ -53,12 +53,12 @@
         <CommonPhrasesModal @close="showPhrasesModal = false" />
       </div>
     </div>
-  </AdminLayout>
+  </Layout>
 </template>
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
-import AdminLayout from '../layouts/AdminLayout.vue';
+import Layout from '../layouts/Layout.vue';
 import CommonPhrasesModal from './CommonPhrasesModal.vue';
 
 const users = ref([

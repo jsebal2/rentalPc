@@ -9,7 +9,7 @@
         </div>
         <div v-else-if="user_role === 'Seller'">
           <router-link class="sidebar-menu-item" to="/">home</router-link>
-          <router-link class="sidebar-menu-item" to="/admin-dashboard">Dashboard</router-link>
+          <router-link class="sidebar-menu-item" to="/seller-dashboard">Dashboard</router-link>
           <router-link class="sidebar-menu-item" to="/pc-status">PC 상태 관리</router-link>
           <router-link class="sidebar-menu-item" to="/customer-management">고객 관리</router-link>
           <router-link class="sidebar-menu-item" to="/sales-management">요금 및 결제 관리</router-link>

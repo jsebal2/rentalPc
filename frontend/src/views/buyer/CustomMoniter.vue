@@ -1,5 +1,5 @@
 <template>
-  <AdminLayout headerTitle="고객 monitering">
+  <Layout headerTitle="고객 monitering">
     <div class="monitoring-page">
       <!-- 헤더 -->
       <div class="c_m_header">
@@ -48,11 +48,11 @@
         </table>
       </div>
     </div>
-  </AdminLayout>
+  </Layout>
 </template>
 
 <script setup lang="ts">
-import AdminLayout from '../../layouts/AdminLayout.vue';
+import Layout from '../../layouts/Layout.vue';
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 

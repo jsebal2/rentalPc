@@ -1,5 +1,5 @@
 <template>
-  <AdminLayout headerTitle="공지/FAQ/QnA">
+  <Layout headerTitle="공지/FAQ/QnA">
     <div class="notice-support-container">
       <!-- 왼쪽 패널 -->
       <div class="left-panel">
@@ -102,11 +102,11 @@
         </div>
       </div>
     </div>
-  </AdminLayout>
+  </Layout>
 </template>
 
 <script setup lang="ts">
-import AdminLayout from '../../layouts/AdminLayout.vue';
+import Layout from '../../layouts/Layout.vue';
 import { ref, onMounted } from 'vue';
 import axios from 'axios';
 

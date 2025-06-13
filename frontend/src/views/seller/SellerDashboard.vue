@@ -1,5 +1,5 @@
 <template>
-  <AdminLayout headerTitle="관리자 DashBoard">
+  <Layout headerTitle="관리자 DashBoard">
     <div class="content-row">
       <div class="content-left">
         <div class="stat-cards">
@@ -46,11 +46,11 @@
         </div>
       </div>
     </div>
-  </AdminLayout>
+  </Layout>
 </template>
 
 <script setup lang="ts">
-import AdminLayout from '../../layouts/AdminLayout.vue';
+import Layout from '../../layouts/Layout.vue';
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
@@ -86,4 +86,4 @@ const goToPage = (page: string) => {
 };
 </script>
 
-<style src="../../style/seller_css/admin-dashboard.css"></style>
+<style src="../../style/seller_css/seller-dashboard.css"></style>
