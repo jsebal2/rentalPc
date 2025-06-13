@@ -62,9 +62,7 @@
         <div class="dashboard-right">
           <!-- 공지사항 -->
           <div class="notice-box">
-            <p><strong>YC</strong><br />장기 사용자 우대 행사 진행중<br />2025-03-01~2025-06-01<br />1년 이상 사용자 10% DC</p>
-            <hr />
-            <p><strong>JG</strong><br />공사 예정 알림<br />2025-05-19 12~14<br />전기 공사 일정을 알려 드립니다.<br />자세한 사항은 사이트 확인해주세요</p>
+            <div v-for="(item, index) in notice.notice" :key="index">{{ item.admin_id }}</div>
           </div>
 
           <!-- 반납 일자 -->
@@ -101,6 +99,7 @@ import { ref, onMounted } from 'vue'
 import axios from 'axios'
 
 const rentallist = ref([])
+const notice = ref([])
 const rentalCount = ref(0)
 
 onMounted(async () => {
@@ -116,8 +115,16 @@ onMounted(async () => {
             }
         })
         rentallist.value = res.data
-        console.log(rentallist)
         rentalCount.value = rentallist.value.length
+    } catch (error) {
+        console.error('대여 수 조회 실패:', error)
+    }
+})
+
+onMounted(async () => {
+    try {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/buyer-dashboard/notice`)
+        notice.value = res.data
     } catch (error) {
         console.error('대여 수 조회 실패:', error)
     }
@@ -125,4 +132,4 @@ onMounted(async () => {
 
 </script>
 
-<style src="../../style/buyer_css/custom-dashboard.css"></style>
+<style src="../../style/buyer_css/custom-dashboard.css" scoped></style>

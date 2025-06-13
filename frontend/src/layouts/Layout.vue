@@ -93,7 +93,7 @@ onMounted(async () => {
 
 /* 사이드바 */
 .sidebar {
-  width: 165px;
+  width: 199px;
   background: #fff;
   border-right: 1px solid #eee;
   height: 100vh;
@@ -119,10 +119,16 @@ onMounted(async () => {
   margin-top: 40px;
   padding: 0 16px;
 }
+.sidebar-menu-item:nth-child(1){
+  border-top: 1px solid;
+}
+.sidebar-menu-item:nth-child(-n + 7){
+  border-bottom: 1px solid;
+}
 .sidebar-menu-item {
   color: #1d77ff;
   font-size: 12px;
-  margin-bottom: 16px;
+  padding: 10px;
   cursor: pointer;
   display: block;
   text-decoration: none;

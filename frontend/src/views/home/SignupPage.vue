@@ -40,5 +40,5 @@
   }
   </script>
   
-  <style src="../../style/home_css/signup-page.css"></style>
+  <style src="../../style/home_css/signup-page.css" scoped></style>
   

@@ -122,4 +122,4 @@ onUnmounted(() => {
 });
 </script>
 
-<style src="../../style/seller_css/customer-management.css"></style>
+<style src="../../style/seller_css/customer-management.css" scoped></style>

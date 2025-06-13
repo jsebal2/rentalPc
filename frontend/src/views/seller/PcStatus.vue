@@ -341,8 +341,8 @@ const onTyping = () => {
 
 </script>
 
-<style src="../../style/seller_css/pc-status.css"></style>
-<style>
+<style src="../../style/seller_css/pc-status.css" scoped></style>
+<style scoped>
 .modal-overlay {
   position: fixed;
   top: 0;

@@ -71,4 +71,4 @@ onUnmounted(() => {
 });
 </script>
 
-<style src="../style/common-phrases-modal.css"></style> 
+<style src="../style/common-phrases-modal.css" scoped></style> 

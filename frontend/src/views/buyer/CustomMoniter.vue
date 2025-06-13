@@ -82,4 +82,4 @@ onMounted(async () => {
 
 </script>
 
-<style src="../../style/buyer_css/custom-moniter.css"></style>
+<style src="../../style/buyer_css/custom-moniter.css" scoped></style>

@@ -116,4 +116,4 @@ onUnmounted(() => {
 });
 </script>
 
-<style src="../../style/seller_css/pc-add-popup.css"></style>
+<style src="../../style/seller_css/pc-add-popup.css" scoped></style>

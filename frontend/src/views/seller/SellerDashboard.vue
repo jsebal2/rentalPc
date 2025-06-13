@@ -86,4 +86,4 @@ const goToPage = (page: string) => {
 };
 </script>
 
-<style src="../../style/seller_css/seller-dashboard.css"></style>
+<style src="../../style/seller_css/seller-dashboard.css" scoped></style>

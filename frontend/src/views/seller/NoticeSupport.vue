@@ -96,9 +96,8 @@
 
           <div class="alert-send">
             <label><input type="checkbox" /> 사용자에게 알림 발송</label>
+            <button class="btn-register" @click="submitNotice">등록</button>
           </div>
-
-          <button class="btn-register" @click="submitNotice">등록</button>
         </div>
       </div>
     </div>
@@ -287,4 +286,4 @@ onMounted(async () => {
 
 </script>
 
-<style src="../../style/seller_css/notice-support.css"></style>
+<style src="../../style/seller_css/notice-support.css" scoped></style>
