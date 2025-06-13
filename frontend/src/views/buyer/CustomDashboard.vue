@@ -60,9 +60,32 @@
 
         <!-- 오른쪽: 공지사항 + 반납 일자 -->
         <div class="dashboard-right">
-          <!-- 공지사항 -->
           <div class="notice-box">
-            <div v-for="(item, index) in notice.notice" :key="index">{{ item.admin_id }}</div>
+            <h3 class="section-title">공지사항</h3>
+            <div class="notice-wrapper">
+              <div class="notice-admins">
+                <ul>
+                  <li
+                    v-for="(admin, index) in uniqueAdmins"
+                    :key="index"
+                    :class="{ active: selectedAdmin === admin }"
+                    @click="selectedAdmin = admin"
+                  >
+                    {{ admin }}
+                  </li>
+                </ul>
+              </div>
+              <div class="notice-content">
+                <ul>
+                  <li
+                    v-for="(item, index) in filteredNotices"
+                    :key="index"
+                  >
+                    {{ item.title }}
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
 
           <!-- 반납 일자 -->
@@ -95,12 +118,13 @@
 
 <script setup lang="ts">
 import Layout from '../../layouts/Layout.vue';
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import axios from 'axios'
 
 const rentallist = ref([])
 const notice = ref([])
 const rentalCount = ref(0)
+const seller_id = [4,3]
 
 onMounted(async () => {
     const token = localStorage.getItem('token')
@@ -124,10 +148,26 @@ onMounted(async () => {
 onMounted(async () => {
     try {
         const res = await axios.get(`${import.meta.env.VITE_API_URL}/buyer-dashboard/notice`)
-        notice.value = res.data
+        notice.value = res.data.notice
+        
     } catch (error) {
         console.error('대여 수 조회 실패:', error)
     }
+})
+
+const uniqueAdmins = computed(() => {
+  const admins = notice.value
+    .map(n => n.admin_id)
+    .filter(id => seller_id.includes(id))
+  return [...new Set(admins)]
+})
+
+const selectedAdmin = ref(uniqueAdmins.value[0] ?? null)
+
+const filteredNotices = computed(() => {
+  return notice.value.filter(n =>
+    seller_id.includes(n.admin_id) && n.admin_id === selectedAdmin.value
+  )
 })
 
 </script>

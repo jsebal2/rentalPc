@@ -17,7 +17,8 @@
           <router-link class="sidebar-menu-item" to="/notice-support">고객 및 공지 관리</router-link>
         </div>
         <div v-else-if="user_role === 'Customer'">
-          <router-link class="sidebar-menu-item" to="/custom-dashboard">home</router-link>
+          <router-link class="sidebar-menu-item" to="/">home</router-link>
+          <router-link class="sidebar-menu-item" to="/custom-dashboard">Dashboard</router-link>
           <router-link class="sidebar-menu-item" to="/custom-moniter">monitering</router-link>
         </div>
       </div>

@@ -46,6 +46,7 @@
 .section-title {
   font-size: 18px;
   font-weight: bold;
+  margin-top: 10px;
   margin-bottom: 10px;
 }
 
@@ -80,14 +81,6 @@
 .status.error {
   background-color: #fff4e5;
   color: #f39c12;
-}
-
-.notice-box {
-  border: 1px solid #007aff;
-  padding: 16px;
-  border-radius: 8px;
-  background-color: #f5faff;
-  white-space: pre-line;
 }
 
 /* 👇 좌우 분할 추가 */
@@ -130,4 +123,75 @@
   top: -0.1px;
   background-color: #b1c0d4;
   z-index: 1;
+}
+
+/* 공지사항 */
+.notice-box {
+  height: 297px;
+}
+
+.notice-wrapper {
+  display: flex;
+  border: 1px solid #ccc;
+  height: calc(100% - 48px);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.notice-admins {
+  overflow-y: scroll;
+  width: 30%;
+  border-right: 1px solid #ccc;
+  background: #f9f9f9;
+}
+
+.notice-admins ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.notice-admins li {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.notice-admins li.active {
+  background-color: #eee;
+  font-weight: bold;
+}
+
+.notice-content {
+  width: 70%;
+  padding: 10px;
+  overflow-y: scroll;
+}
+
+.notice-content ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.notice-content ul li{
+  display: flex;
+  padding: 5px;
+  border-bottom: 1px solid #aaaaaa;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track{
+  background: #f1f1f1;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: #bbb;
+  border-radius: 8px;
+  transition: background 0.3s;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #888;
 }

@@ -1,9 +1,11 @@
 {
   "devDependencies": {
-    "@types/cors": "^2.8.18"
+    "@types/cors": "^2.8.18",
+    "@types/swiper": "^5.4.3"
   },
   "dependencies": {
     "@prisma/client": "^6.9.0",
-    "prisma": "^6.9.0"
+    "prisma": "^6.9.0",
+    "swiper": "^11.2.8"
   }
 }
