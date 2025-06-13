@@ -5,12 +5,23 @@ const getNotice = async (req, res) => {
   try {
     const newNotice = await prisma.notice.findMany({
       where: { type: "GENERAL" },
-      select:{
+      select: {
         title: true,
         content: true,
         type: true,
         admin_id: true,
-        pinned:true,
+        pinned: true,
+        user: {
+          select: {
+            followsAsSeller: {
+              select: {
+                id: true,
+                buyer_id: true,
+                createdAt: true
+              }
+            }
+          }
+        }
       }
     });
     console.log(newNotice)

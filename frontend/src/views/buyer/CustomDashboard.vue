@@ -124,7 +124,8 @@ import axios from 'axios'
 const rentallist = ref([])
 const notice = ref([])
 const rentalCount = ref(0)
-const seller_id = [4,3]
+const userId = Number(localStorage.getItem('user_id'))
+const seller_id = ref<number[]>([])
 
 onMounted(async () => {
     const token = localStorage.getItem('token')
@@ -146,27 +147,33 @@ onMounted(async () => {
 })
 
 onMounted(async () => {
-    try {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/buyer-dashboard/notice`)
-        notice.value = res.data.notice
-        
+  try {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/buyer-dashboard/notice`)
+      notice.value = res.data.notice
+      console.log(notice);
+
+      const sellerSet = new Set<number>()
+      for (const n of notice.value) {
+        for (const follow of n.user?.followsAsSeller ?? []) {
+          if (follow.buyer_id === userId) {
+            sellerSet.add(n.admin_id)  // 중복 방지
+          }
+        }
+      }
+      seller_id.value = [...sellerSet]
+      selectedAdmin.value = seller_id.value[0] ?? null
     } catch (error) {
         console.error('대여 수 조회 실패:', error)
     }
 })
 
-const uniqueAdmins = computed(() => {
-  const admins = notice.value
-    .map(n => n.admin_id)
-    .filter(id => seller_id.includes(id))
-  return [...new Set(admins)]
-})
+const uniqueAdmins = computed(() => [...new Set(seller_id.value)])
 
 const selectedAdmin = ref(uniqueAdmins.value[0] ?? null)
 
 const filteredNotices = computed(() => {
   return notice.value.filter(n =>
-    seller_id.includes(n.admin_id) && n.admin_id === selectedAdmin.value
+    seller_id.value.includes(n.admin_id) && n.admin_id === selectedAdmin.value
   )
 })
 
