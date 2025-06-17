@@ -14,6 +14,7 @@ import LoginPopup from '../views/home/LoginPopup.vue';
 import SignupPage from '../views/home/SignupPage.vue';
 import CustomDashboard from '../views/buyer/CustomDashboard.vue';
 import CustomMoniter from '../views/buyer/CustomMoniter.vue';
+import PcListPage from '../views/home/PcListPage.vue';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -80,6 +81,11 @@ const routes: RouteRecordRaw[] = [
     path: '/custom-moniter',
     name: 'CustomMoniter',
     component: CustomMoniter,
+  },
+  {
+    path: '/pc-list',
+    name: 'PcListPage',
+    component: PcListPage,
   },
   // 기존 라우트가 있다면 아래에 추가
 ];

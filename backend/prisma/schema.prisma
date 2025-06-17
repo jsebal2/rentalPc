@@ -81,8 +81,11 @@ model payment {
 model pc {
   pc_id        Int              @id @default(autoincrement())
   pcName       String           @default("알수없음") @db.VarChar(100)
+  manufacturer String?          @db.VarChar(50)
   cpu          String?          @db.VarChar(50)
   ram          String?          @db.VarChar(50)
+  ssd          Int?
+  location     String?          @db.VarChar(100)
   graphic      String?          @db.VarChar(50)
   state        pc_state?
   power_status pc_power_status?
@@ -303,4 +306,9 @@ enum qna_status {
   UNANSWERED
   ANSWERED
   CLOSED
+}
+
+enum manufacturer_type {
+  INTEL
+  AMD
 }

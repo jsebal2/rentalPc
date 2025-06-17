@@ -24,7 +24,7 @@
               <th>임대료</th>
               <th>CPU</th>
               <th>RAM</th>
-              <th>Graphic</th>
+              <th>SSD</th>
               <th>현재 대여자명</th>
             </tr>
           </thead>
@@ -61,8 +61,8 @@
                 <input v-else v-model="pc.ram" />
               </td>
               <td>
-                <span v-if="!isEditing">{{ pc.graphic }}</span>
-                <input v-else v-model="pc.graphic" />
+                <span v-if="!isEditing">{{ pc.ssd }}</span>
+                <input v-else v-model="pc.ssd" />
               </td>
               <td>
                 <span>{{ pc.renter?.name || '미대여' }}</span>

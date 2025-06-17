@@ -1,7 +1,8 @@
 <template>
-  <Layout headerTitle="공지/FAQ/QnA">
-    <div class="notice-support-container">
-      <!-- 왼쪽 패널 -->
+  <div>
+    <Layout headerTitle="공지/FAQ/QnA">
+      <div class="notice-support-container">
+        <!-- 왼쪽 패널 -->
       <div class="left-panel">
         <!-- 공지사항 -->
         <div class="section">
@@ -9,7 +10,7 @@
           <ul>
             <li v-for="(item, index) in [...notices, ...Array(Math.max(0, 5 - notices.length)).fill(null)]" :key="index">
               <template v-if="item">
-                <span>{{ item.title }}</span>
+                <span class="title-clickable" @click="openModal(item)">{{ item.title }}</span>
                 <span class="btn-group">
                   <button @click="startEditNotice(item)">수정</button>
                 <button @click="deleteNotice(item.notice_id)">삭제</button>
@@ -34,7 +35,7 @@
           <ul>
             <li v-for="(faq, index) in [...faqs, ...Array(Math.max(0, 5 - faqs.length)).fill(null)]" :key="index">
               <template v-if="faq">
-                <span>Q. {{ faq.title }}</span>
+                <span class="title-clickable" @click="openModal(faq)">Q. {{ faq.title }}</span>
                 <span class="btn-group">
                   <button @click="startEditNotice(faq)">수정</button>
                   <button @click="deleteNotice(faq.notice_id)">삭제</button>
@@ -101,7 +102,16 @@
         </div>
       </div>
     </div>
+    
   </Layout>
+  <div v-if="selectedNotice" class="modal-overlay" @click.self="closeModal">
+    <div class="modal-content">
+      <h3>{{ selectedNotice.title }}</h3>
+      <p>{{ selectedNotice.content }}</p>
+      <button @click="closeModal">닫기</button>
+    </div>
+  </div>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -122,6 +132,7 @@ const faqTotalPages = ref(1);
 const faqCurrentPage = ref(1);
 const isEditMode = ref(false);
 const editNoticeId = ref(null);
+const selectedNotice = ref(null);
 
 const qnas = ['연장 문의', '문의', '결제가 안됐나요']
 
@@ -275,6 +286,14 @@ const startEditNotice = (notice) => {
   isPinned.value = notice.pinned;
   editNoticeId.value = notice.notice_id; // 또는 item.id
   isEditMode.value = true;
+};
+
+const openModal = (notice) => {
+  selectedNotice.value = notice;
+};
+
+const closeModal = () => {
+  selectedNotice.value = null;
 };
 
 
