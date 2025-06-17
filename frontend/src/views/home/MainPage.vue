@@ -165,6 +165,46 @@
       </div>
     </section>
 
+    <footer class="footer">
+      <div class="footer-container">
+        
+        <!-- 로고 및 소개 -->
+        <div class="footer-section">
+          <h2 class="footer-logo">RemoteR</h2>
+          <p class="footer-description">
+            합리적인 가격으로 최고의 원격 PC를 제공합니다.<br>
+            언제 어디서나, 안정적인 서비스를 경험하세요.
+          </p>
+        </div>
+
+        <!-- 링크 섹션 -->
+        <div class="footer-section">
+          <h3 class="footer-heading">바로가기</h3>
+          <ul class="footer-links">
+            <li><a href="#">회사 소개</a></li>
+            <li><a href="#">이용약관</a></li>
+            <li><a href="#">개인정보처리방침</a></li>
+            <li><a href="#">자주 묻는 질문</a></li>
+          </ul>
+        </div>
+
+        <!-- 고객지원 및 SNS -->
+        <div class="footer-section">
+          <h3 class="footer-heading">고객지원</h3>
+          <p class="footer-text">평일 09:00 ~ 18:00</p>
+          <p class="footer-text">Email: support@remoter.kr</p>
+          <div class="footer-sns">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+          </div>
+        </div>
+
+      </div>
+      <div class="footer-copy">© 2025 RemoteR. All rights reserved.</div>
+    </footer>
+
+
     <!-- Login Popup Modal -->
     <div v-if="showLoginPopup" class="modal-overlay" @click.self="closePopup">
       <LoginPopup @login-success="handleLoginSuccess" />
