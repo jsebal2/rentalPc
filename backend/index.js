@@ -14,6 +14,10 @@ const dashboardRouter = require('./routes/seller/dashboardRoutes');
 
 // buyerRouters
 const b_dashboardRouter = require('./routes/buyer/b_dashboardRoutes');
+
+// main
+const productDetailRouter = require('./routes/main/productDetailRoutes');
+
 // 환경변수 로드
 dotenv.config();
 
@@ -59,6 +63,9 @@ app.use('/seller-dashboard', dashboardRouter);
 
 // buyer
 app.use('/buyer-dashboard', b_dashboardRouter);
+
+// main
+app.use('/product-detail', productDetailRouter);
 
 // 서버 실행
 app.listen(port, () => {
