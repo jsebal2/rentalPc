@@ -8,7 +8,7 @@
           <label>제조사</label>
           <div class="checkboxes">
             <label><input type="checkbox" /> 인텔</label>
-            <label><input type="checkbox" /> RYZEN</label>
+            <label><input type="checkbox" /> AMD</label>
           </div>
         </div>
 

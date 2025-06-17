@@ -11,7 +11,7 @@ const createPc = async (req, res) => {
             pcName,
             price : Number(price),
             location,
-            cpu,
+            cpu: cpu ? cpu.replace(/\s+/g, '').toUpperCase() : null,
             ram,
             ssd,
             memo,
@@ -97,20 +97,22 @@ const getPcList = async (req, res) => {
 
 const updatePc = async (req, res) => {
   const pcId = parseInt(req.params.pc_id, 10);
-  const { pcName, price, cpu, ram, ssd, location } = req.body;
+  let { pcName, price, ram, ssd, location, cpu } = req.body;
 
-  price = parseInt(price, 10);
+  const parsedPrice = parseInt(price, 10);
+
+  if (cpu) cpu = cpu.replace(/\s+/g, '').toUpperCase();
 
   try {
     const updated = await prisma.pc.update({
       where: { pc_id : pcId },
       data: {
         pcName,
-        price,
+        price : parsedPrice,
         location,
         cpu,
         ram,
-        ssd,
+        ssd
       },
     });
 
