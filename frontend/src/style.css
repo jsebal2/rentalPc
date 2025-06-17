@@ -76,3 +76,10 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+thead {
+    display: table-header-group;
+    vertical-align: middle;
+    unicode-bidi: isolate;
+    border-color: inherit;
+}

@@ -4,23 +4,23 @@
       <!-- 상단 요약 박스 -->
       <div class="summary-boxes">
         <div class="summary-box">
-          <img src="" alt="PC" class="icon" />
+          <img src="../../img/custom_pc.png" alt="PC" class="icon" />
           <p class="label">총 대여 PC 수</p>
           <p class="value">{{ rentalCount }} 대</p>
         </div>
         <div class="summary-box">
-          <img src="" alt="ON" class="icon" />
+          <img src="../../img/on-button.png" alt="ON" class="icon" />
           <p class="label">현재 전원 ON</p>
           <p class="value">10 대</p>
         </div>
         <div class="summary-box">
-          <img src="" alt="OFF" class="icon" />
+          <img src="../../img/off-button.png" alt="OFF" class="icon" />
           <p class="label">전원 OFF</p>
           <p class="value">0 대</p>
         </div>
       </div>
 
-      <!-- 👇 좌우 분할 구조 -->
+      <!-- 좌우 분할 구조 -->
       <div class="dashboard-split-wrapper">
         <!-- 왼쪽: 모니터 사용량 + 그래프 -->
         <div class="dashboard-left">
@@ -71,7 +71,7 @@
                     :class="{ active: selectedAdmin === admin }"
                     @click="selectedAdmin = admin"
                   >
-                    {{ admin }}
+                    {{ sellerIdNameMap.get(admin) }}
                   </li>
                 </ul>
               </div>
@@ -175,6 +175,18 @@ const filteredNotices = computed(() => {
   return notice.value.filter(n =>
     seller_id.value.includes(n.admin_id) && n.admin_id === selectedAdmin.value
   )
+})
+
+const sellerIdNameMap = computed(() => {
+  const map = new Map<number, string>()
+  for (const n of notice.value) {
+    const adminId = n.admin_id
+    const name = n.user?.name
+    if (seller_id.value.includes(adminId) && name) {
+      map.set(adminId, name)
+    }
+  }
+  return map
 })
 
 </script>

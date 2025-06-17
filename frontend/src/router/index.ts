@@ -14,6 +14,7 @@ import LoginPopup from '../views/home/LoginPopup.vue';
 import SignupPage from '../views/home/SignupPage.vue';
 import CustomDashboard from '../views/buyer/CustomDashboard.vue';
 import CustomMoniter from '../views/buyer/CustomMoniter.vue';
+import CustomNotice from '../views/buyer/CustomNotice.vue';
 import PcListPage from '../views/home/PcListPage.vue';
 
 const routes: RouteRecordRaw[] = [
@@ -81,6 +82,11 @@ const routes: RouteRecordRaw[] = [
     path: '/custom-moniter',
     name: 'CustomMoniter',
     component: CustomMoniter,
+  },
+  {
+    path: '/custom-notice',
+    name: 'CustomNotice',
+    component: CustomNotice,
   },
   {
     path: '/pc-list',

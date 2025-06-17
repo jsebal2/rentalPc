@@ -2,7 +2,7 @@
   <div class="dashboard-frame">
     <!-- 좌측 사이드바 -->
     <div class="sidebar">
-      <router-link class="sidebar-header" to="/">Admin Portal</router-link>
+      <router-link class="sidebar-header" to="/">RemoteR</router-link>
       <div class="sidebar-menu">
         <div v-if="user_role === 'Admin'">
 
@@ -19,7 +19,8 @@
         <div v-else-if="user_role === 'Customer'">
           <router-link class="sidebar-menu-item" to="/">home</router-link>
           <router-link class="sidebar-menu-item" to="/custom-dashboard">Dashboard</router-link>
-          <router-link class="sidebar-menu-item" to="/custom-moniter">monitering</router-link>
+          <router-link class="sidebar-menu-item" to="/custom-moniter">모니터링</router-link>
+          <router-link class="sidebar-menu-item" to="/custom-notice">공지사항</router-link>
         </div>
       </div>
     </div>
@@ -95,7 +96,7 @@ onMounted(async () => {
 /* 사이드바 */
 .sidebar {
   width: 240px;
-  background: #fff;
+  background: #eef0f6;
   border-right: 1px solid #eee;
   height: 100vh;
   position: fixed;
@@ -111,7 +112,7 @@ onMounted(async () => {
   height: 60px;
   color: #000;
   font-weight: 800;
-  font-size: 20px;
+  font-size: 28px;
   width: 100%;
   box-sizing: border-box;
   text-decoration: none;
@@ -153,8 +154,8 @@ onMounted(async () => {
 .header {
   position: fixed;
   padding: 0 30px;
-  left: 200px;
-  width: calc(100% - 200px);
+  left: 240px;
+  width: calc(100% - 240px);
   top: 0;
   right: 0;
   height: 60px;
@@ -163,8 +164,8 @@ onMounted(async () => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  z-index: 1000;         /* ✅ 다른 요소보다 위에 표시 */
-  box-sizing: border-box; /* ✅ 내부 패딩 포함 계산 */
+  z-index: 1000;        
+  box-sizing: border-box;
 }
 
 .header-title {
@@ -190,6 +191,9 @@ onMounted(async () => {
 /* 실제 콘텐츠가 헤더에 가리지 않도록 마진 추가 */
 .page-body {
   box-sizing: border-box;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 </style>
 

@@ -13,6 +13,7 @@ const getNotice = async (req, res) => {
         pinned: true,
         user: {
           select: {
+            name:true,
             followsAsSeller: {
               select: {
                 id: true,
