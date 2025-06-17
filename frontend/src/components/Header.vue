@@ -8,7 +8,15 @@
   
         <template v-if="isLoggedIn">
           <span>{{ userName }}님 환영합니다</span>
-          <router-link to="/seller-dashboard">마이페이지</router-link>
+          <div v-if="user_role === 'Admin'">
+
+          </div>
+          <div v-else-if="user_role === 'Seller'">
+            <router-link to="/seller-dashboard">마이페이지</router-link>
+          </div>
+          <div v-else-if="user_role === 'Customer'">
+            <router-link to="/custom-dashboard">마이페이지</router-link>
+          </div>
           <a href="#" @click.prevent="handleLogout">로그아웃</a>
         </template>
   
@@ -25,19 +33,24 @@
 
 <script setup>
 import axios from 'axios'
-import { inject } from 'vue'
+import {ref,onMounted,inject } from 'vue'
 
 const isLoggedIn = inject('isLoggedIn') // ref
 const userName = inject('userName')
 const setIsLoggedIn = inject('setIsLoggedIn')
 const setUserName = inject('setUserName')
+const token = localStorage.getItem('token');
+const userStatuses = ref([]);
+const user_role = ref();
 
 const emit = defineEmits(['open-login', 'logout'])
+
 
 const handleLoginClick = () => {
   localStorage.removeItem('token')
   emit('open-login')
 }
+
 
 const handleLogout = async () => {
   try {
@@ -54,6 +67,20 @@ const handleLogout = async () => {
     alert('로그아웃 실패했습니다. 다시 시도해주세요.')
   }
 }
+
+onMounted(async () => {
+  try {
+    const res = await axios.get(import.meta.env.VITE_API_URL + '/users/status',{
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    userStatuses.value = res.data;
+    user_role.value = userStatuses.value[0].role;
+  } catch (err) {
+    console.error(err);
+  }
+});
 </script>
 
 <style>

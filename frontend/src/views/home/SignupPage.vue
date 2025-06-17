@@ -1,4 +1,5 @@
 <template>
+  <div class="signup-inner">
     <div class="signup-container">
       <h2>회원가입</h2>
   
@@ -10,6 +11,7 @@
         <button type="submit">회원가입</button>
       </form>
     </div>
+  </div>
   </template>
   
   <script setup>

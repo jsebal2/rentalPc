@@ -77,6 +77,9 @@ const handleLogin = async () => {
     
 
     emit('login-success', name);
+
+    localStorage.setItem('justLoggedIn', 'true');
+    window.location.reload();
   } catch (error) {
     alert('로그인 실패: ' + error.response.data.message);
   }

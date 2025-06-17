@@ -1,14 +1,14 @@
 <template>
-  <Layout headerTitle="관리자 DashBoard">
-    <div class="content-row">
-      <div class="content-left">
-        <div class="stat-cards">
+  <Layout headerTitle="">
+    <div class="dashboard">
+      <div class="left-section">
+        <div class="stat-grid">
           <div class="stat-card">
             <div class="stat-title">총 PC 수</div>
             <div class="stat-value">{{ stats.totalPCCount }} 대</div>
           </div>
           <div class="stat-card">
-            <div class="stat-title">현재 사용 중</div>
+            <div class="stat-title">사용 중</div>
             <div class="stat-value">{{ stats.inUsePCCount }} 대</div>
           </div>
           <div class="stat-card">
@@ -20,26 +20,34 @@
             <div class="stat-value">{{ stats.expiredPCCount }} 대</div>
           </div>
         </div>
-        <div class="chart-section">
-          <div class="chart-title">접속 추이</div>
+
+        <div class="graph-card">
+          <div class="card-title">접속 추이</div>
           <div class="chart-box"></div>
         </div>
-        <div class="log-section">
-          <div class="log-title">최근접속로그</div>
+
+        <div class="log-card">
+          <div class="card-title">최근 접속 로그</div>
           <div class="log-box"></div>
         </div>
       </div>
-      <div class="content-right">
-        <div class="status-section">
-          <div class="status-title">PC상태(사용중, 미사용, 고장)</div>
-          <div class="status-box"></div>
+
+      <div class="right-section">
+        <div class="graph-card">
+          <div class="card-title">PC 상태(사용 중, 미사용, 고장)</div>
+          <div class="chart-box"></div>
         </div>
-        <div class="warning-section">
-          <div class="warning-title">경고</div>
-          <div class="warning-box"></div>
+
+        <div class="alert-card">
+          <div class="alert-left">
+            <img  class="alert-icon" src="../../img/warning.png" alt="경고">
+            <div class="alert-title">경고</div>
+          </div>
+          <div class="alert-text">고장 난 PC가 있습니다</div>
         </div>
-        <div class="button-section">
-          <div class="blue-button">고객 상담 바로가기</div>
+
+        <div class="action-buttons">
+          <div class="blue-button">고객 상담 내역가기</div>
           <div class="blue-button" @click="goToPage('/pc-status')">PC 상태 관리</div>
           <div class="blue-button" @click="goToPage('/customer-management')">고객 관리</div>
           <div class="blue-button">요금제 설정</div>
@@ -77,7 +85,6 @@ const fetchDashboardData = async () => {
 onMounted(async () => {
   await fetchDashboardData();
 });
-
 
 const router = useRouter();
 

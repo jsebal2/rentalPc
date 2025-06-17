@@ -31,15 +31,15 @@
         <span class="header-title">{{ headerTitle }}</span>
         <div class="header-right">
           <router-link class="header-btn" to="/message-chat">
-            <span class="header-icon">💬</span>
+            <span class="header-icon"></span>
             메세지
           </router-link>
           <button class="header-btn">
-            <span class="header-icon">🔔</span>
+            <span class="header-icon"></span>
             알림
           </button>
           <button class="header-btn">
-            <span class="header-icon">👤</span>
+            <span class="header-icon"></span>
             내정보
           </button>
         </div>
@@ -87,14 +87,14 @@ onMounted(async () => {
 <style scoped>
 /* 전체 프레임 */
 .dashboard-frame {
-  width: calc(100% - 200px);
-  margin-left: 200px;
+  width: calc(100% - 240px);
+  margin-left: 240px;
   display: flex;
 }
 
 /* 사이드바 */
 .sidebar {
-  width: 199px;
+  width: 240px;
   background: #fff;
   border-right: 1px solid #eee;
   height: 100vh;
@@ -107,28 +107,22 @@ onMounted(async () => {
   justify-content: center;
   display: flex;
   align-items: center;
-  background: #00003e;
+  background: #fff;
   height: 60px;
-  color: #fff;
+  color: #000;
   font-weight: 800;
-  font-size: 12px;
+  font-size: 20px;
   width: 100%;
   box-sizing: border-box;
   text-decoration: none;
 }
 .sidebar-menu {
-  margin-top: 40px;
+  margin-top: 20px;
   padding: 0 16px;
 }
-.sidebar-menu-item:nth-child(1){
-  border-top: 1px solid;
-}
-.sidebar-menu-item:nth-child(-n + 7){
-  border-bottom: 1px solid;
-}
 .sidebar-menu-item {
-  color: #1d77ff;
-  font-size: 12px;
+  color: #000;
+  font-size: 14px;
   padding: 10px;
   cursor: pointer;
   display: block;
@@ -136,7 +130,7 @@ onMounted(async () => {
 }
 .sidebar-menu-item.router-link-exact-active {
   font-weight: bold;
-  color: #00003e;
+  color: #257cff;
 }
 
 /* 메인 콘텐츠 영역 */
@@ -164,8 +158,8 @@ onMounted(async () => {
   top: 0;
   right: 0;
   height: 60px;
-  background: #00003e;
-  color: white;
+  background: #fff;
+  color: #000;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -185,7 +179,7 @@ onMounted(async () => {
 .header-btn {
   background: none;
   border: none;
-  color: white;
+  color: #000;
   font-size: 12px;
   cursor: pointer;
   text-decoration: none;
