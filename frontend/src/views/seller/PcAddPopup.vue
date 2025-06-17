@@ -7,8 +7,17 @@
       <label>가격</label>
       <input type="text" class="input-field" placeholder="가격" v-model="price" />
 
+      <label>위치</label>
+      <input type="text" class="input-field" placeholder="위치" v-model="location" />
+
       <label>사양</label>
       <div class="spec-field">
+        <label for="">제조사</label>
+        <select v-model="cpuManufacturer">
+          <option  disabled value="">제조사 선택</option>
+          <option value="Intel">Intel</option>
+          <option value="AMD">AMD</option>
+        </select>
         <label>cpu</label>
         <input type="text" v-model="cpu" />
         <label>ram</label>
@@ -16,8 +25,12 @@
           <input type="number" v-model="ram" class="ram-input" placeholder="RAM (숫자)" min="1" />
           <span class="unit-label">GB</span>
         </div>
-        <label>graphic</label>
-        <input type="text" v-model="graphic" />
+        <label>ssd</label>
+        <div class="ssd-input-wrap">
+          <input type="number" v-model="ssd" class="ram-input" placeholder="SSD (숫자)" min="1" />
+          <span class="unit-label">GB</span>
+        </div>
+        
       </div>
 
       <!-- ✅ 체크박스 추가 영역 -->
@@ -46,8 +59,11 @@ const emit = defineEmits(['close', 'registered']);
 
 const pcName = ref('');
 const price = ref('');
+const location = ref('');
+const cpuManufacturer = ref('');
 const cpu = ref('');
 const ram = ref<number | null>(null);
+const ssd = ref('');
 const graphic = ref('');
 const memo = ref('');
 const vpnUsage = ref(false);
@@ -83,9 +99,10 @@ const handleSubmit = async () => {
   const payload = {
     pcName : pcName.value,
     price : price.value,
+    location : location.value,
     cpu : cpu.value,
     ram : ram.value? `${ram.value}GB` : '',
-    graphic : graphic.value,
+    ssd : ssd.value? `${ssd.value}GB` : '',
     memo : memo.value,
     user_id : user_id,
     // vpnUsage : vpnUsage.value,

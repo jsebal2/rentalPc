@@ -3,16 +3,17 @@ const prisma = new PrismaClient();
 const jwt = require('jsonwebtoken');
 
 const createPc = async (req, res) => {
-  const { pcName, price, cpu, ram, graphic, memo, user_id } = req.body;
+  const { pcName, price, cpu, ram, ssd, memo, user_id, location } = req.body;
 
   try {
     const newPc = await prisma.pc.create({
         data : {
             pcName,
             price : Number(price),
+            location,
             cpu,
             ram,
-            graphic,
+            ssd,
             memo,
             user_id,
             // vpnUsage,
@@ -44,9 +45,10 @@ const getPcList = async (req, res) => {
         user_id : user_id,
         OR: keyword ? [
           { pcName: { contains: keyword } },
+          { location: { contains: keyword } },
           { cpu: { contains: keyword } },
           { ram: { contains: keyword } },
-          { graphic: { contains: keyword } },
+          { ssd: { contains: keyword } },
           { renter: { name: { contains: keyword } } }
         ] : undefined
       },
@@ -57,8 +59,9 @@ const getPcList = async (req, res) => {
         price : true,
         cpu : true,
         ram : true,
-        graphic : true,
+        ssd : true,
         memo: true,
+        location : true,
         reg_date: true,
         rental_status : true,
         renter_id : true,
@@ -94,7 +97,7 @@ const getPcList = async (req, res) => {
 
 const updatePc = async (req, res) => {
   const pcId = parseInt(req.params.pc_id, 10);
-  let { pcName, price, cpu, ram, graphic } = req.body;
+  const { pcName, price, cpu, ram, ssd, location } = req.body;
 
   price = parseInt(price, 10);
 
@@ -104,9 +107,10 @@ const updatePc = async (req, res) => {
       data: {
         pcName,
         price,
+        location,
         cpu,
         ram,
-        graphic
+        ssd,
       },
     });
 
