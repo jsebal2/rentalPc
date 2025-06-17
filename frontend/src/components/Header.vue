@@ -5,9 +5,7 @@
       <nav class="nav">
         <router-link to="/">Home</router-link>
         <a href="#">판매자 등록</a>
-  
         <template v-if="isLoggedIn">
-          <span>{{ userName }}님 환영합니다</span>
           <div v-if="user_role === 'Admin'">
 
           </div>
@@ -19,7 +17,6 @@
           </div>
           <a href="#" @click.prevent="handleLogout">로그아웃</a>
         </template>
-  
         <template v-else>
           <a href="#" @click.prevent="handleLoginClick">로그인</a>
           <router-link to="/signup">

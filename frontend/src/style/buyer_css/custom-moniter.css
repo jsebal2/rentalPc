@@ -1,6 +1,9 @@
 .monitoring-page {
+  max-width: 1200px;
+  width: 100%;
   padding: 30px;
   font-family: 'Arial', sans-serif;
+  margin-top: 30px;
 }
 
 .c_m_header {
@@ -11,6 +14,17 @@
   margin-bottom: 20px;
 }
 
+.left-title{
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+.left-title h2,
+.left-title p{
+  margin: 0;
+}
+
 .title {
   font-size: 24px;
   font-weight: bold;
@@ -18,7 +32,7 @@
 }
 
 .subtitle {
-  color: #198754;
+  color: #2563eb;
   font-weight: bold;
 }
 
@@ -27,6 +41,18 @@
   gap: 10px;
   margin-top: 10px;
 }
+
+.additional-loan,
+.Extension-Period{
+  background-color: #376BF5;
+  color: #fff;
+  padding: 10px 30px;
+  font-size: 14px;
+}
+.Extension-Period{
+  background-color: #589AD8;
+}
+
 
 .search-input {
   padding: 8px 12px;
@@ -64,7 +90,7 @@
   color: #333;
 }
 
-.status-badge {
+.status {
   padding: 5px 12px;
   border-radius: 20px;
   font-size: 12px;
@@ -72,26 +98,39 @@
   display: inline-block;
 }
 
-.status-badge.active {
+.status.activate {
   background-color: #d1f5e2;
   color: #198754;
 }
 
-.status-badge.inactive {
+.status.inactive {
   background-color: #f8d7da;
   color: #dc3545;
 }
 
 .c-usage-table {
   width: 100%;
-  min-width: 1000px;
   border-collapse: collapse;
+  font-size: 14px;
+}
+
+.c-usage-table thead {
+  background-color: #f3f4f6;
 }
 
 .c-usage-table th,
 .c-usage-table td {
-  border: 1px solid #ddd;
-  padding: 10px;
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.c-usage-table td .status {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: bold;
   text-align: center;
 }
 
@@ -104,6 +143,6 @@
 .c-table-scroll-wrapper thead th {
   position: sticky;
   top: -0.1px;
-  background-color: #b1c0d4;
+  background-color: #e5e7eb;
   z-index: 1;
 }
