@@ -54,7 +54,7 @@
               </td> 
               <td>
                 <span v-if="!isEditing">{{ pc.cpu }}</span>
-                <input v-else v-model="pc.cpu" />
+                <input v-else v-model="pc.cpu" @input="pc.cpu = pc.cpu.replace(/\s+/g, '').toUpperCase()" />
               </td>
               <td>
                 <span v-if="!isEditing">{{ pc.ram }}</span>
@@ -74,7 +74,7 @@
       </div>
     </div>
     <div v-if="showAddPopup" class="modal-overlay">
-      <PcAddPopup @close="showAddPopup = false" @registered = "fetchPcList" />
+      <PcAddPopup @close="showAddPopup = false" @registered="fetchPcList" :cpuModels="cpuModels" :cpuManufacturers="Object.keys(cpuModels)" />
     </div>
     <div v-if="showBulkRegister" class="modal-overlay">
       <BulkPcRegister @close="showBulkRegister = false" />
@@ -137,6 +137,17 @@ const searchKeyword = ref('');
 
 const showDetailModal = ref(false);
 const detailPc = ref(null);
+const cpuModels = {
+  Intel: ['I5-4650', 'E52660'],
+  AMD: [
+    'RYZEN 2200G', 'RYZEN 4350G', 'RYZEN 4600G', 'RYZEN 4650G',
+    'RYZEN 5500GT', 'RYZEN 5600G', 'RYZEN 5700G', 'RYZEN 8700G',
+    'RYZEN 8745hs', 'RYZEN 6850H', 'RYZEN 1700', 'RYZEN 1700X',
+    'RYZEN 2600X', 'RYZEN 2700X', 'RYZEN 3700X', 'RYZEN 3800X',
+    'RYZEN 5600X', 'RYZEN 5700X'
+  ]
+}
+
 
 onMounted(() => {
   fetchPcList();

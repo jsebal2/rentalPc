@@ -12,14 +12,31 @@
 
       <label>사양</label>
       <div class="spec-field">
-        <label for="">제조사</label>
-        <select v-model="cpuManufacturer">
+        <label for="manufacturer">제조사</label>
+        <select v-model="cpuManufacturer" id="manufacturer">
           <option  disabled value="">제조사 선택</option>
-          <option value="Intel">Intel</option>
-          <option value="AMD">AMD</option>
+          <option v-for="manufacturer in cpuManufacturers" :key="manufacturer" :value="manufacturer">{{ manufacturer }}</option>
         </select>
-        <label>cpu</label>
-        <input type="text" v-model="cpu" />
+
+        <label for="cpu">cpu</label>
+        <div class="autocomplete-wrapper">
+          <input
+            type="text"
+            v-model="cpu"
+            @focus="showSuggestions = true"
+            @blur="hideSuggestions"
+            placeholder="CPU 입력"
+          />
+          <ul v-if="showSuggestions && filteredCpuList.length" class="suggestions">
+            <li
+              v-for="(item, index) in filteredCpuList"
+              :key="index"
+              @mousedown.prevent="selectCpu(item)"
+              v-html="highlightMatch(item)"
+            />
+          </ul>
+        </div>
+
         <label>ram</label>
         <div class="ram-input-wrap">
           <input type="number" v-model="ram" class="ram-input" placeholder="RAM (숫자)" min="1" />
@@ -52,7 +69,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted, watch, computed } from 'vue';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
 const emit = defineEmits(['close', 'registered']);
@@ -69,6 +86,44 @@ const memo = ref('');
 const vpnUsage = ref(false);
 const ipAssigned = ref(false);
 const wolEnabled = ref(false);
+const showSuggestions = ref(false);
+
+const { cpuManufacturers, cpuModels } = defineProps({
+  cpuModels: {
+    type: Object,
+    default: () => ({})
+  },
+  cpuManufacturers: {
+    type: Array,
+    default: () => []
+  }
+});
+
+const filteredCpuList = computed(() => {
+  const list = cpuModels[cpuManufacturer.value] || [];
+  return list.filter(item => item.toUpperCase().includes(cpu.value.toUpperCase()));
+});
+
+const highlightMatch = (text: string) => {
+  const keyword = cpu.value;
+  const regex = new RegExp(`(${keyword})`, 'ig');
+  return text.replace(regex, '<mark>$1</mark>');
+};
+
+const selectCpu = (model: string) => {
+  cpu.value = model;
+  showSuggestions.value = false;
+}
+
+const hideSuggestions = () => {
+  setTimeout(() => {
+    showSuggestions.value = false;
+  }, 100);
+}
+
+watch(cpuManufacturer, () => {
+  cpu.value = '';
+})
 
 const onCancel = () => {
   emit('close');
@@ -100,7 +155,7 @@ const handleSubmit = async () => {
     pcName : pcName.value,
     price : price.value,
     location : location.value,
-    cpu : cpu.value,
+    cpu : cpu.value.replace(/\s+/g, '').toUpperCase(),
     ram : ram.value? `${ram.value}GB` : '',
     ssd : ssd.value? `${ssd.value}GB` : '',
     memo : memo.value,

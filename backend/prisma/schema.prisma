@@ -84,7 +84,7 @@ model pc {
   manufacturer String?          @db.VarChar(50)
   cpu          String?          @db.VarChar(50)
   ram          String?          @db.VarChar(50)
-  ssd          Int?
+  ssd          String?          @db.VarChar(50)
   location     String?          @db.VarChar(100)
   graphic      String?          @db.VarChar(50)
   state        pc_state?
