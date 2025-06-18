@@ -13,32 +13,42 @@
       <span class="upload-text">찾아보기</span>
     </div>
 
-    <p class="file-info">파일 형식 : .xlsx<br />최대 크기 : 10MB</p>
-    <p class="sample-download">다운로드 샘플 파일</p>
+    <div v-if="tab === 'excel'">
+      <p class="file-info">파일 형식 : .xlsx<br />최대 크기 : 10MB</p>
+      <p class="sample-download">다운로드 샘플 파일</p>
+    </div>
 
     <!-- 직접 입력 테이블 -->
+    <div v-if="tab === 'manual'">
     <table class="pc-table">
       <thead>
         <tr>
           <th>PC ID</th>
-          <th>가격</th>
+          <th>PC 위치</th>
+          <th>임대료</th>
           <th>CPU</th>
           <th>RAM</th>
-          <th>Graphic</th>
+          <th>SSD</th>
+          <th>메모</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="(row, index) in rows" :key="index">
           <td><input v-model="row.pcId" /></td>
-          <td><input v-model="row.price" /></td>
+          <td><input v-model="row.location" /></td>
+          <td><input v-model="row.rentalFee" /></td>
           <td><input v-model="row.cpu" /></td>
           <td><input v-model="row.ram" /></td>
-          <td><input v-model="row.graphic" /></td>
+          <td><input v-model="row.ssd" /></td>
+          <td><input v-model="row.memo" /></td>
         </tr>
       </tbody>
     </table>
+    </div>
 
-    <button class="add-row-btn" @click="addRow">+행추가</button>
+    <div v-if="tab === 'manual'">
+      <button class="add-row-btn" @click="addRow">+행추가</button>
+    </div>
 
     <!-- 하단 버튼 -->
     <div class="button-group">
@@ -55,13 +65,13 @@ const emit = defineEmits(['close'])
 const tab = ref<'excel' | 'manual'>('excel')
 
 const rows = ref([
-  { pcId: 'PC-001', price: '10,000', cpu: '5700', ram: '32GB', graphic: '-' },
-  { pcId: 'PC-001', price: '10,000', cpu: '5700', ram: '32GB', graphic: '-' },
-  { pcId: 'PC-001', price: '10,000', cpu: '5700', ram: '32GB', graphic: '-' },
+  { pcId: 'PC-001', location: 'A열 1', rentalFee: '10,000', cpu: 'Ryzen 5700', ram: '32GB', ssd: '250GB', memo: '-' },
+  { pcId: 'PC-002', location: 'A열 2', rentalFee: '10,000', cpu: 'Ryzen 5700', ram: '32GB', ssd: '250GB', memo: '-' },
+  { pcId: 'PC-003', location: 'A열 3', rentalFee: '10,000', cpu: 'Ryzen 5700', ram: '32GB', ssd: '250GB', memo: '-' },
 ])
 
 function addRow() {
-  rows.value.push({ pcId: '', price: '', cpu: '', ram: '', graphic: '' })
+  rows.value.push({ pcId: '', location: '', rentalFee: '', cpu: '', ram: '', ssd: '', memo: '' })
 }
 
 function onCancel() {

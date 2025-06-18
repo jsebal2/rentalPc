@@ -74,7 +74,14 @@ const getPcList = async (req, res) => {
         rental: {
           select: {
             start_date: true,
-            end_date: true
+            end_date: true,
+            user_id: true,
+            user: {
+              select: {
+                name: true,
+                email: true,
+              }
+            }
           }
         }
       },
@@ -88,6 +95,7 @@ const getPcList = async (req, res) => {
     ))
     
     // console.log(numberedPcs);
+    console.log(numberedPcs[0].rental);
     res.status(200).json(numberedPcs);
   } catch (error) {
     console.error('PC 목록 조회 오류:', error);

@@ -24,7 +24,7 @@
           </ul>
           <div class="pagination">
             <button @click="goToPage(currentPage - 1)" :disabled="currentPage === 1"> &lt;</button>
-            <button v-for="page in totalPages" :key="page" @click="goToPage(page)">{{ page }}</button>
+            <button v-for="page in visiblePages" :key="page" @click="goToPage(page)" :class="{'active': currentPage === page}">{{ page }}</button>
             <button @click="goToPage(currentPage + 1)" :disabled="currentPage === totalPages"> &gt;</button>
           </div>
         </div>
@@ -48,7 +48,7 @@
           </ul>
           <div class="pagination">
             <button @click="goToFaqPage(faqCurrentPage - 1)" :disabled="faqCurrentPage === 1"> &lt;</button>
-            <button v-for="page in faqTotalPages" :key="page" @click="goToFaqPage(page)">{{ page }}</button>
+            <button v-for="page in visiblePages" :key="page" @click="goToFaqPage(page)" :class="{'active': faqCurrentPage === page}">{{ page }}</button>
             <button @click="goToFaqPage(faqCurrentPage + 1)" :disabled="faqCurrentPage === faqTotalPages"> &gt;</button>
           </div>
         </div>
@@ -116,7 +116,7 @@
 
 <script setup lang="ts">
 import Layout from '../../layouts/Layout.vue';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
 
 const noticeType = ref('GENERAL');
@@ -133,6 +133,7 @@ const faqCurrentPage = ref(1);
 const isEditMode = ref(false);
 const editNoticeId = ref(null);
 const selectedNotice = ref(null);
+const maxButtons = 5;
 
 const qnas = ['연장 문의', '문의', '결제가 안됐나요']
 
@@ -295,6 +296,22 @@ const openModal = (notice) => {
 const closeModal = () => {
   selectedNotice.value = null;
 };
+
+const visiblePages = computed(() => {
+  const pages = [];
+  let start = Math.max(currentPage.value - Math.floor(maxButtons / 2), 1);
+  let end = Math.min(start + maxButtons - 1, totalPages.value);
+
+  if (end > totalPages.value) {
+    end = totalPages.value;
+    start = Math.max(end - maxButtons + 1, 1);
+  }
+
+  for (let i = start; i <= end; i++) {
+    pages.push(i);
+  }
+  return pages;
+});
 
 
 

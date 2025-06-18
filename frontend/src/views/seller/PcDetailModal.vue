@@ -12,7 +12,7 @@
         <p><strong>메모:</strong> {{ pc.memo || '-' }}</p>
         <hr />
         <p><strong>[CPU]</strong> {{ pc.cpu }} | <strong>[RAM]</strong> {{ pc.ram }}</p>
-        <p><strong>[GPU]</strong> {{ pc.graphic }} | <strong>[임대료]</strong> {{ Number(pc.price).toLocaleString() }}원</p>
+        <p><strong>[SSD]</strong> {{ pc.ssd }} | <strong>[임대료]</strong> {{ Number(pc.price).toLocaleString() }}원</p>
         <hr />
         <template v-if="pc.renter">
           <p><strong>[현재 대여자 정보]</strong></p>
@@ -24,6 +24,12 @@
         <template v-else>
           <p><strong>[현재 대여자 정보]</strong> 없음</p>
         </template>
+        <hr />
+        <p><strong>[대여 기록]</strong></p>
+        <div v-for="rental in pc.rental" :key="rental.id">
+          <p>대여 기간: {{ new Date(rental.start_date).toLocaleDateString() }} ~ {{ new Date(rental.end_date).toLocaleDateString() }}</p>
+          <p>대여 상태: {{ rental.user.name }}</p>
+        </div>
       </div>
     </div>
   </div>

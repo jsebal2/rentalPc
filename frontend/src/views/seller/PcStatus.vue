@@ -149,9 +149,7 @@ const cpuModels = {
 }
 
 
-onMounted(() => {
-  fetchPcList();
-})
+
 
 const fetchPcList = async () => {
   const token = localStorage.getItem('token');
@@ -349,6 +347,10 @@ document.addEventListener('click', closeContextMenu);
 const onTyping = () => {
   fetchPcList();
 };
+
+onMounted(() => {
+  fetchPcList();
+})
 
 </script>
 

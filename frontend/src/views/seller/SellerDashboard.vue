@@ -22,8 +22,10 @@
         </div>
 
         <div class="graph-card">
-          <div class="card-title">접속 추이</div>
-          <div class="chart-box"></div>
+          <div class="card-title">대여 현황</div>
+          <div class="chart-box">
+            <canvas id="rentalChart" ref="chartRef"></canvas>
+          </div>
         </div>
 
         <div class="log-card">
@@ -62,6 +64,8 @@ import Layout from '../../layouts/Layout.vue';
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
+import { Chart } from 'chart.js';
+import { Chart as ChartType } from 'chart.js';
 
 const stats = ref({
   totalPCCount: 0,
@@ -70,6 +74,50 @@ const stats = ref({
   expiredPCCount: 0,
 });
 
+const chartRef = ref<HTMLCanvasElement | null>(null);
+let rentalChart: ChartType | null = null;
+
+const drawRentalChart = () => {
+  if (!chartRef.value) return;
+
+  const ctx = chartRef.value.getContext('2d');
+  if (!ctx) return;
+
+  // 이미 생성된 차트가 있다면 파괴
+  if (rentalChart) {
+    rentalChart.destroy();
+  }
+
+  rentalChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: ['1월', '2월', '3월', '4월', '5월', '6월'],
+      datasets: [
+        {
+          label: '월별 대여 수',
+          data: stats.value.monthlyRentals,
+          borderWidth: 2,
+          fill: false,
+          tension: 0.3
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          display: true
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+};
+
 const fetchDashboardData = async () => {
   const user_id = localStorage.getItem('user_id');
   if (!user_id) return;
@@ -77,20 +125,24 @@ const fetchDashboardData = async () => {
   try {
     const response = await axios.get(import.meta.env.VITE_API_URL + `/seller-dashboard?user_id=${user_id}`);
     stats.value = response.data;
+    drawRentalChart();
   } catch (error) {
     console.error('대시보드 데이터 로드 오류:', error);
   }
 };
 
-onMounted(async () => {
-  await fetchDashboardData();
-});
 
 const router = useRouter();
 
 const goToPage = (page: string) => {
   router.push(page);
 };
+
+
+onMounted(async () => {
+  await fetchDashboardData();
+});
+
 </script>
 
 <style src="../../style/seller_css/seller-dashboard.css" scoped></style>

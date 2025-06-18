@@ -46,6 +46,11 @@
   border-radius: 8px;
 }
 
+canvas{
+  width: 100%;
+  height: 100%;
+}
+
 .alert-text {
   color: #d14343;
   font-weight: bold;

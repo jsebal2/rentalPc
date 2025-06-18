@@ -23,9 +23,15 @@ const getPcList = async (req, res) => {
           pcName: true,
           rental: {
             where: {
-              status: 'ACTIVE', // ✅ status가 ACTIVE인 rental만 조회
+              status: 'ACTIVE',
             },
-            orderBy: { created_at: 'desc' },
+            orderBy: [
+              {
+                end_date: {
+                  sort: 'asc', // 오름차순
+                },
+              },
+            ],
             take: 1,
             select: {
               start_date: true,

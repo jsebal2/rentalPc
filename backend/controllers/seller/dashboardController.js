@@ -36,11 +36,12 @@ const getDashboardData = async (req, res) => {
             }
         });
 
+
         res.json({
             totalPCCount,
             inUsePCCount,
             availablePCCount,
-            expiredPCCount
+            expiredPCCount,
         });
 
         console.log(totalPCCount, inUsePCCount, availablePCCount, expiredPCCount);
