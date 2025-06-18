@@ -11,12 +11,12 @@
         <div class="summary-box">
           <img src="../../img/on-button.png" alt="ON" class="icon" />
           <p class="label">현재 전원 ON</p>
-          <p class="value">10 대</p>
+          <p class="value">{{ onCount }}대</p>
         </div>
         <div class="summary-box">
           <img src="../../img/off-button.png" alt="OFF" class="icon" />
           <p class="label">전원 OFF</p>
-          <p class="value">0 대</p>
+          <p class="value">{{ offCount }} 대</p>
         </div>
       </div>
 
@@ -43,7 +43,7 @@
                     <td>{{ rental.pcName || '알 수 없음' }}</td>
                     <td>미정</td>
                     <td>{{ new Date(rental.rental[0].end_date).toLocaleDateString() }}</td>
-                    <td><span class="status activate">ative</span></td>
+                    <td><span :class="rental.power_status === 'OFF' ? 'status off' : 'status on'">{{rental.power_status}}</span></td>
                     <td>YC</td>
                   </tr>
                 </tbody>
@@ -124,23 +124,34 @@ import axios from 'axios'
 const rentallist = ref([])
 const notice = ref([])
 const rentalCount = ref(0)
+const onCount = ref(0)
+const offCount = ref(0)
 const userId = Number(localStorage.getItem('user_id'))
 const seller_id = ref<number[]>([])
 
 onMounted(async () => {
-    const token = localStorage.getItem('token')
-    if (!token) {
-        console.error('토큰이 없습니다.')
-        return
-    }
-    try {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/customers/rental`,{
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        })
-        rentallist.value = res.data
-        rentalCount.value = rentallist.value.length
+  const token = localStorage.getItem('token')
+  if (!token) {
+      console.error('토큰이 없습니다.')
+      return
+  }
+  try {
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/customers/rental`,{
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
+    rentallist.value = res.data
+    rentalCount.value = rentallist.value.length
+
+    rentallist.value.forEach( e => {
+      if(e.power_status === "ON"){
+        onCount.value++
+      }
+      else if(e.power_status === "OFF"){
+        offCount.value++
+      }
+    });
     } catch (error) {
         console.error('대여 수 조회 실패:', error)
     }

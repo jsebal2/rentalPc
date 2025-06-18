@@ -18,7 +18,25 @@
 .tab-buttons-left{
   display: flex;
   justify-content: start;
+  align-items: center;
   gap: 10px;
+}
+.tab-buttons-left .notice-admins select{
+  width: 100px;
+  padding: 10px 15px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  background-color: #f9f9f9;
+  color: #333;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='12'%20height='12'%20viewBox='0%200%2020%2020'%3E%3Cpolygon%20fill='%23333'%20points='0,0%2020,0%2010,10'%20/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 10px;
+  cursor: pointer;
 }
 
 .tab-buttons button {
@@ -41,6 +59,14 @@
   color: #fff;
 }
 
+.notice-admins{
+
+}
+.notice-content{}
+.notice-content ul{
+  max-height: 700px;
+  overflow-y: scroll;
+}
 .card {
   background: white;
   border-radius: 12px;
@@ -48,6 +74,7 @@
   padding: 30px;
   margin-bottom: 15px;
   width: 100%;
+  list-style: none;
 }
 
 .question-bm{
@@ -108,3 +135,4 @@
   border-radius: 8px;
   cursor: pointer;
 }
+

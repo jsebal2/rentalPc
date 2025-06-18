@@ -123,6 +123,7 @@ const getCustomerRentalList = async (req, res) =>{
           pcName:true,
           cpu:true,
           ram:true,
+          power_status:true,
           rental: {
             orderBy: { created_at: 'desc' },
             take: 1,

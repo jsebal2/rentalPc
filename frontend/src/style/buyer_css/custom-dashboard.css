@@ -95,6 +95,13 @@ max-width: 1200px;
   border-bottom: 1px solid #e5e7eb;
 }
 
+.usage-table thead th {
+  position: sticky;
+  top: 0;
+  background-color: #f3f4f6;
+  z-index: 1;
+}
+
 .usage-table td .status {
   display: inline-block;
   padding: 4px 8px;
@@ -104,13 +111,18 @@ max-width: 1200px;
   text-align: center;
 }
 
-.status.activate {
+.status.on {
   background-color: #d1fae5;
   color: #10b981;
 }
+.status.off {
+  background-color: #fee2e2; 
+  color: #ef4444;           
+}
 
 .table-scroll-wrapper {
-  overflow-x: auto;
+  height: 100%;
+  overflow-y: scroll;
 }
 
 .chart-placeholder {
