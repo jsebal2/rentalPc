@@ -1,0 +1,52 @@
+const { PrismaClient } = require('@prisma/client');
+const prisma = new PrismaClient();
+
+const WriteInsert = async (req, res) => {
+  try {
+    const {content, seller_id, user_id } = req.body;
+
+    if (!content || !seller_id || !user_id) {
+      return res.status(400).json({ error: '필수 항목이 누락되었습니다.' });
+    }
+
+    const result = await prisma.qna.create({
+      data: {
+        question: `${content}`,
+        seller_id: Number(seller_id),
+        user_id: Number(user_id),
+      },
+    });
+
+    res.status(200).json({ message: '질문 등록 성공', qna: result });
+  } catch (error) {
+    console.error('질문 등록 실패:', error);
+    res.status(500).json({ error: '서버 오류' });
+  }
+};
+
+const getQnaList = async (req, res) => {
+  const { seller_id, user_id } = req.query;
+
+  if (!seller_id || !user_id) {
+    return res.status(400).json({ error: 'seller_id 또는 user_id가 누락되었습니다.' });
+  }
+
+  try {
+    const qnaList = await prisma.qna.findMany({
+      where: {
+        seller_id: Number(seller_id),
+        user_id: Number(user_id),
+      },
+      orderBy: {
+        created_at: 'desc',
+      },
+    });
+
+    res.status(200).json({ qnaList });
+  } catch (error) {
+    console.error('QnA 조회 실패:', error);
+    res.status(500).json({ error: '서버 오류' });
+  }
+};
+
+module.exports = { WriteInsert, getQnaList };
