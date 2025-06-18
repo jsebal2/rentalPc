@@ -35,15 +35,18 @@ model notice_file {
 model qna {
   qna_id      Int        @id @default(autoincrement())
   user_id     Int
+  seller_id   Int
   question    String     @db.Text
   answer      String?    @db.Text
   status      qna_status @default(UNANSWERED)
   created_at  DateTime   @default(now())
   answered_at DateTime?
 
-  user user @relation(fields: [user_id], references: [user_id])
+  user   user @relation("QnaUser", fields: [user_id], references: [user_id], map: "fk_qna_user")
+  seller user @relation("QnaSeller", fields: [seller_id], references: [user_id], map: "fk_qna_seller")
 
   @@index([user_id])
+  @@index([seller_id], map: "fk_qna_seller")
 }
 
 model notice {
@@ -147,7 +150,6 @@ model user {
   lead_request     lead_request[]
 
   rented_pcs        pc[]               @relation("RenterRelation")
-  qnas              qna[]
   notification_logs notification_log[]
 
   sentFollowRequests  follow_request[]  @relation("RequesterRelation")
@@ -155,6 +157,9 @@ model user {
 
   followsAsSeller follow[] @relation("seller")
   followsAsBuyer  follow[] @relation("buyer")
+  
+  qnas_as_customer qna[] @relation("QnaUser")
+  qnas_as_seller   qna[] @relation("QnaSeller")
 }
 
 model purchase_request {

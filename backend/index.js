@@ -14,6 +14,7 @@ const dashboardRouter = require('./routes/seller/dashboardRoutes');
 
 // buyerRouters
 const b_dashboardRouter = require('./routes/buyer/b_dashboardRoutes');
+const b_noticeRouter = require('./routes/buyer/b_noticeRouter');
 
 // main
 const productDetailRouter = require('./routes/main/productDetailRoutes');
@@ -63,6 +64,7 @@ app.use('/seller-dashboard', dashboardRouter);
 
 // buyer
 app.use('/buyer-dashboard', b_dashboardRouter);
+app.use('/buyer-notice', b_noticeRouter);
 
 // main
 app.use('/product-detail', productDetailRouter);

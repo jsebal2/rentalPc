@@ -3,25 +3,25 @@
     <div class="notice-question-container">
       <!-- 탭 메뉴 -->
         <div class="notice-box">
-          <h2 class="section-title">공지사항</h2>
+          <h3 class="section-title">공지사항</h3>
         </div>
       <div class="tab-buttons">
         <div class="tab-buttons-left">
-            <button :class="{ active: currentTab === 'notice' }" @click="currentTab = 'notice'">공지사항</button>
-            <button :class="{ active: currentTab === 'question' }" @click="currentTab = 'question'">질문</button>
-            <div class="notice-admins">
-              <select v-model="selectedAdmin">
-                <option 
-                  v-for="(admin, index) in uniqueAdmins" 
-                  :key="index" 
-                  :value="admin"
-                >
-                  {{ sellerIdNameMap.get(admin) }}
-                </option>
-              </select>
-            </div>
+          <button :class="{ active: currentTab === 'notice' }" @click="currentTab = 'notice'">공지사항</button>
+          <button :class="{ active: currentTab === 'question' }" @click="currentTab = 'question'">질문</button>
+          <div class="notice-admins">
+            <select v-model="selectedAdmin">
+              <option 
+                v-for="(admin, index) in uniqueAdmins"
+                :key="index" 
+                :value="admin"
+              >
+                {{ sellerIdNameMap.get(admin) }}
+              </option>
+            </select>
+          </div>
         </div>
-        <button v-if="currentTab === 'question'" class="write-btn" @click="showForm = !showForm">+ 작성하기</button>
+        <button v-if="currentTab === 'question'" class="write-btn" @click="showForm = !showForm" >+ 작성하기</button>
       </div>
 
       <!-- 공지사항 -->
@@ -42,7 +42,7 @@
               class="card"
             >
               <h3>{{ item.title }}</h3>
-              <p>{{ truncate(item.content) }}</p>
+              <p>{{ item.title }}</p>
             </li>
           </ul>
         </div>
@@ -53,23 +53,28 @@
         <div v-if="showForm" class="question-bm"></div>
         <div v-if="showForm" class="question-form">
           <div class="title-box">
-            <input type="text" placeholder="제목을 입력하세요" v-model="newQuestion.title" />
-            <select name="notice-seller" id="notice-seller" required>
-              <option value="" disabled selected>판매자 선택</option>
-              <option value="test">test</option>
-              <option value="remote">remote</option>
+            <input type="text" placeholder="제목을 입력하세요" v-model="newTitle" />
+            <select v-model="selectedAdmin" name="notice-seller" id="notice-seller" required>
+              <option value="" disabled>판매자 선택</option>
+              <option 
+                v-for="(admin, index) in uniqueAdmins"
+                :key="index" 
+                :value="admin"
+              >
+                {{ sellerIdNameMap.get(admin) }}
+              </option>
             </select>
           </div>
-          <textarea placeholder="질문 내용을 입력하세요" v-model="newQuestion.content"></textarea>
+          <textarea placeholder="질문 내용을 입력하세요" v-model="newContent"></textarea>
           <div class="submit-btn-box">
-              <button class="submit-btn" @click="submitQuestion">작성 완료</button>
+              <button type="button" class="submit-btn" @click="submitQuestion">작성 완료</button>
               <button class="submit-btn" @click="showForm = !showForm">취소</button>
           </div>
         </div>
 
         <div class="card" v-for="(q, index) in questions" :key="index">
-          <h3>{{ q.title }}</h3>
-          <p>{{ q.content }}</p>
+          <h3>{{ q.question.split('\n')[0] }}</h3>
+          <p>{{ q.question.split('\n')[1] }}</p>
         </div>
       </div>
     </div>
@@ -78,7 +83,7 @@
 
 <script setup lang="ts">
 import Layout from '../../layouts/Layout.vue'
-import { ref, onMounted, computed } from 'vue'
+import { ref, onMounted, computed, watch } from 'vue'
 import axios from 'axios'
 
 const currentTab = ref<'notice' | 'question'>('notice')
@@ -87,20 +92,33 @@ const notice = ref([])
 const userId = Number(localStorage.getItem('user_id'))
 const seller_id = ref<number[]>([])
 
-const questions = ref([
-  { title: '원격 접속 중 화면 멈춤현상', content: '화면이 갑자기 멈춰서 다시 접속했더니 해결됨...' }
-])
+const newTitle = ref('');
+const newContent = ref('');
 
-const newQuestion = ref({ title: '', content: '' })
+const questions = ref<any[]>([])
 
-const submitQuestion = () => {
-  if (newQuestion.value.title && newQuestion.value.content) {
-    questions.value.unshift({ ...newQuestion.value })
-    newQuestion.value.title = ''
-    newQuestion.value.content = ''
-    showForm.value = false
+
+
+const submitQuestion = async () => {
+  if (!newContent.value || !selectedAdmin.value) {
+    alert('모든 항목을 입력해주세요.');
+    return;
   }
-}
+  try {
+    await axios.post(`${import.meta.env.VITE_API_URL}/buyer-notice/qnaWrite`, {
+      content: newContent.value,
+      seller_id: selectedAdmin.value,
+      user_id: userId
+    });
+    await fetchQuestions();
+    newTitle.value = '';
+    newContent.value = '';
+    showForm.value = false;  
+  } catch (error) {
+    console.error('질문 등록 실패:', error);
+    alert('질문 등록 중 오류가 발생했습니다.');
+  }
+};
 
 onMounted(async () => {
   try {
@@ -119,10 +137,12 @@ onMounted(async () => {
       seller_id.value = [...sellerSet]
       selectedAdmin.value = seller_id.value[0] ?? null
       
+      await fetchQuestions();
     } catch (error) {
         console.error('대여 수 조회 실패:', error)
     }
 })
+
 const uniqueAdmins = computed(() => [...new Set(seller_id.value)])
 const selectedAdmin = ref(uniqueAdmins.value[0] ?? null)
 
@@ -131,7 +151,6 @@ const filteredNotices = computed(() => {
     seller_id.value.includes(n.admin_id) && n.admin_id === selectedAdmin.value
   )
 })
-console.log("te",filteredNotices)
 
 const sellerIdNameMap = computed(() => {
   const map = new Map<number, string>()
@@ -145,10 +164,32 @@ const sellerIdNameMap = computed(() => {
   return map
 })
 
-// 글자 수 제한
-const truncate = (text: string, limit: number = 40) => {
-  return text.length > limit ? text.slice(0, limit) + '...' : text
-}
+const fetchQuestions = async () => {
+  try {
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/buyer-notice/qnaList`, {
+      params: {
+        seller_id: selectedAdmin.value,
+        user_id: userId,
+      },
+    });
+    questions.value = res.data.qnaList || [];
+    console.log(questions)
+  } catch (err) {
+    console.error("질문 목록 조회 실패", err);
+  }
+};
+
+const filteredQuestions = computed(() => {
+  return questions.value.filter(
+    q => q.seller_id === selectedAdmin.value && q.user_id === userId
+  );
+});
+
+watch(selectedAdmin, async (newVal) => {
+  if (newVal) {
+    await fetchQuestions(); // 선택된 판매자 바뀌면 질문 목록 다시 불러오기
+  }
+});
 
 </script>
 
