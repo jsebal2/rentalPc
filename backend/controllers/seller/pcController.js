@@ -28,6 +28,68 @@ const createPc = async (req, res) => {
   }
 };
 
+const bulkPcRegister = async (req, res) => {
+  try {
+    const token = req.headers.authorization?.split(' ')[1];
+    const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+    const user_id = decoded.userId;
+
+    const rows = req.body.rows;
+    if (!rows || !Array.isArray(rows)) {
+      return res.status(400).json({ message: '유효하지 않은 데이터 형식입니다.' });
+    }
+
+    const isNumeric = (value) => /^\d+(,\d{3})*$/.test(value) || /^\d+$/.test(value);
+    const invalidRows = [];
+
+    const data = rows.map((row, index) => {
+      const errors = [];
+
+      if (!row.pcId || !row.location || !row.rentalFee) {
+        errors.push('필수 항목 누락');
+      }
+
+      if (row.rentalFee && !isNumeric(row.rentalFee)) {
+        errors.push('임대료가 숫자 형식이 아님');
+      }
+
+      if (errors.length > 0) {
+        invalidRows.push({ index: index + 1, pcId: row.pcId, errors });
+      }
+
+      return {
+        pcName: row.pc_id,
+        price: parseInt(String(row.rental_fee).replace(/,/g, '')) || 0,
+        location: row.location,
+        manufacturer: row.manufacturer,
+        cpu: row.cpu?.replace(/\s+/g, '').toUpperCase() || '',
+        ram: row.ram || '',
+        ssd: row.ssd || '',
+        memo: row.memo || '',
+        user_id,
+      };
+    });
+
+    if (invalidRows.length > 0) {
+      return res.status(400).json({
+        message: '유효성 검사 실패',
+        errors: invalidRows,
+      });
+    }
+
+    const created = await prisma.pc.createMany({
+      data,
+      skipDuplicates: true,
+    });
+
+    res.status(200).json(created);
+  } catch (err) {
+    console.error('PC 등록 오류:', err);
+    res.status(500).json({ message: 'PC 등록 중 오류 발생' });
+  }
+};
+
+
 const getPcList = async (req, res) => {
   const authHeader = req.headers['authorization'];
   const token = authHeader && authHeader.split(' ')[1];
@@ -266,4 +328,4 @@ const rentPc = async (req, res) => {
 
 
 
-module.exports = { createPc, getPcList, updatePc, deletePc, findUser, rentPc };
+module.exports = { createPc, getPcList, updatePc, deletePc, findUser, rentPc, bulkPcRegister };

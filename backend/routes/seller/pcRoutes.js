@@ -8,5 +8,6 @@ router.put('/:pc_id', pcController.updatePc);
 router.delete('/:pc_id', pcController.deletePc);
 router.get('/find', pcController.findUser);
 router.post('/rent', pcController.rentPc);
+router.post('/bulk', pcController.bulkPcRegister);
 module.exports = router;
 
