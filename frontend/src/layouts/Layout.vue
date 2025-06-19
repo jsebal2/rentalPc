@@ -129,7 +129,7 @@ const fetchNotifications = async () => {
       },
       headers: { Authorization: `Bearer ${token}` },
     });
-    notifications.value = res.data;
+    notifications.value = res.data.notifications;
     
   } catch (error) {
     console.error('알림 불러오기 실패:', error);
