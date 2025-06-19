@@ -26,7 +26,11 @@
           <tr>
             <th>이름</th>
             <th>이메일</th>
-            <th>대여 PC 수</th>
+            <th @click="sortByRentalCount" style="cursor: pointer; text-decoration: underline;">
+              대여 PC 수
+              <span v-if="sortByRental === 'asc'">↑</span>
+              <span v-if="sortByRental === 'desc'">↓</span>
+            </th>
             <th>납부 상태</th>
             <th>자동 연장</th>
             <th>상세보기</th>
@@ -78,6 +82,7 @@ const customers = ref<Customer[]>([]);
 const filteredCustomers = ref<Customer[]>([]);
 const searchQuery = ref('');
 const selectedCustomer = ref<Customer | null>(null);
+const sortByRental = ref(null);
 
 async function fetchCustomers() {
   try {
@@ -110,6 +115,19 @@ function handleKeydown(e: KeyboardEvent) {
   if (showDetailModal.value && e.key === 'Escape') {
     showDetailModal.value = false;
   }
+}
+
+function sortByRentalCount() {
+  if (sortByRental.value === 'asc') {
+    sortByRental.value = 'desc';
+  } else {
+    sortByRental.value = 'asc';
+  }
+
+  filteredCustomers.value.sort((a, b) => {
+    const diff = b.pcCount - a.pcCount;
+    return sortByRental.value === 'asc' ? diff : -diff;
+  });
 }
 
 onMounted(() => {

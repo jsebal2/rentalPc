@@ -45,11 +45,11 @@ const bulkPcRegister = async (req, res) => {
     const data = rows.map((row, index) => {
       const errors = [];
 
-      if (!row.pcId || !row.location || !row.rentalFee) {
+      if (!row.pcName || !row.location || !row.price) {
         errors.push('필수 항목 누락');
       }
 
-      if (row.rentalFee && !isNumeric(row.rentalFee)) {
+      if (row.price && !isNumeric(row.price)) {
         errors.push('임대료가 숫자 형식이 아님');
       }
 
@@ -58,8 +58,8 @@ const bulkPcRegister = async (req, res) => {
       }
 
       return {
-        pcName: row.pc_id,
-        price: parseInt(String(row.rental_fee).replace(/,/g, '')) || 0,
+        pcName: row.pcName,
+        price: parseInt(String(row.price).replace(/,/g, '')) || 0,
         location: row.location,
         manufacturer: row.manufacturer,
         cpu: row.cpu?.replace(/\s+/g, '').toUpperCase() || '',
