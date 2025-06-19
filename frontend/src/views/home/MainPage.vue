@@ -13,7 +13,7 @@
     <section class="hero">
       <div class="hero-banner">
         <div class="text-area">
-          <h1>합리적인 가격으로<br>최고인 원격 PC를 대여</h1>
+          <h1>합리적인 가격으로<br>최고의 원격 PC를 대여</h1>
           <router-link class="sidebar-header" to="/pc-list">대여 상품 보러가기</router-link>
         </div>
         <div class="image-area">

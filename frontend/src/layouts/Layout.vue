@@ -35,7 +35,7 @@
             <span class="header-icon"></span>
             메세지
           </router-link>
-          <button class="header-btn">
+          <button class="header-btn" @click="toggleNotificationModal">
             <span class="header-icon"></span>
             알림
           </button>
@@ -45,7 +45,31 @@
           </button>
         </div>
       </div>
-
+      <!-- 알림 드롭다운 -->
+        <div 
+          :class="['notification-dropdown', { show: showNotificationModal }]" 
+          class="notification-dropdown" 
+          @click.stop
+        >
+        <div class="dropdown-content">
+          <h4 class="dropdown-title">알림</h4>
+          <ul class="notification-list">
+            <li v-if="notifications.length === 0" class="notification-item">
+              새로운 알림이 없습니다.
+            </li>
+            <li 
+              v-else 
+              v-for="noti in notifications" 
+              :key="noti.notification_id" 
+              class="notification-item"
+            >
+              <strong>{{ noti.title }}</strong>
+              <p>{{ noti.message }}</p>
+              <span class="date">{{ noti.created_at ? new Date(noti.created_at).toLocaleString() : '' }}</span>
+            </li>
+          </ul>
+        </div>
+      </div>
       <!-- 실제 페이지 콘텐츠 -->
       <div class="page-body">
         <slot />
@@ -56,10 +80,15 @@
 
 <script setup lang="ts">
 import axios from 'axios';
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
+
 const token = localStorage.getItem('token');
 const userStatuses = ref([]);
 const user_role = ref();
+const user_id =  localStorage.getItem('user_id');
+
+const showNotificationModal = ref(false);
+const notifications = ref([]);
 
 const props = defineProps({
   headerTitle: {
@@ -68,21 +97,75 @@ const props = defineProps({
   },
 });
 
-
 onMounted(async () => {
   try {
-    const res = await axios.get(import.meta.env.VITE_API_URL + '/users/status',{
+    const res = await axios.get(import.meta.env.VITE_API_URL + '/users/status', {
       headers: {
-        'Authorization': `Bearer ${token}`
-      }
+        'Authorization': `Bearer ${token}`,
+      },
     });
     userStatuses.value = res.data;
     user_role.value = userStatuses.value[0].role;
   } catch (err) {
     console.error(err);
   }
+
+  // 바깥 클릭 & 스크롤 이벤트 등록
+  window.addEventListener('click', handleOutsideClick);
+  window.addEventListener('scroll', closeNotification);
 });
+
+onBeforeUnmount(() => {
+  window.removeEventListener('click', handleOutsideClick);
+  window.removeEventListener('scroll', closeNotification);
+});
+
+// 알림 데이터 가져오기
+const fetchNotifications = async () => {
+  try {
+    const res = await axios.get(import.meta.env.VITE_API_URL + '/layout/notifications', {
+      params: {
+        user_id: user_id, // 또는 적절한 사용자 ID
+      },
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    notifications.value = res.data;
+    
+  } catch (error) {
+    console.error('알림 불러오기 실패:', error);
+  }
+};
+
+// 토글 함수 (열려 있으면 닫기)
+const toggleNotificationModal = async () => {
+  if (showNotificationModal.value) {
+    showNotificationModal.value = false;
+  } else {
+    await fetchNotifications();
+    showNotificationModal.value = true;
+  }
+};
+
+// 바깥 클릭 시 모달 닫기
+const handleOutsideClick = (e: MouseEvent) => {
+  const dropdown = document.querySelector('.notification-dropdown');
+  const button = document.querySelector('.header-btn'); // 알림 버튼
+  if (
+    dropdown &&
+    !dropdown.contains(e.target as Node) &&
+    button &&
+    !button.contains(e.target as Node)
+  ) {
+    showNotificationModal.value = false;
+  }
+};
+
+// 스크롤 시 모달 닫기
+const closeNotification = () => {
+  showNotificationModal.value = false;
+};
 </script>
+
 
 
 <style scoped>
@@ -194,6 +277,64 @@ onMounted(async () => {
   width: 100%;
   display: flex;
   justify-content: center;
+}
+
+/* 알림 모달 */
+.notification-dropdown {
+  position: absolute;
+  top: 60px;
+  right: 13px;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  width: 250px;
+  z-index: 9999;
+  max-height: 400px;
+  overflow-y: auto;
+
+  /* 👇 애니메이션 */
+  transform: translateY(-10px);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.notification-dropdown.show {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.dropdown-content {
+  padding: 16px;
+}
+
+.dropdown-title {
+  font-weight: bold;
+  font-size: 16px;
+  margin: 0;
+  margin-bottom: 10px;
+}
+
+.notification-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.notification-item {
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.notification-item:last-child {
+  border-bottom: none;
+}
+
+.notification-item .date {
+  font-size: 12px;
+  color: #999;
 }
 </style>
 

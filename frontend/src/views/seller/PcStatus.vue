@@ -12,6 +12,7 @@
             <button class="add-btn" @click="toggleEdit">{{ isEditing ? '저장' : '수정' }}</button>
             <button class="add-btn" @click="showAddPopup = true">PC 등록</button>
             <button class="add-btn" @click="showBulkRegister = true">PC 다량 등록</button>
+            <button class="add-btn" @click="pcExtension">연장</button>
           </div>
         </div>
         <table class="dummy-table">
@@ -25,7 +26,8 @@
               <th>CPU</th>
               <th>RAM</th>
               <th>SSD</th>
-              <th>현재 대여자명</th>
+              <th>대여자명</th>
+              <th>연장 신청</th>
             </tr>
           </thead>
           <tbody>
@@ -52,7 +54,7 @@
                 <span v-if="!isEditing">{{ Number(pc.price).toLocaleString() }}</span>
                 <input v-else v-model="pc.price" />
               </td> 
-              <td>
+              <td class="cpu-column">
                 <span v-if="!isEditing">{{ pc.cpu }}</span>
                 <input v-else v-model="pc.cpu" @input="pc.cpu = pc.cpu.replace(/\s+/g, '').toUpperCase()" />
               </td>
@@ -66,6 +68,15 @@
               </td>
               <td>
                 <span>{{ pc.renter?.name || '미대여' }}</span>
+              </td>
+              <td>
+                <span
+                  class="pc_status_extension"
+                  :class="{ active: pc.rental_extensions?.[0]?.status === 'PENDING' }"
+                  :disabled="pc.rental_extensions?.[0]?.status !== 'PENDING'"
+                >
+                    연장
+                </span>
               </td>
             </tr>
 
@@ -169,13 +180,11 @@ const fetchPcList = async () => {
       ...pc,
       no: index + 1,
     }));
+    
   } catch (error) {
     console.error('PC 목록 조회 오류:', error);
   }
 };
-
-
-
 
 const toggleEdit = async () => {
   if (!isEditing.value) {
@@ -244,9 +253,6 @@ const closeContextMenu = () => {
 const handleContextAction = async(action: string) => {
   const pc = contextMenu.value.pc;
   if (!pc) return;
-  console.log(pc);
-  console.log(selectedRows.value);
-  console.log(pc.no);
 
   switch (action) {
     case 'rent':
@@ -334,9 +340,35 @@ const stateMap = {
   MAINTENANCE: '수리 중',
 };
 
+const pcExtension = async () => {
+  const selectedPcs = pcList.value.filter(pc =>
+    selectedRows.value.includes(pc.no) &&
+    pc.rental_extensions?.[0]?.status === 'PENDING'
+  );
 
+  if (selectedPcs.length === 0) {
+    alert('선택된 PC가 없습니다.');
+    return;
+  }
 
+  try {
+    const payload = selectedPcs.map(pc => ({
+      pc_id: pc.pc_id,
+    }));
 
+    await Promise.all(
+      payload.map(p =>
+        axios.put(`${import.meta.env.VITE_API_URL}/pcs/rentalExtension`, p)
+      )
+    );
+
+    alert(`${payload.length}개 연장 승인 완료`);
+    fetchPcList(); // 새로고침
+  } catch (err) {
+    console.error('연장 승인 실패:', err);
+    alert('연장 승인 중 오류가 발생했습니다.');
+  }
+};
 
 
 

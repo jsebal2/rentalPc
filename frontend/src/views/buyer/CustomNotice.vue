@@ -42,7 +42,7 @@
               class="card"
             >
               <h3>{{ item.title }}</h3>
-              <p>{{ item.title }}</p>
+              <p>{{ trimmedContent(item.content) }}</p>
             </li>
           </ul>
         </div>
@@ -73,8 +73,8 @@
         </div>
 
         <div class="card" v-for="(q, index) in questions" :key="index">
-          <h3>{{ q.question.split('\n')[0] }}</h3>
-          <p>{{ q.question.split('\n')[1] }}</p>
+          <h3>{{ q.title}}</h3>
+          <p>{{ q.question }}</p>
         </div>
       </div>
     </div>
@@ -106,6 +106,7 @@ const submitQuestion = async () => {
   }
   try {
     await axios.post(`${import.meta.env.VITE_API_URL}/buyer-notice/qnaWrite`, {
+      title: newTitle.value,
       content: newContent.value,
       seller_id: selectedAdmin.value,
       user_id: userId
@@ -190,6 +191,10 @@ watch(selectedAdmin, async (newVal) => {
     await fetchQuestions(); // 선택된 판매자 바뀌면 질문 목록 다시 불러오기
   }
 });
+
+const trimmedContent = (text: string) => {
+  return text.length > 40 ? text.slice(0, 40) + '...' : text;
+};
 
 </script>
 

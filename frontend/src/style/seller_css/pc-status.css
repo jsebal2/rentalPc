@@ -3,6 +3,9 @@
   -webkit-user-select: none; /* Chrome, Safari */
   -moz-user-select: none;    /* Firefox */
   -ms-user-select: none;     /* IE/Edge */
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 html, body {
@@ -175,6 +178,27 @@ html, body {
   font-weight: 800;
   color: #00003e;
 }
+
+table.dummy-table input {
+  width: 100%;
+  min-width: 0;
+  padding: 6px 8px;
+  box-sizing: border-box;
+  font-size: 13px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.dummy-table th, .dummy-table td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+td.cpu-column {
+  width: 15%;  /* 기본 100%보다 넓게 */
+}
+
+
 .add-btn {
   background: #1d77ff;
   color: #fff;
@@ -250,4 +274,26 @@ html, body {
 }
 .context-menu li:hover {
   background-color: #f0f0f0;
+}
+
+.pc_status_extension{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  height: 30px;
+  font-size: 13px;
+  font-weight: bold;
+  color: #726f6f;
+  background-color: #b8b8b9;
+  border: none;
+  display: block;
+  display: flex;
+  border-radius: 15px;
+  justify-content: center;
+  align-items: center;
+}
+
+.pc_status_extension.active{
+  color: #fff;
+  background-color: #1d77ff;
 }
