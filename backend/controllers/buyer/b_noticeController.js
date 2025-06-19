@@ -3,7 +3,7 @@ const prisma = new PrismaClient();
 
 const WriteInsert = async (req, res) => {
   try {
-    const {content, seller_id, user_id } = req.body;
+    const {title, content, seller_id, user_id } = req.body;
 
     if (!content || !seller_id || !user_id) {
       return res.status(400).json({ error: '필수 항목이 누락되었습니다.' });
@@ -11,6 +11,7 @@ const WriteInsert = async (req, res) => {
 
     const result = await prisma.qna.create({
       data: {
+        title: title,
         question: `${content}`,
         seller_id: Number(seller_id),
         user_id: Number(user_id),
