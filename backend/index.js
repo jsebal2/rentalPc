@@ -40,6 +40,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(errorHandler);
 app.use(cookieParser());
+app.use(express.static('public'));
 
 // 기본 라우터
 app.get('/', (req, res) => {

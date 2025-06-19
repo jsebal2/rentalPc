@@ -21,6 +21,11 @@
                 <span class="empty-placeholder">&nbsp;</span>
               </template>
             </li>
+
+
+
+
+
           </ul>
           <div class="pagination">
             <button @click="goToPage(currentPage - 1)" :disabled="currentPage === 1"> &lt;</button>
@@ -48,7 +53,7 @@
           </ul>
           <div class="pagination">
             <button @click="goToFaqPage(faqCurrentPage - 1)" :disabled="faqCurrentPage === 1"> &lt;</button>
-            <button v-for="page in visiblePages" :key="page" @click="goToFaqPage(page)" :class="{'active': faqCurrentPage === page}">{{ page }}</button>
+            <button v-for="page in visibleFaqPages" :key="page" @click="goToFaqPage(page)" :class="{'active': faqCurrentPage === page}">{{ page }}</button>
             <button @click="goToFaqPage(faqCurrentPage + 1)" :disabled="faqCurrentPage === faqTotalPages"> &gt;</button>
           </div>
         </div>
@@ -57,12 +62,18 @@
         <div class="section">
           <h3>질문과 답변 (QnA)</h3>
           <ul>
-            <li v-for="(qna, index) in qnas" :key="index">
-              {{ index + 1 }}. {{ qna }}
+            <li v-for="(qna, index) in [...qnas, ...Array(Math.max(0, 5 - qnas.length)).fill(null)]" :key="index">
+              <template v-if="qna">
+                <span class="title-clickable" @click="openQnaModal(qna)">Q. {{ qna.title }}
+                  <span v-if="qna.answer" class="answer-icon">✅</span>
+                </span>
+              </template>
             </li>
           </ul>
           <div class="pagination">
-            <button>&lt;</button><button>1</button><button>2</button><button>&gt;</button>
+            <button @click="goToQnaPage(qnaCurrentPage - 1)" :disabled="qnaCurrentPage === 1"> &lt;</button>
+            <button v-for="page in visibleQnaPages" :key="page" @click="goToQnaPage(page)" :class="{'active': qnaCurrentPage === page}">{{ page }}</button>
+            <button @click="goToQnaPage(qnaCurrentPage + 1)" :disabled="qnaCurrentPage === qnaTotalPages"> &gt;</button>
           </div>
         </div>
       </div>
@@ -111,6 +122,19 @@
       <button @click="closeModal">닫기</button>
     </div>
   </div>
+  <div v-if="selectedQna" class="modal-overlay" @click.self="closeQnaModal">
+    <div class="modal-content">
+      <h3>{{ selectedQna.title }}</h3>
+      <p>{{ selectedQna.question }}</p>
+      <hr>
+      <textarea v-model="answerQna" placeholder="답변을 입력하세요"></textarea>
+
+      <div class="btn-group">
+        <button @click="submitAnswer">답변 등록</button>
+        <button @click="closeQnaModal">닫기</button>
+      </div>
+    </div>
+  </div>
   </div>
 </template>
 
@@ -135,7 +159,12 @@ const editNoticeId = ref(null);
 const selectedNotice = ref(null);
 const maxButtons = 5;
 
-const qnas = ['연장 문의', '문의', '결제가 안됐나요']
+const qnas = ref([]);
+const qnaCurrentPage = ref(1);
+const qnaTotalPages = ref(1);
+const selectedQna = ref(null);
+const answerQna = ref(null);
+const isAnswerEditMode = ref(false);
 
 const submitNotice = async () => {
   if (!title.value || !content.value) {
@@ -240,6 +269,51 @@ const fetchFaqs = async () => {
   }
 };
 
+const fetchQnA = async () => {
+  try {
+    const token = localStorage.getItem('token');
+    const response = await axios.get(`${import.meta.env.VITE_API_URL}/notice/qna`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    qnas.value = response.data.qnas;
+    qnaTotalPages.value = response.data.totalPages;
+  } catch (error) {
+    console.error('QnA 조회 오류:', error);
+  }
+}
+
+const submitAnswer = async () => {
+  if (!answerQna.value) {
+    alert('답변을 입력해주세요.');
+    return;
+  }
+
+  try {
+    const token = localStorage.getItem('token');
+    const qnaId = selectedQna.value.qna_id;
+    const response = await axios.post(`${import.meta.env.VITE_API_URL}/notice/qna/${selectedQna.value.qna_id}/answer`, 
+    { answer: answerQna.value, }, 
+      {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    console.log(response);
+    if (response.status === 200 || response.status === 201) {
+      alert('답변이 등록되었습니다.');
+      closeQnaModal();
+      await fetchQnA();
+    } else {
+      alert('답변 처리에 실패했습니다.');
+    }
+
+  } catch (error) {
+    console.error('답변 등록 오류:', error);
+  }
+}
 
 const goToPage = (page) => {
   if (page >= 1 && page <= totalPages.value) {
@@ -254,6 +328,13 @@ const goToFaqPage = (page) => {
     fetchFaqs();
   }
 };
+
+const goToQnaPage = (page) => {
+  if (page >= 1 && page <= qnaTotalPages.value) {
+    qnaCurrentPage.value = page;
+    fetchQnA();
+  }
+}
 
 const deleteNotice = async (noticeId) => {
   const confirmDelete = confirm('정말 삭제하시겠습니까?');
@@ -297,6 +378,18 @@ const closeModal = () => {
   selectedNotice.value = null;
 };
 
+const openQnaModal = (qna) => {
+  selectedQna.value = qna;
+  answerQna.value = qna.answer;
+  isAnswerEditMode.value = true;
+};
+
+const closeQnaModal = () => {
+  selectedQna.value = null;
+  answerQna.value = null;
+  isAnswerEditMode.value = false;
+};
+
 const visiblePages = computed(() => {
   const pages = [];
   let start = Math.max(currentPage.value - Math.floor(maxButtons / 2), 1);
@@ -313,11 +406,49 @@ const visiblePages = computed(() => {
   return pages;
 });
 
+const visibleFaqPages = computed(() => {
+  const pages = [];
+  let start = Math.max(faqCurrentPage.value - Math.floor(maxButtons / 2), 1);
+  let end = Math.min(start + maxButtons - 1, faqTotalPages.value);
+
+  if (end > faqTotalPages.value) {
+    end = faqTotalPages.value;
+    start = Math.max(end - maxButtons + 1, 1);
+  }
+
+  for (let i = start; i <= end; i++) {
+    pages.push(i);
+  }
+  return pages;
+});
+
+const visibleQnaPages = computed(() => {
+  const pages = [];
+  let start = Math.max(qnaCurrentPage.value - Math.floor(maxButtons / 2), 1);
+  let end = Math.min(start + maxButtons - 1, qnaTotalPages.value);
+
+  if (end > qnaTotalPages.value) {
+    end = qnaTotalPages.value;
+    start = Math.max(end - maxButtons + 1, 1);
+  }
+
+  for (let i = start; i <= end; i++) {
+    pages.push(i);
+  }
+  return pages;
+});
+
+
+
+
+
+
 
 
 onMounted(async () => {
   await fetchNotices();
   await fetchFaqs();
+  await fetchQnA();
 });
 
 </script>

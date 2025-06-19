@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 
 const createNotice = async (req, res) => {
     try {
-      const userId = req.user.userId; // ✅ 미들웨어에서 처리됨
+      const userId = req.user.userId; 
       const { title, content, type, pinned } = req.body;
   
       const newNotice = await prisma.notice.create({
@@ -92,6 +92,54 @@ const updateNotice = async (req, res) => {
       res.status(500).json({ message: '공지 수정 중 오류 발생' });
     }
   };
-  
 
-module.exports = { createNotice, getNotice, deleteNotice, updateNotice }; 
+  const getQnAByUser = async (req, res) => {
+    try {
+      const userId = req.user.userId;
+
+      const page = parseInt(req.query.page) || 1;
+      const limit = parseInt(req.query.limit) || 5;
+      const skip = (page - 1) * limit;
+
+      const [qnas, total] = await Promise.all([
+        prisma.qna.findMany({
+          where : { seller_id : userId },
+          orderBy : { created_at : 'desc' },
+          skip,
+          take : limit,
+        }),
+        prisma.qna.count({
+          where : { seller_id : userId },
+        })
+      ])
+
+      res.status(200).json({ qnas, total, page, limit });
+    } catch (error) {
+      console.error('QnA 조회 오류:', error);
+      res.status(500).json({ message : 'QnA 조회 중 오류가 발생했습니다.'});
+    }
+  }
+
+  const answerQna = async (req, res) => {
+    const qnaId = parseInt(req.params.id, 10); 
+    const { answer } = req.body;
+
+
+    if (!answer) {
+      return res.status(400).json({ message : '답변을 입력해주세요.'});
+    }
+
+    try {
+      const updatedQna = await prisma.qna.update({
+        where : { qna_id : qnaId },
+        data : { answer, answered_at : new Date() },
+      });
+
+      res.status(200).json({ message : '답변이 성공적으로 등록되었습니다.', qna : updatedQna });
+    } catch (error) {
+      console.error('답변 등록 오류:', error);
+      res.status(500).json({ message : '답변 등록 중 오류가 발생했습니다.'});
+    }
+  }
+
+module.exports = { createNotice, getNotice, deleteNotice, updateNotice, getQnAByUser, answerQna }; 

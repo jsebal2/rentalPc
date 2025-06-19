@@ -6,6 +6,54 @@
       <div class="alert-box">
         만료 예정 고객 {{ upcomingCount }}명 / 오늘 기준 {{ todayCount }}명 만료됨 → 전체 목록 보기 / 문자 일괄 발송
       </div>
+      <div class="expiration-table">
+      <table>
+        <thead>
+          <tr>
+            <th>PC ID</th>
+            <th>사용시작일</th>
+            <th>만료일(Dday)</th>
+            <th>결제방식</th>
+            <th>만료알림</th>
+            <th>문자발송</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(row, index) in expirationData" :key="index">
+            <td>{{ row.pcName }}</td>
+            <td>{{ row.startDate }}</td>
+            <td>{{ row.endDate }}</td>
+            <td>{{ row.autoRenew }}</td>
+            <td :style="{ color: row.ddayColor }">{{ row.dday }}</td>
+            <td>
+              <button class="sms-btn">문자발송</button>
+            </td>
+          </tr>
+      </tbody>
+      </table>
+
+      <div class="pagination">
+        <button :disabled="currentPage === 1" @click="goToPage(currentPage - 1)">
+          &lt;
+        </button>
+
+        <button
+        v-for="page in visiblePages"
+        :key="page"
+        :class="{ active: currentPage === page }"
+        @click="goToPage(page)"
+        >
+          {{ page }}
+        </button>
+
+        <button :disabled="currentPage === totalPages" @click="goToPage(currentPage + 1)">
+          &gt;
+        </button>
+
+      </div>
+    </div>
+
+    <br><br><br><br>
 
       <div class="month-selector">
         <button @click="prevMonth">&lt;</button>
@@ -13,7 +61,7 @@
         <button @click="nextMonth">&gt;</button>
       </div>
 
-      <div class="summary-cards">
+      <!-- <div class="summary-cards">
         <div class="card">
           <div class="card-title">금일 매출</div>
           <div class="card-value">₩{{ todaySales.toLocaleString() }}</div>
@@ -22,14 +70,14 @@
           <div class="card-title">이번 달 누적 매출</div>
           <div class="card-value">₩{{ totalSales.toLocaleString() }}</div>
         </div>
-      </div>
+      </div> -->
 
-      <div class="search-section">
+      <!-- <div class="search-section">
         <div class="search-title">사용자 검색</div>
         <input type="text" placeholder="날짜" />
         <input type="text" placeholder="결제방식" />
         <button class="csv-button">csv파일 다운로드</button>
-      </div>
+      </div> -->
 
       <div class="sales-table">
         <table>
@@ -52,32 +100,7 @@
           </tbody>
         </table>
       </div>
-      <div class="expiration-table">
-  <table>
-    <thead>
-      <tr>
-        <th>PC ID</th>
-        <th>사용시작일</th>
-        <th>만료일(Dday)</th>
-        <th>결제방식</th>
-        <th>만료알림</th>
-        <th>문자발송</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="(row, index) in expirationData" :key="index">
-        <td>{{ row.pcName }}</td>
-        <td>{{ row.startDate }}</td>
-        <td>{{ row.endDate }}</td>
-        <td>{{ row.autoRenew }}</td>
-        <td :style="{ color: row.ddayColor }">{{ row.dday }}</td>
-        <td>
-          <button class="sms-btn">문자발송</button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  </div>
+      
 
     </div>
   </Layout>
@@ -95,6 +118,39 @@ const sales = [
   30000, 40000, 55000, 72000, 61000, 33000,
   20000, 19000, 18000, 0, 0
 ]
+
+const currentPage = ref(1)
+const itemsPerPage = 20
+
+const totalPages = computed(() => Math.ceil(expirationData.value.length / itemsPerPage))
+const pagedData = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage
+  return expirationData.value.slice(start, start + itemsPerPage)
+})
+
+const visiblePages = computed(() => {
+  const pages = []
+  let start = Math.max(currentPage.value - 4, 1)
+  let end = Math.min(start + 9, totalPages.value)
+
+  if (end - start < 9) {
+    start = Math.max(end - 9, 1)
+  }
+
+  for (let i = start; i <= end; i++) {
+    pages.push(i)
+  }
+
+  return pages
+})
+
+const goToPage = (page: number) => {
+  if (page >= 1 && page <= totalPages.value) {
+    currentPage.value = page
+  }
+}
+
+
 
 const expirationData = ref([])
 const selectedDates = ref<Date[]>([])

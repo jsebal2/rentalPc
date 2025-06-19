@@ -18,7 +18,9 @@
 
     <div v-if="tab === 'excel'">
       <p class="file-info">파일 형식 : .xlsx<br />최대 크기 : 10MB</p>
-      <p class="sample-download">다운로드 샘플 파일</p>
+      <p class="sample-download">
+        <a href="/sample.xlsx" download>샘플 파일 다운로드</a>
+      </p>
     </div>
 
     <!-- 직접 입력 테이블 -->
@@ -107,6 +109,36 @@ function onDropFile(e: DragEvent) {
   parseExcel(file)
 }
 
+async function submitManualData() {
+  try {
+    const token = localStorage.getItem('token');
+    const payload = {
+      rows: rows.value.map((row) => ({
+        pcName: row.pcId,
+        location: row.location,
+        price: row.rentalFee,
+        manufacturer: row.manufacturer,
+        cpu: row.cpu,
+        ram: row.ram,
+        ssd: row.ssd,
+        memo: row.memo,
+      }))
+    };
+
+    await axios.post(import.meta.env.VITE_API_URL + '/pcs/bulk', payload, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    alert('등록 완료');
+    emit('close');
+  } catch (error) {
+    console.error('등록 오류:', error);
+    alert('등록 중 오류 발생');
+  }
+}
+
 function parseExcel(file: File) {
   const reader = new FileReader()
   reader.onload = (e) => {
@@ -135,9 +167,9 @@ async function submitExcelData() {
 
     const payload = {
   rows: rows.value.map((row) => ({
-    pc_id: row.pcId,
+    pcName: String(row.pcId),
     location: row.location,
-    rental_fee: row.rentalFee,
+    price: row.rentalFee,
     manufacturer: row.manufacturer,
     cpu: row.cpu,
     ram: row.ram,
