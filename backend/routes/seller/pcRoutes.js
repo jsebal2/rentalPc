@@ -4,6 +4,7 @@ const pcController = require('../../controllers/seller/pcController');
 
 router.post('/register', pcController.createPc);
 router.get('/list', pcController.getPcList);
+router.put('/rentalExtension', pcController.approveExtension);
 router.put('/:pc_id', pcController.updatePc);
 router.delete('/:pc_id', pcController.deletePc);
 router.get('/find', pcController.findUser);

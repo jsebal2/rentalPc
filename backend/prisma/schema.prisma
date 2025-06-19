@@ -104,9 +104,10 @@ model pc {
   user   user? @relation(fields: [user_id], references: [user_id])
   renter user? @relation("RenterRelation", fields: [renter_id], references: [user_id])
 
-  rental           rental[]
-  purchase_request purchase_request[]
-  transaction      transaction[]
+  rental             rental[]
+  purchase_request   purchase_request[]
+  transaction        transaction[]
+  rental_extensions  rental_extension[]
 
   @@index([user_id])
   @@index([renter_id])
@@ -156,11 +157,17 @@ model user {
   sentFollowRequests  follow_request[]  @relation("RequesterRelation")
   receivedFollowRequests  follow_request[]  @relation("ReceiverRelation")
 
+  notifications notification[]
+
   followsAsSeller follow[] @relation("seller")
   followsAsBuyer  follow[] @relation("buyer")
   
   qnas_as_customer qna[] @relation("QnaUser")
   qnas_as_seller   qna[] @relation("QnaSeller")
+
+  rental_extensions_requested rental_extension[] @relation("ExtensionRequester") 
+  rental_extensions_processed rental_extension[] @relation("ExtensionSeller")     
+  
 }
 
 model purchase_request {
@@ -236,6 +243,40 @@ model lead_request {
   created_at      DateTime @default(now())
   user_id         Int?
   user            user?    @relation(fields: [user_id], references: [user_id])
+
+  @@index([user_id])
+}
+
+model rental_extension {
+  extension_id   Int             @id @default(autoincrement())
+  pc_id          Int
+  user_id        Int             // 요청자
+  seller_id       Int?
+  original_end   DateTime?       // 현재 예상 종료일 (nullable로 두어도 무방)
+  requested_end  DateTime        // 요청하는 새로운 종료일
+  status         extension_status @default(PENDING)
+  requested_at   DateTime        @default(now())
+  processed_at   DateTime?
+
+  pc    pc    @relation(fields: [pc_id], references: [pc_id])
+  user  user  @relation("ExtensionRequester", fields: [user_id], references: [user_id])
+  seller user? @relation("ExtensionSeller", fields: [seller_id], references: [user_id])
+
+  @@index([pc_id])
+  @@index([user_id])
+  @@index([seller_id])
+}
+
+model notification {
+  notification_id Int        @id @default(autoincrement())
+  user_id         Int        // 알림 수신자
+  title           String     @db.VarChar(100)
+  message         String     @db.Text
+  type            notif_type @default(INFO)
+  is_read         Boolean    @default(false)
+  created_at      DateTime   @default(now())
+
+  user user @relation(fields: [user_id], references: [user_id])
 
   @@index([user_id])
 }
@@ -317,4 +358,17 @@ enum qna_status {
 enum manufacturer_type {
   INTEL
   AMD
+}
+
+enum extension_status {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum notif_type {
+  INFO
+  ALERT
+  WARNING
+  SYSTEM
 }

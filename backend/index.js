@@ -15,9 +15,13 @@ const dashboardRouter = require('./routes/seller/dashboardRoutes');
 // buyerRouters
 const b_dashboardRouter = require('./routes/buyer/b_dashboardRoutes');
 const b_noticeRouter = require('./routes/buyer/b_noticeRouter');
+const b_moniterRouter = require('./routes/buyer/b_moniterRouters');
 
 // main
 const productDetailRouter = require('./routes/main/productDetailRoutes');
+
+// layout
+const layoutRouter = require('./routes/layout/notificationRoutes');
 
 // 환경변수 로드
 dotenv.config();
@@ -66,9 +70,13 @@ app.use('/seller-dashboard', dashboardRouter);
 // buyer
 app.use('/buyer-dashboard', b_dashboardRouter);
 app.use('/buyer-notice', b_noticeRouter);
+app.use('/buyer-moniter', b_moniterRouter);
 
 // main
 app.use('/product-detail', productDetailRouter);
+
+// layout
+app.use('/layout', layoutRouter);
 
 // 서버 실행
 app.listen(port, () => {

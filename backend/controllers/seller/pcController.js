@@ -145,7 +145,19 @@ const getPcList = async (req, res) => {
               }
             }
           }
-        }
+        },
+        rental_extensions: {
+        select: {
+          extension_id: true,
+          requested_end: true,
+          status: true,
+          requested_at: true,
+        },
+        orderBy: {
+          requested_at: 'desc'
+        },
+        take: 1 // 최신 연장 요청 하나만
+      }
       },
     });
     const numberedPcs = pcs.map((pc, index) => (
@@ -157,7 +169,7 @@ const getPcList = async (req, res) => {
     ))
     
     // console.log(numberedPcs);
-    console.log(numberedPcs[0].rental);
+    // console.log(numberedPcs[0].rental);
     res.status(200).json(numberedPcs);
   } catch (error) {
     console.error('PC 목록 조회 오류:', error);
@@ -323,9 +335,48 @@ const rentPc = async (req, res) => {
   }
 };
 
+const approveExtension = async (req, res) => {
+  const { pc_id } = req.body;
+  console.log(pc_id);
+  
+
+  if (!pc_id) return res.status(400).json({ message: 'pc_id가 없습니다.' });
+
+  try {
+    const latest = await prisma.rental_extension.findFirst({
+      where: {
+        pc_id,
+        status: 'PENDING',
+      },
+      orderBy: {
+        requested_at: 'desc',
+      },
+    });
+
+    if (!latest) {
+      return res.status(404).json({ message: '승인할 연장 요청이 없습니다.' });
+    }
+
+    const updated = await prisma.rental_extension.update({
+      where: {
+        extension_id: latest.extension_id,
+      },
+      data: {
+        status: 'APPROVED',
+        processed_at: new Date(),
+      },
+    });
+
+    res.json({ message: '승인 완료', data: updated });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: '서버 오류' });
+  }
+};
 
 
 
 
 
-module.exports = { createPc, getPcList, updatePc, deletePc, findUser, rentPc, bulkPcRegister };
+
+module.exports = { createPc, getPcList, updatePc, deletePc, findUser, rentPc, bulkPcRegister, approveExtension };
