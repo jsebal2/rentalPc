@@ -8,6 +8,7 @@
       <div class="tab-buttons">
         <div class="tab-buttons-left">
           <button :class="{ active: currentTab === 'notice' }" @click="currentTab = 'notice'">공지사항</button>
+          <button :class="{ active: currentTab === 'faq' }" @click="currentTab = 'faq'">FAQ</button>
           <button :class="{ active: currentTab === 'question' }" @click="currentTab = 'question'">질문</button>
           <div class="notice-admins">
             <select v-model="selectedAdmin">
@@ -26,26 +27,22 @@
 
       <!-- 공지사항 -->
       <div v-if="currentTab === 'notice'" class="notice-list">
-        <!-- <div class="card">
-          <h3>서버 점검 안내 (6/20)</h3>
-          <p>6/20(목) 오전 2시~5시 서버 점검이 예정되어 있습니다.</p>
-        </div>
-        <div class="card">
-          <h3>신규 PC 입고 안내</h3>
-          <p>신규 고성능 원격 PC 10대 입고되었습니다.</p>
-        </div> -->
-        <div class="notice-content">
-          <ul>
-            <li
-              v-for="(item, index) in filteredNotices"
-              :key="index"
-              class="card"
-            >
-              <h3>{{ item.title }}</h3>
-              <p>{{ trimmedContent(item.content) }}</p>
-            </li>
-          </ul>
-        </div>
+        <ul>
+          <li v-for="(item, index) in generalNotices" :key="index" class="card" @click="openDetailModal(item)">
+            <h3>{{ item.title }}</h3>
+            <p>{{ trimmedContent(item.content) }}</p>
+          </li>
+        </ul>
+      </div>
+
+      <!-- FAQ -->
+      <div v-if="currentTab === 'faq'" class="notice-list">
+        <ul>
+          <li v-for="(item, index) in faqNotices" :key="index" class="card" @click="openDetailModal(item)">
+            <h3>{{ item.title }}</h3>
+            <p>{{ trimmedContent(item.content) }}</p>
+          </li>
+        </ul>
       </div>
 
       <!-- 질문 -->
@@ -72,10 +69,20 @@
           </div>
         </div>
 
-        <div class="card" v-for="(q, index) in questions" :key="index">
+        <div class="card" v-for="(q, index) in questions" :key="index" @click="openDetailModal(q)">
           <h3>{{ q.title}}</h3>
           <p>{{ q.question }}</p>
         </div>
+      </div>
+    </div>
+
+    <!-- 자세히 보기 모달창 -->
+     <div v-if="showDetailModal" class="modal-overlay" @click.self="showDetailModal = false">
+      <div class="modal-content">
+        <button class="close-btn" @click="showDetailModal = false">X</button>
+        <h2>{{ selectedItem?.title }}</h2>
+        <p>{{ selectedItem?.content || selectedItem?.question }}</p>
+        <p v-if="selectedItem?.user?.name">작성자: {{ selectedItem.user.name }}</p>
       </div>
     </div>
   </Layout>
@@ -86,7 +93,7 @@ import Layout from '../../layouts/Layout.vue'
 import { ref, onMounted, computed, watch } from 'vue'
 import axios from 'axios'
 
-const currentTab = ref<'notice' | 'question'>('notice')
+const currentTab = ref<'notice' | 'faq' | 'question'>('notice');
 const showForm = ref(false)
 const notice = ref([])
 const userId = Number(localStorage.getItem('user_id'))
@@ -96,6 +103,9 @@ const newTitle = ref('');
 const newContent = ref('');
 
 const questions = ref<any[]>([])
+
+const showDetailModal = ref(false)
+const selectedItem = ref<any | null>(null)
 
 
 
@@ -145,13 +155,29 @@ onMounted(async () => {
 })
 
 const uniqueAdmins = computed(() => [...new Set(seller_id.value)])
-const selectedAdmin = ref(uniqueAdmins.value[0] ?? null)
+const selectedAdmin = ref<number | null>(null)
 
 const filteredNotices = computed(() => {
   return notice.value.filter(n =>
     seller_id.value.includes(n.admin_id) && n.admin_id === selectedAdmin.value
   )
 })
+
+const generalNotices = computed(() => {
+  return notice.value.filter(n =>
+    n.type === 'GENERAL' &&
+    seller_id.value.includes(n.admin_id) &&
+    n.admin_id === selectedAdmin.value
+  );
+});
+
+const faqNotices = computed(() => {
+  return notice.value.filter(n =>
+    n.type === 'FAQ' &&
+    seller_id.value.includes(n.admin_id) &&
+    n.admin_id === selectedAdmin.value
+  );
+});
 
 const sellerIdNameMap = computed(() => {
   const map = new Map<number, string>()
@@ -195,6 +221,11 @@ watch(selectedAdmin, async (newVal) => {
 const trimmedContent = (text: string) => {
   return text.length > 40 ? text.slice(0, 40) + '...' : text;
 };
+
+const openDetailModal = (item: any) => {
+  selectedItem.value = item
+  showDetailModal.value = true
+}
 
 </script>
 

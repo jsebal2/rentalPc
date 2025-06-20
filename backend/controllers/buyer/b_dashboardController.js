@@ -4,7 +4,6 @@ const prisma = new PrismaClient();
 const getNotice = async (req, res) => {
   try {
     const newNotice = await prisma.notice.findMany({
-      where: { type: "GENERAL" },
       select: {
         title: true,
         content: true,

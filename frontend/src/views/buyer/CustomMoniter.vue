@@ -167,8 +167,6 @@ const extension = async () => {
         pc_id: rental.pc_id,
         user_id: userId,
         seller_id: rental.user_id,
-        original_end: rental.rental[0].end_date,
-        requested_end: new Date(new Date(rental.rental[0].end_date).getTime() + 30 * 24 * 60 * 60 * 1000),
       };
 
       await axios.post(`${import.meta.env.VITE_API_URL}/buyer-moniter/rentalExtension`, payload, {

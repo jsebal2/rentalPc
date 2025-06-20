@@ -354,8 +354,9 @@ const pcExtension = async () => {
   try {
     const payload = selectedPcs.map(pc => ({
       pc_id: pc.pc_id,
+      user_id: pc.rental[0].user_id,
     }));
-
+    console.log(payload);
     await Promise.all(
       payload.map(p =>
         axios.put(`${import.meta.env.VITE_API_URL}/pcs/rentalExtension`, p)

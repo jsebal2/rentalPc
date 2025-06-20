@@ -28,7 +28,7 @@ const getPcList = async (req, res) => {
             orderBy: [
               {
                 end_date: {
-                  sort: 'asc', // 오름차순
+                  sort: 'desc', // 오름차순
                 },
               },
             ],
