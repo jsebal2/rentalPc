@@ -62,7 +62,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
 import axios from 'axios';
-import UserDetailModal from './UserDetailModal.vue';
+import UserDetailModal from '../seller/UserDetailModal.vue';
 import Layout from '../../layouts/Layout.vue';
 import '../../style/seller_css/customer-management.css';
 
@@ -83,13 +83,10 @@ const filteredCustomers = ref<Customer[]>([]);
 const searchQuery = ref('');
 const selectedCustomer = ref<Customer | null>(null);
 const sortByRental = ref(null);
-const user_id = Number(localStorage.getItem('user_id'));
 
 async function fetchCustomers() {
   try {
-    const response = await axios.get(`${import.meta.env.VITE_API_URL}/customers/list`,{
-      params:{user_id}
-    });
+    const response = await axios.get(`${import.meta.env.VITE_API_URL}/customers/alllist`);
     customers.value = response.data;
     filteredCustomers.value = response.data;
   } catch (error) {

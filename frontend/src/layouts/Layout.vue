@@ -5,7 +5,9 @@
       <router-link class="sidebar-header" to="/">RemoteR</router-link>
       <div class="sidebar-menu">
         <div v-if="user_role === 'Admin'">
-
+          <router-link class="sidebar-menu-item" to="/">home</router-link>
+          <router-link class="sidebar-menu-item" to="/admin-dashboard">Dashboard</router-link>
+          <router-link class="sidebar-menu-item" to="/admin-Manage">Management</router-link>
         </div>
         <div v-else-if="user_role === 'Seller'">
           <router-link class="sidebar-menu-item" to="/">home</router-link>

@@ -8,7 +8,7 @@
         <template v-if="isLoggedIn">
           <div>{{ userName }}님 환영합니다</div>
           <div v-if="user_role === 'Admin'">
-            
+            <router-link to="/admin-dashboard">마이페이지</router-link>
           </div>
           <div v-else-if="user_role === 'Seller'">
             <router-link to="/seller-dashboard">마이페이지</router-link>
