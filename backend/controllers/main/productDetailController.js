@@ -19,7 +19,7 @@ const getAuthorsByCpuTitle = async (req, res) => {
     const uniqueUserIds = [...new Set(pcs.map(p => p.user_id))];
 
     // 2. user_id에 해당하는 seller_profile 조회
-    const authors = await prisma.seller_profile.findMany({
+    const authorsRaw = await prisma.seller_profile.findMany({
       where: {
         user_id: { in: uniqueUserIds },
       },
@@ -32,7 +32,13 @@ const getAuthorsByCpuTitle = async (req, res) => {
       },
     });
 
+    const authors = authorsRaw.map((author, index) => ({
+      no: index + 1,
+      ...author
+    }));
+
     console.log(authors);
+    console.log(pcs);
     res.json(authors);
   } catch (error) {
     console.error('판매자 정보 조회 오류:', error);
