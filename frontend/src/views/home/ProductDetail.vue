@@ -17,17 +17,17 @@
             <th>번호</th>
             <th>제목</th>
             <th>글쓴이</th>
-            <th>조회</th>
-            <th>날짜</th>
+            <!-- <th>조회</th> -->
+            <!-- <th>날짜</th> -->
           </tr>
         </thead>
         <tbody>
           <tr v-for="(post, index) in postsWithAuthor" :key="index">
-            <td>{{ post.no }}</td>
-            <td>{{ sellerProfile[0]?.introduction_title }}</td>
-            <td>{{ post.name }}</td>
-            <td>{{ post.views }}</td>
-            <td>{{ post.date }}</td>
+            <td>{{ post.no ?? '-' }}</td>
+            <td>{{ post.introduction_title ?? '-' }}</td>
+            <td>{{ post.business_name ?? '-' }}</td>
+            <!-- <td>{{ post.views ?? '-' }}</td> -->
+            <!-- <td>{{ post.date ?? '-' }}</td> -->
           </tr>
         </tbody>
       </table>
@@ -43,7 +43,6 @@ import axios from 'axios';
 const posts = ref([])
 
 const route = useRoute();
-const author = ref<{user_id : number; name : string}[]>([]);
 const product = ref<{ title: string; image: string; info: string } | null>(null);
 const sellerProfile = ref<{
   user_id: number;
@@ -60,7 +59,7 @@ const postsWithAuthor = computed(() => {
     const seller = sellerProfile.value.find(s => s.user_id === post.user_id);
     return {
       ...post,
-      name: seller?.name || '알 수 없음',
+      business_name: seller?.business_name || '알 수 없음',
       introduction_title: seller?.introduction_title || '제목 없음'
     };
   });
@@ -81,14 +80,13 @@ onMounted(async () => {
     );
     sellerProfile.value = data;
     console.log(sellerProfile.value);
+    console.log(posts.value);
   } catch (error) {
     console.error('제품 정보를 불러오는데 실패했습니다.', error);
   }
 });
 
-console.log(route.params.title);
-const normalized = route.params.title.toUpperCase().replace(/\s/g, '');
-console.log(normalized);
+
 
 
 const allProducts = [
