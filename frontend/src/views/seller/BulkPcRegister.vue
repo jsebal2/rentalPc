@@ -133,6 +133,8 @@ async function submitManualData() {
 
     alert('등록 완료');
     emit('close');
+
+    window.location.reload()
   } catch (error) {
     console.error('등록 오류:', error);
     alert('등록 중 오류 발생');
@@ -187,6 +189,8 @@ async function submitExcelData() {
 
     alert('등록 완료')
     emit('close')
+
+    window.location.reload()
   } catch (error) {
     console.error('등록 오류:', error)
     alert('등록 중 오류가 발생했습니다.')

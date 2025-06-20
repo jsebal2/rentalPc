@@ -85,17 +85,6 @@ const handleLogin = async () => {
   }
 }
 
-// axios.post(import.meta.env.VITE_API_URL + '/users/refresh', {}, {
-//   withCredentials : true,
-// }).then(res => {
-//   const newToken = res.data.token;
-//   localStorage.setItem('token', newToken);
-//   console.log(newToken);
-// })
-// .catch(err => {
-//   localStorage.removeItem('token');
-//   emit('open-login');
-// })
 </script>
 
 <style src="../../style/home_css/login-popup.css" scoped></style> 

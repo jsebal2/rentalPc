@@ -272,17 +272,20 @@ const fetchFaqs = async () => {
 const fetchQnA = async () => {
   try {
     const token = localStorage.getItem('token');
-    const response = await axios.get(`${import.meta.env.VITE_API_URL}/notice/qna`, {
-      headers: {
-        Authorization: `Bearer ${token}`
+    const response = await axios.get(
+      `${import.meta.env.VITE_API_URL}/notice/qna?page=${qnaCurrentPage.value}&limit=5`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       }
-    });
+    );
     qnas.value = response.data.qnas;
     qnaTotalPages.value = response.data.totalPages;
   } catch (error) {
     console.error('QnA 조회 오류:', error);
   }
-}
+};
 
 const submitAnswer = async () => {
   if (!answerQna.value) {

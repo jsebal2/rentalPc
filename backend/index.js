@@ -19,6 +19,7 @@ const b_moniterRouter = require('./routes/buyer/b_moniterRouters');
 
 // main
 const productDetailRouter = require('./routes/main/productDetailRoutes');
+const sellerRegistrationRouter = require('./routes/main/sellerRegistrationRoutes');
 
 // layout
 const layoutRouter = require('./routes/layout/notificationRoutes');
@@ -74,7 +75,7 @@ app.use('/buyer-moniter', b_moniterRouter);
 
 // main
 app.use('/product-detail', productDetailRouter);
-
+app.use('/seller-registration', sellerRegistrationRouter);
 // layout
 app.use('/layout', layoutRouter);
 

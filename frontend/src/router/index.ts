@@ -17,6 +17,7 @@ import CustomMoniter from '../views/buyer/CustomMoniter.vue';
 import CustomNotice from '../views/buyer/CustomNotice.vue';
 import PcListPage from '../views/home/PcListPage.vue';
 import ProductDetail from '../views/home/ProductDetail.vue';
+import SellerRegistration from '../views/home/SellerRegistration.vue';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -99,6 +100,12 @@ const routes: RouteRecordRaw[] = [
     name: 'ProductDetail',
     component: ProductDetail,
   },
+  {
+    path: '/seller-registration',
+    name: 'SellerRegistration',
+    component: SellerRegistration,
+  },
+  
   // 기존 라우트가 있다면 아래에 추가
 ];
 

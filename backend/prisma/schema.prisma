@@ -168,7 +168,42 @@ model user {
   rental_extensions_requested rental_extension[] @relation("ExtensionRequester") 
   rental_extensions_processed rental_extension[] @relation("ExtensionSeller")     
   
+  seller_profile seller_profile?
 }
+
+model seller_profile {
+  id                 Int      @id @default(autoincrement())
+  user_id            Int      @unique
+  business_name      String?
+  introduction_title String?   @db.VarChar(500)
+  introduction_content String? @db.VarChar(500)
+  business_number    String?   @db.VarChar(20)
+  business_license   String?   @db.VarChar(255)
+  contact_phone      String?   @db.VarChar(20)
+  contact_email      String?   @db.VarChar(100)
+  company_address    String?   @db.VarChar(255)
+  bank_name          String?   @db.VarChar(50)
+  bank_account_number String?  @db.VarChar(50)
+  account_holder     String?   @db.VarChar(50)
+  verified_at        DateTime?
+  last_sale_at       DateTime?
+
+  user user @relation(fields: [user_id], references: [user_id])
+  images  seller_profile_image[]
+}
+
+model seller_profile_image {
+  id          Int      @id @default(autoincrement())
+  profile_id  Int
+  file_path   String   @db.VarChar(255) // 실제 저장 경로
+  original_name String? @db.VarChar(255)
+  uploaded_at DateTime @default(now())
+
+  profile seller_profile @relation(fields: [profile_id], references: [id])
+
+  @@index([profile_id])
+}
+
 
 model purchase_request {
   purchase_request_id Int                   @id @default(autoincrement())

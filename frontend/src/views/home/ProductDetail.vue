@@ -24,8 +24,8 @@
         <tbody>
           <tr v-for="(post, index) in postsWithAuthor" :key="index">
             <td>{{ post.no }}</td>
-            <td>{{ post.title }}</td>
-            <td>{{ post.userName }}</td>
+            <td>{{ sellerProfile[0]?.introduction_title }}</td>
+            <td>{{ post.name }}</td>
             <td>{{ post.views }}</td>
             <td>{{ post.date }}</td>
           </tr>
@@ -40,25 +40,28 @@ import { ref, onMounted, computed } from 'vue';
 import Header from '../../components/Header.vue';
 import axios from 'axios';
 
-// 예시 상품 데이터
-
+const posts = ref([])
 
 const route = useRoute();
 const author = ref<{user_id : number; name : string}[]>([]);
 const product = ref<{ title: string; image: string; info: string } | null>(null);
+const sellerProfile = ref<{
+  user_id: number;
+  name: string;
+  introduction_title: string;
+  business_name: string;
+  introduction_content: string;
+  contact_phone: string;
+}[]>([]);
 
-// 게시판 예시 데이터
-const posts = ref([
-  { no: 1, title: '이 제품 어떤가요?', userName: 'user1', views: 120, date: '2024-06-01' },
-  { no: 2, title: '배송 빠르네요', userName: 'user2', views: 80, date: '2024-06-03' },
-]);
 
 const postsWithAuthor = computed(() => {
   return posts.value.map(post => {
-    const user = author.value.find(a => a.name === post.userName);
+    const seller = sellerProfile.value.find(s => s.user_id === post.user_id);
     return {
       ...post,
-      name: user?.name || '알 수 없음'
+      name: seller?.name || '알 수 없음',
+      introduction_title: seller?.introduction_title || '제목 없음'
     };
   });
 });
@@ -76,8 +79,8 @@ onMounted(async () => {
     const { data } = await axios.get(
       `${import.meta.env.VITE_API_URL}/product-detail/${encodeURIComponent(rawTitle)}/authors`
     );
-    author.value = data;
-    console.log(author.value);
+    sellerProfile.value = data;
+    console.log(sellerProfile.value);
   } catch (error) {
     console.error('제품 정보를 불러오는데 실패했습니다.', error);
   }

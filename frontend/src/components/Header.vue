@@ -4,7 +4,7 @@
       <router-link to="/" class="logo">RemoteR</router-link>
       <nav class="nav">
         <router-link to="/">Home</router-link>
-        <a href="#">판매자 등록</a>
+        <router-link to="/seller-registration">판매자 등록</router-link>
         <template v-if="isLoggedIn">
           <div>{{ userName }}님 환영합니다</div>
           <div v-if="user_role === 'Admin'">
@@ -32,6 +32,9 @@
 <script setup>
 import axios from 'axios'
 import {ref,onMounted,inject } from 'vue'
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 const isLoggedIn = inject('isLoggedIn') // ref
 const userName = inject('userName')
@@ -79,6 +82,11 @@ onMounted(async () => {
     console.error(err);
   }
 });
+
+const openSellerRegistrationPopup = () => {
+  emit('open-seller-registration')
+}
+
 </script>
 
 <style>

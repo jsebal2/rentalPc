@@ -113,7 +113,7 @@ const updateNotice = async (req, res) => {
         })
       ])
 
-      res.status(200).json({ qnas, total, page, limit });
+      res.status(200).json({ qnas, total, page, totalPages: Math.ceil(total / limit) });
     } catch (error) {
       console.error('QnA 조회 오류:', error);
       res.status(500).json({ message : 'QnA 조회 중 오류가 발생했습니다.'});
