@@ -42,6 +42,8 @@ const getQnaList = async (req, res) => {
         created_at: 'desc',
       },
     });
+    console.log(qnaList);
+    
 
     res.status(200).json({ qnaList });
   } catch (error) {

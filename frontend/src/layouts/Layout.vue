@@ -290,8 +290,6 @@ const closeNotification = () => {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   width: 250px;
   z-index: 9999;
-  max-height: 400px;
-  overflow-y: auto;
 
   /* 👇 애니메이션 */
   transform: translateY(-10px);
@@ -307,7 +305,7 @@ const closeNotification = () => {
 }
 
 .dropdown-content {
-  padding: 16px;
+  padding: 15px 10px;
 }
 
 .dropdown-title {
@@ -318,23 +316,65 @@ const closeNotification = () => {
 }
 
 .notification-list {
+  box-sizing: border-box;
   list-style: none;
   padding: 0;
   margin: 0;
+  padding: 0 10px;
+  max-height: 350px;
+  overflow-y: auto;
 }
 
 .notification-item {
-  padding: 8px 0;
-  border-bottom: 1px solid #eee;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: background 0.3s ease;
 }
 
-.notification-item:last-child {
-  border-bottom: none;
+.notification-item:hover {
+  background: #f9fafb;
+}
+
+.notification-item strong {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  color: #2563eb;
+  margin-bottom: 6px;
+}
+
+.notification-item p {
+  font-size: 14px;
+  color: #111827; 
+  margin: 0 0 6px;
+  word-break: break-word;
 }
 
 .notification-item .date {
   font-size: 12px;
-  color: #999;
+  color: #6b7280;
+}
+
+.notification-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.notification-list::-webkit-scrollbar {
+  width: 6px; 
+}
+
+.notification-list::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1; 
+  border-radius: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.notification-list::-webkit-scrollbar-thumb:hover {
+  background-color: #94a3b8;
 }
 </style>
 

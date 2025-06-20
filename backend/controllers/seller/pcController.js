@@ -335,11 +335,10 @@ const rentPc = async (req, res) => {
   }
 };
 
+// 연장 신청 승인
 const approveExtension = async (req, res) => {
-  const { pc_id } = req.body;
-  console.log(pc_id);
+  const { pc_id, user_id } = req.body;
   
-
   if (!pc_id) return res.status(400).json({ message: 'pc_id가 없습니다.' });
 
   try {
@@ -352,10 +351,32 @@ const approveExtension = async (req, res) => {
         requested_at: 'desc',
       },
     });
+    console.log("test",latest.requested_end);
+
+    const rental = await prisma.rental.findFirst({
+      where: {
+        pc_id,
+      },
+      orderBy: {
+        created_at: 'desc',
+      },
+    });
+    console.log("asdf",rental.start_date);
+    
 
     if (!latest) {
       return res.status(404).json({ message: '승인할 연장 요청이 없습니다.' });
     }
+
+    const rentalCreated = await prisma.rental.create({
+      data: {
+        pc_id,
+        user_id,
+        start_date: rental.start_date,
+        end_date: latest.requested_end,
+        status:"ACTIVE"
+      },
+    });
 
     const updated = await prisma.rental_extension.update({
       where: {
@@ -367,7 +388,19 @@ const approveExtension = async (req, res) => {
       },
     });
 
-    res.json({ message: '승인 완료', data: updated });
+    const ex_title = "대여연장 승인"
+    const ex_message = `pc Name: ${pc_id}의 대여 신청이 승인 되었습니다`
+    await prisma.notification.create({
+      data: {
+        user_id, // 메세지를 받아야 하는사람
+        title: ex_title,
+        message: ex_message,
+        type: "INFO", // ALERT, INFO, SYSTEM, WARNING
+        is_read: false, // 알림을 봤는지 유무
+      }
+    })
+
+    res.json({ message: '승인 완료', extension: updated, rental: rentalCreated });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: '서버 오류' });

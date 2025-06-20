@@ -124,7 +124,7 @@ model rental {
   created_at DateTime       @default(now()) @db.DateTime(0)
   payment    payment[]
   user       user           @relation(fields: [user_id], references: [user_id])
-  pc         pc             @relation(fields: [pc_id], references: [pc_id])
+  pc         pc             @relation(fields: [pc_id], references: [pc_id], onDelete: Cascade)
 
   @@index([pc_id])
   @@index([user_id])
@@ -178,7 +178,7 @@ model purchase_request {
   requested_at        DateTime              @default(now())
   responded_at        DateTime?
 
-  pc    pc   @relation(fields: [pc_id], references: [pc_id])
+  pc    pc   @relation(fields: [pc_id], references: [pc_id], onDelete: Cascade)
   buyer user @relation("BuyerPurchase", fields: [buyer_id], references: [user_id])
 
   transaction transaction? @relation("RequestTransaction")
@@ -224,7 +224,7 @@ model transaction {
   transaction_at DateTime          @default(now())
   status         TransactionStatus @default(COMPLETED)
 
-  pc      pc               @relation(fields: [pc_id], references: [pc_id])
+  pc      pc               @relation(fields: [pc_id], references: [pc_id], onDelete: Cascade)
   seller  user             @relation("UserSeller", fields: [seller_id], references: [user_id])
   buyer   user             @relation("UserBuyer", fields: [buyer_id], references: [user_id])
   request purchase_request @relation("RequestTransaction", fields: [request_id], references: [purchase_request_id])
@@ -258,7 +258,7 @@ model rental_extension {
   requested_at   DateTime        @default(now())
   processed_at   DateTime?
 
-  pc    pc    @relation(fields: [pc_id], references: [pc_id])
+  pc    pc    @relation(fields: [pc_id], references: [pc_id], onDelete: Cascade)
   user  user  @relation("ExtensionRequester", fields: [user_id], references: [user_id])
   seller user? @relation("ExtensionSeller", fields: [seller_id], references: [user_id])
 
