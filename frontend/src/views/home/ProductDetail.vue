@@ -16,16 +16,16 @@
           <tr>
             <th>번호</th>
             <th>제목</th>
-            <th>글쓴이</th>
+            <th>회사명</th>
             <!-- <th>조회</th> -->
             <!-- <th>날짜</th> -->
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(post, index) in postsWithAuthor" :key="index">
-            <td>{{ post.no ?? '-' }}</td>
-            <td>{{ post.introduction_title ?? '-' }}</td>
-            <td>{{ post.business_name ?? '-' }}</td>
+          <tr v-for="(seller, index) in sellerProfile" :key="index">
+            <td>{{ seller.no ?? '-' }}</td>
+            <td @click="goToPostDetail(seller.user_id)">{{ seller.introduction_title ?? '-' }}</td>
+            <td>{{ seller.business_name ?? '-' }}</td>
             <!-- <td>{{ post.views ?? '-' }}</td> -->
             <!-- <td>{{ post.date ?? '-' }}</td> -->
           </tr>
@@ -35,7 +35,7 @@
   </template>
   
   <script setup lang="ts">
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { ref, onMounted, computed } from 'vue';
 import Header from '../../components/Header.vue';
 import axios from 'axios';
@@ -43,8 +43,10 @@ import axios from 'axios';
 const posts = ref([])
 
 const route = useRoute();
+const router = useRouter();
 const product = ref<{ title: string; image: string; info: string } | null>(null);
 const sellerProfile = ref<{
+  no: number;
   user_id: number;
   name: string;
   introduction_title: string;
@@ -65,6 +67,9 @@ const postsWithAuthor = computed(() => {
   });
 });
 
+const goToPostDetail = (user_id: number) => {
+  router.push(`/post-detail/${user_id}`);
+};
 
 onMounted(async () => {
   const rawTitle = route.params.title as string;

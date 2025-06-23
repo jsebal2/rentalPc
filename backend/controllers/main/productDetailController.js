@@ -45,4 +45,7 @@ const getAuthorsByCpuTitle = async (req, res) => {
     res.status(500).json({ error: '서버 오류' });
   }
 };
-  module.exports = { getAuthorsByCpuTitle };
+
+
+
+module.exports = { getAuthorsByCpuTitle };

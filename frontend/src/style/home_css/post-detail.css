@@ -1,0 +1,70 @@
+.post-detail {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 24px;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  .post-header {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 12px;
+    margin-bottom: 24px;
+  }
+  
+  .category-badge {
+    display: inline-block;
+    background-color: #e0e0e0;
+    padding: 4px 8px;
+    font-size: 13px;
+    border-radius: 4px;
+    margin-bottom: 6px;
+  }
+  
+  .post-title {
+    font-size: 24px;
+    margin: 4px 0;
+  }
+  
+  .post-meta {
+    font-size: 14px;
+    color: #666;
+    display: flex;
+    gap: 12px;
+  }
+  
+  .post-content {
+    font-size: 16px;
+    line-height: 1.8;
+    margin-top: 16px;
+    white-space: pre-line;
+  }
+
+  .follow-btn {
+    margin-top: 20px;
+    padding: 8px 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  .follow-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  .post-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 40px;
+    border-top: 1px solid #ddd;
+    padding-top: 16px;
+    font-size: 14px;
+  }
+  
+  .back-button {
+    cursor: pointer;
+    background: #f2f2f2;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-weight: bold;
+  }
