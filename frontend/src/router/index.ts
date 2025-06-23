@@ -20,6 +20,7 @@ import ProductDetail from '../views/home/ProductDetail.vue';
 import SellerRegistration from '../views/home/SellerRegistration.vue';
 import AdminDashboard from '../views/admin/AdminDashboard.vue';
 import AdminUserManage from '../views/admin/AdminUserManage.vue';
+import PostDetail from '../views/home/PostDetail.vue';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -117,7 +118,11 @@ const routes: RouteRecordRaw[] = [
     name: 'AdminUserManage',
     component: AdminUserManage,
   },
-  
+  {
+    path: '/post-detail/:user_id',
+    name: 'PostDetail',
+    component: PostDetail,
+  },
   // 기존 라우트가 있다면 아래에 추가
 ];
 
