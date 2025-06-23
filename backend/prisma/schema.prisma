@@ -150,6 +150,7 @@ model user {
   sales            transaction[]      @relation("UserSeller")
   purchase         transaction[]      @relation("UserBuyer")
   lead_request     lead_request[]
+  admin_notices    admin_notice[]
 
   rented_pcs        pc[]               @relation("RenterRelation")
   notification_logs notification_log[]
@@ -316,6 +317,21 @@ model notification {
   @@index([user_id])
 }
 
+model admin_notice {
+  id         Int         @id @default(autoincrement())
+  admin_id   Int
+  title      String      @db.VarChar(100)
+  content    String      @db.Text
+  type       notice_type
+  pinned     Boolean     @default(false)
+  role       admin_role   // SELLER / CUSTOMER / ADMIN / ALL 대상
+  created_at DateTime    @default(now()) @db.DateTime(0)
+
+  admin user @relation(fields: [admin_id], references: [user_id], map: "fk_admin_notice_user")
+
+  @@index([admin_id])
+}
+
 enum notice_type {
   GENERAL
   MAINTENANCE
@@ -406,4 +422,10 @@ enum notif_type {
   ALERT
   WARNING
   SYSTEM
+}
+
+enum admin_role {
+  CUSTOMER
+  SELLER
+  ADMIN
 }

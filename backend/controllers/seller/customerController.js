@@ -22,6 +22,7 @@ const getAllList = async (req, res) => {
         user_id: true,
         name: true,
         email: true,
+        role:true,
         phone: true,
         join_date: true,
       },

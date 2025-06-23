@@ -24,6 +24,11 @@ const sellerRegistrationRouter = require('./routes/main/sellerRegistrationRoutes
 // layout
 const layoutRouter = require('./routes/layout/notificationRoutes');
 
+// admin
+const a_dashboardRouter = require('./routes/admin/a_dashboardRoutes');
+const a_sellermanaRoutes = require('./routes/admin/a_sellermanaRoutes');
+const a_noticeRoutes = require('./routes/admin/a_noticeRoutes');
+
 // 환경변수 로드
 dotenv.config();
 
@@ -78,6 +83,11 @@ app.use('/product-detail', productDetailRouter);
 app.use('/seller-registration', sellerRegistrationRouter);
 // layout
 app.use('/layout', layoutRouter);
+//admin
+app.use('/admin-dashboard', a_dashboardRouter);
+app.use('/admin-sellermana', a_sellermanaRoutes);
+app.use('/admin-notice', a_noticeRoutes);
+
 
 // 서버 실행
 app.listen(port, () => {

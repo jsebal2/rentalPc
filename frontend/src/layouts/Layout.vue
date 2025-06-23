@@ -7,7 +7,8 @@
         <div v-if="user_role === 'Admin'">
           <router-link class="sidebar-menu-item" to="/">home</router-link>
           <router-link class="sidebar-menu-item" to="/admin-dashboard">Dashboard</router-link>
-          <router-link class="sidebar-menu-item" to="/admin-Manage">Management</router-link>
+          <router-link class="sidebar-menu-item" to="/admin-Manage">판매자 관리</router-link>
+          <router-link class="sidebar-menu-item" to="/admin-notice">공지사항</router-link>
         </div>
         <div v-else-if="user_role === 'Seller'">
           <router-link class="sidebar-menu-item" to="/">home</router-link>

@@ -1,0 +1,110 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.admin-container {
+  max-width: 1100px;
+  width: 100%;
+  padding: 20px 30px;
+  font-family: 'Pretendard', sans-serif;
+  color: #333;
+}
+
+/* Section headings */
+.admin-container h2 {
+  font-size: 20px;
+  margin-bottom: 12px;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  margin-bottom: 30px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+thead {
+  background-color: #f5f5f5;
+}
+
+th,
+td {
+  padding: 10px 14px;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+}
+
+td.blue {
+  color: #007bff;
+  font-weight: 500;
+}
+
+/* Buttons */
+.btn-policy,
+.btn-red,
+.btn-sky,
+.btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  color: white;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.btn-policy {
+  background-color: #3b82f6;
+}
+
+.btn-red {
+  background-color: #ef4444;
+}
+
+.btn-sky {
+  background-color: #38bdf8;
+}
+
+.btn {
+  background-color: #6366f1;
+}
+
+/* PC 필터 영역 */
+.pc-filters {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.pc-filters input,
+.pc-filters select {
+  height: 38px;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: 'Pretendard', sans-serif;
+  color: #333;
+  background-color: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.pc-filters input[type="text"]:focus,
+.pc-filters select:focus {
+  border-color: #3b82f6;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+.pc-filters input::placeholder {
+  color: #999;
+  font-size: 13px;
+}
