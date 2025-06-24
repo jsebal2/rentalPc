@@ -13,15 +13,33 @@
   gap: 16px;
 }
 
-.stat-card, .graph-card, .log-card, .alert-card {
+.stat-card, .graph-card, .log-card, .alert-card, .notice-card {
   background-color: white;
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
-.graph-card, .stat-grid, .alert-card{
+.graph-card, .stat-grid, .alert-card, .notice-card{
   margin-bottom: 24px;
 }
+.notice-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.notice-table th,
+.notice-table td {
+  border-bottom: 1px solid #ddd;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.notice-table th {
+  background-color: #f3f3f3;
+  font-weight: bold;
+}
+
 .stat-title {
   font-size: 14px;
   color: #666;
@@ -40,7 +58,7 @@
   margin-bottom: 12px;
 }
 
-.chart-box, .log-box {
+.chart-box, .log-box, .notice-box {
   background-color: #eef1f7;
   height: 120px;
   border-radius: 8px;
