@@ -11,11 +11,9 @@ function initSocket(server) {
   });
 
   io.on('connection', (socket) => {
-    console.log('✅ WebSocket 연결됨:', socket.id);
 
     socket.on('join', (userId) => {
       socket.join(String(userId));
-      console.log(`🟢 유저 ${userId} 채팅방 입장`);
     });
 
     socket.on('send_message', async ({ senderId, receiverId, text }) => {

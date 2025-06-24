@@ -89,7 +89,7 @@ const newMessage = ref('')
 const showPhrasesModal = ref(false)
 const chatBodyRef = ref(null)
 
-const loginUserId = localStorage.getItem('user_id')
+const loginUserId = Number(localStorage.getItem('user_id'))
 
 const socket = io(import.meta.env.VITE_API_URL)
 socket.emit('join', loginUserId)
