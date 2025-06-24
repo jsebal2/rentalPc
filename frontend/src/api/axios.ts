@@ -26,7 +26,7 @@ api.interceptors.response.use(
     const originalRequest = err.config as AxiosRequestConfig & { _retry? : Boolean};
 
     if (
-      err.response?.status === 401 &&
+      (err.response?.status === 401 || err.response?.status === 403) &&
       !originalRequest?._retry
     ) {
       originalRequest._retry = true;

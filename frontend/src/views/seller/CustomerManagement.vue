@@ -92,6 +92,8 @@ async function fetchCustomers() {
     });
     customers.value = response.data;
     filteredCustomers.value = response.data;
+    console.log(filteredCustomers);
+    
   } catch (error) {
     console.error('고객 목록 조회 오류:', error);
   }

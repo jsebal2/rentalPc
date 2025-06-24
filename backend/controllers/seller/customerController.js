@@ -74,8 +74,6 @@ const getCustomerList = async (req, res) => {
 
 
     const buyerIds = follows.map(f => f.buyer_id);
-
-    console.log(follows[1].buyer_id);
     
     const search = req.query.search?.trim().toLowerCase();
 

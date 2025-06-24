@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
+const http = require('http');
+const initSocket = require('./socket');
 const { PrismaClient } = require('@prisma/client');
 const errorHandler = require('./middlewares/errorHandler');
 const cookieParser = require('cookie-parser');
@@ -36,6 +38,8 @@ dotenv.config();
 
 // Express 앱 생성
 const app = express();
+const server = http.createServer(app);
+initSocket(server);
 const port = process.env.PORT || 3000;
 
 // 미들웨어 설정
@@ -95,7 +99,7 @@ app.use('/admin-notice', a_noticeRoutes);
 
 
 // 서버 실행
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
 

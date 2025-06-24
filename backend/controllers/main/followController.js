@@ -38,7 +38,7 @@ const approveFollowRequest = async (req, res) => {
     const updated = await prisma.follow_request.update({
       where: { id },
       data: {
-        approved: true,
+        approved: 1,
         approvedAt: new Date()
       }
     });

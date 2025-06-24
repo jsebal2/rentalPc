@@ -152,6 +152,9 @@ model user {
   lead_request     lead_request[]
   admin_notices    admin_notice[]
 
+  messagesSent     Message[]          @relation("MessagesSent")
+  messagesReceived Message[]          @relation("MessagesReceived")
+
   rented_pcs        pc[]               @relation("RenterRelation")
   notification_logs notification_log[]
 
@@ -159,6 +162,8 @@ model user {
   receivedFollowRequests  follow_request[]  @relation("ReceiverRelation")
 
   notifications notification[]
+
+  commonPhrases Phrase[]
 
   followsAsSeller follow[] @relation("seller")
   followsAsBuyer  follow[] @relation("buyer")
@@ -330,6 +335,27 @@ model admin_notice {
   admin user @relation(fields: [admin_id], references: [user_id], map: "fk_admin_notice_user")
 
   @@index([admin_id])
+}
+
+model Message {
+  id         Int      @id @default(autoincrement())
+  senderId   Int
+  receiverId Int
+  text       String
+  createdAt  DateTime @default(now())
+
+  sender   user @relation("MessagesSent", fields: [senderId], references: [user_id])
+  receiver user @relation("MessagesReceived", fields: [receiverId], references: [user_id])
+}
+
+model Phrase {
+  id        Int      @id @default(autoincrement())
+  text      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    Int     // 로그인 사용자별로 저장하려면 필요
+
+  user      user     @relation(fields: [userId], references: [user_id])
 }
 
 enum notice_type {
