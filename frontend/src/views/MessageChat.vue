@@ -58,25 +58,44 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
+import axios from 'axios';
 import Layout from '../layouts/Layout.vue';
 import CommonPhrasesModal from './CommonPhrasesModal.vue';
 
-const users = ref([
-  { id: 1, name: '이름' },
-  { id: 2, name: '홍길동' },
-]);
-const selectedUser = ref(users.value[0]);
-const messages = ref([
-  { id: 1, text: '안녕하세요' },
-  { id: 2, text: '무엇을 도와드릴까요?' },
-]);
+const users = ref([]);
+const selectedUser = ref(null);
+const messages = ref([]);
 const newMessage = ref('');
 const showPhrasesModal = ref(false);
+
+let loginUserId = null;
+const token = localStorage.getItem('token');
+
+if (token) {
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    loginUserId = payload.userId;
+  } catch (e) {
+    console.error('토큰 파싱 실패:', e);
+  }
+} else {
+  console.warn('JWT 토큰이 없습니다.');
+}
 
 const sendMessage = () => {
   if (newMessage.value.trim()) {
     messages.value.push({ id: Date.now(), text: newMessage.value });
     newMessage.value = '';
+  }
+};
+
+const fetchChatUsers = async () => {
+  try {
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/chat/users/${loginUserId}`);
+    users.value = res.data;
+    if (users.value.length > 0) selectedUser.value = users.value[0];
+  } catch (err) {
+    console.error('채팅 유저 목록 가져오기 실패:', err);
   }
 };
 
@@ -87,11 +106,13 @@ function handleKeydown(e) {
 }
 
 onMounted(() => {
+  fetchChatUsers();
   window.addEventListener('keydown', handleKeydown);
 });
 onUnmounted(() => {
   window.removeEventListener('keydown', handleKeydown);
 });
 </script>
+
 
 <style src="../style/message-chat.css" scoped></style> 

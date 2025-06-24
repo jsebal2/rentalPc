@@ -7,6 +7,7 @@
       :userName="userName"
       @open-login="showLoginPopup = true"
       @logout="handleLogout"
+      @follows="showFollowModal = true"
     />
 
     <!-- Hero Section -->
@@ -210,12 +211,16 @@
       <LoginPopup @login-success="handleLoginSuccess" />
     </div>
   </div>
+
+  <!-- follow모달창 -->
+  <FollowModal v-if="showFollowModal" @close="showFollowModal = false" />
 </template>
 
 <script setup>
 import { ref, onMounted, onUnmounted, inject } from 'vue';
 import LoginPopup from './LoginPopup.vue';
 import Header from '../../components/Header.vue';
+import FollowModal from '../../components/FollowModal.vue'
 
 const showLoginPopup = ref(false);
 
@@ -224,6 +229,9 @@ const isLoggedIn = inject('isLoggedIn');
 const userName = inject('userName');
 const setIsLoggedIn = inject('setIsLoggedIn');
 const setUserName = inject('setUserName');
+
+// follow 모달창
+const showFollowModal = ref(false)
 
 // 스크롤 감지
 const isScrolled = ref(false);
