@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
+const http = require('http');
+const initSocket = require('./socket');
 const { PrismaClient } = require('@prisma/client');
 const errorHandler = require('./middlewares/errorHandler');
 const cookieParser = require('cookie-parser');
@@ -21,6 +23,8 @@ const b_moniterRouter = require('./routes/buyer/b_moniterRouters');
 const productDetailRouter = require('./routes/main/productDetailRoutes');
 const sellerRegistrationRouter = require('./routes/main/sellerRegistrationRoutes');
 const postDetailRouter = require('./routes/main/postDetailRoutes');
+const followRouter = require('./routes/main/followRoutes');
+const chatRouter = require('./routes/main/chatRoutes');
 // layout
 const layoutRouter = require('./routes/layout/notificationRoutes');
 
@@ -34,6 +38,8 @@ dotenv.config();
 
 // Express 앱 생성
 const app = express();
+const server = http.createServer(app);
+initSocket(server);
 const port = process.env.PORT || 3000;
 
 // 미들웨어 설정
@@ -82,6 +88,8 @@ app.use('/buyer-moniter', b_moniterRouter);
 app.use('/product-detail', productDetailRouter);
 app.use('/seller-registration', sellerRegistrationRouter);
 app.use('/post-detail', postDetailRouter);
+app.use('/follow', followRouter);
+app.use('/chat', chatRouter);
 // layout
 app.use('/layout', layoutRouter);
 //admin
@@ -91,7 +99,7 @@ app.use('/admin-notice', a_noticeRoutes);
 
 
 // 서버 실행
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
 

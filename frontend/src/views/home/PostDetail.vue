@@ -56,7 +56,7 @@
     try {
       await axios.post(`${import.meta.env.VITE_API_URL}/post-detail/follow`, {
         loginUserId,
-        sellerUserId : sellerUserId.value
+        sellerUserId: sellerUserId.value,
       });
       alert('팔로우 요청이 전송되었습니다.');
     } catch (error) {

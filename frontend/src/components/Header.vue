@@ -16,6 +16,7 @@
           <div v-else-if="user_role === 'Customer'">
             <router-link to="/custom-dashboard">마이페이지</router-link>
           </div>
+          <a href="#" @click.prevent="$emit('follows')">팔로우</a>
           <a href="#" @click.prevent="handleLogout">로그아웃</a>
         </template>
         <template v-else>
@@ -89,7 +90,7 @@ const openSellerRegistrationPopup = () => {
 
 </script>
 
-<style>
+<style scoped>
 .header {
   margin-bottom: 40px;
   background: transparent;

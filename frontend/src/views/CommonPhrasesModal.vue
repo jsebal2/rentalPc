@@ -1,6 +1,7 @@
 <template>
   <div class="common-phrases-modal">
     <h2>자주 쓰는 문구</h2>
+
     <div class="phrase-container">
       <div class="phrase-header">
         <span>인사말</span>
@@ -9,66 +10,95 @@
           <button class="delete-btn" @click="deletePhrase">🗑️</button>
         </div>
       </div>
+
       <div class="phrase-list">
-        <div v-for="(phrase, index) in phrases" :key="index" class="phrase-item">
-          {{ phrase }}
+        <div
+          v-for="(phrase, index) in phrases"
+          :key="index"
+          class="phrase-item"
+        >
+          <span>{{ phrase.text }}</span>
+          <button class="insert-btn" @click="$emit('select', phrase.text)">채팅에 삽입</button>
         </div>
       </div>
     </div>
 
     <div class="button-group">
       <button class="cancel-btn" @click="$emit('close')">닫기</button>
-      <button class="submit-btn" @click="showAddPhraseModal = true">문구 추가</button>
+      <button class="submit-btn" @click="toggleAddInput = !toggleAddInput">문구 추가</button>
     </div>
-    <div v-if="showAddPhraseModal" class="modal-overlay">
-      <AddPhraseModal @close="showAddPhraseModal = false" />
+
+    <div v-if="toggleAddInput" class="add-phrase-form">
+      <input v-model="newPhrase" placeholder="새 문구 입력" />
+      <button class="save-btn" @click="addPhrase">저장</button>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue';
-import AddPhraseModal from './AddPhraseModal.vue';
+import { ref, onMounted, onUnmounted } from 'vue'
+import axios from 'axios'
 
-const phrases = ref([
-  '안녕하세요, 무엇을 도와드릴까요?',
-  '감사합니다. 좋은 하루 되세요!',
-]);
+const emit = defineEmits(['close', 'select'])
+
+const phrases = ref<{ id: number; text: string }[]>([])
+const toggleAddInput = ref(false)
+const newPhrase = ref('')
+const userId = localStorage.getItem('user_id')
+
+const fetchPhrases = async () => {
+  if (!userId) return
+  try {
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/chat/phrases/${userId}`)
+    phrases.value = res.data
+  } catch (err) {
+    console.error('문구 불러오기 실패:', err)
+  }
+}
+
+const addPhrase = async () => {
+  const trimmed = newPhrase.value.trim()
+  if (!trimmed || !userId) return
+
+  try {
+    const res = await axios.post(`${import.meta.env.VITE_API_URL}/chat/phrases`, {
+      userId,
+      content: trimmed,
+    })
+    phrases.value.unshift(res.data)
+    newPhrase.value = ''
+    toggleAddInput.value = false
+  } catch (err) {
+    console.error('문구 추가 실패:', err)
+  }
+}
 
 const editPhrase = () => {
-  alert('편집 기능은 추후 구현 예정입니다.');
-};
-
-const addPhrase = () => {
-  const newPhrase = prompt('새 문구를 입력하세요');
-  if (newPhrase) phrases.value.push(newPhrase);
-};
+  alert('편집 기능은 추후 구현 예정입니다.')
+}
 
 const deletePhrase = () => {
-  if (phrases.value.length > 0) {
-    phrases.value.pop();
-  }
-};
-
-const showAddPhraseModal = ref(false);
-const emit = defineEmits(['close']);
+  alert('삭제 기능은 추후 구현 예정입니다.')
+}
 
 function handleKeydown(e: KeyboardEvent) {
   if (e.key === 'Escape') {
-    if (showAddPhraseModal.value) {
-      showAddPhraseModal.value = false;
-      return;
+    if (toggleAddInput.value) {
+      toggleAddInput.value = false
+    } else {
+      emit('close')
     }
-    emit('close');
   }
 }
 
 onMounted(() => {
-  window.addEventListener('keydown', handleKeydown);
-});
+  fetchPhrases()
+  window.addEventListener('keydown', handleKeydown)
+})
+
 onUnmounted(() => {
-  window.removeEventListener('keydown', handleKeydown);
-});
+  window.removeEventListener('keydown', handleKeydown)
+})
 </script>
 
-<style src="../style/common-phrases-modal.css" scoped></style> 
+<style src="../style/common-phrases-modal.css" scoped></style>
