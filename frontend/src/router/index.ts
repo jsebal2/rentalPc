@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import type { RouteRecordRaw } from 'vue-router';
+import { jwtDecode } from 'jwt-decode';
+import axios from '../api/axios';
 import SellerDashboard from '../views/seller/SellerDashboard.vue';
 import PcStatus from '../views/seller/PcStatus.vue';
 import PcAddPopup from '../views/seller/PcAddPopup.vue';
@@ -136,6 +138,34 @@ const routes: RouteRecordRaw[] = [
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
+});
+
+router.beforeEach(async (to, from, next) => {
+  const token = localStorage.getItem('token');
+
+  if (!token) {
+    // 토큰이 없으면 로그인 필요 여부에 따라 처리
+    return next(); // or next('/login');
+  }
+
+  try {
+    const decoded: any = jwtDecode(token);
+    const isExpired = decoded.exp * 1000 < Date.now();
+
+    if (!isExpired) {
+      return next(); // 토큰이 유효하면 그대로 진행
+    }
+
+    // 토큰 만료 → refresh 시도
+    const res = await axios.post('/users/refresh', {}, { withCredentials: true });
+    const newToken = res.data.accessToken;
+    localStorage.setItem('token', newToken);
+    return next(); // 토큰 재발급 후 라우트 이동
+  } catch (err) {
+    console.warn('토큰 만료 또는 refresh 실패');
+    localStorage.removeItem('token');
+    return next('/login');
+  }
 });
 
 export default router; 

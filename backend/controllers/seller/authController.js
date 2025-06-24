@@ -21,7 +21,7 @@ const login = async (req, res) => {
     const accessToken = jwt.sign(
       { userId: user.user_id },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: '15m' }
+      { expiresIn: '1m' }
     );
 
     const refreshToken = jwt.sign(
@@ -35,7 +35,7 @@ const login = async (req, res) => {
       httpOnly : true,
       secure : false,
       sameSite : 'strict',
-      path : '/users/refresh',
+      path : '/',
     });
 
     // accessToken만 클라이언트에 전달
