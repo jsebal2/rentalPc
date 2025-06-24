@@ -128,6 +128,7 @@ const routes: RouteRecordRaw[] = [
     path: '/post-detail/:user_id',
     name: 'PostDetail',
     component: PostDetail,
+    props: true,
   },
   // 기존 라우트가 있다면 아래에 추가
 ];

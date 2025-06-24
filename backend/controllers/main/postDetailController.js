@@ -24,6 +24,26 @@ const getPostDetail = async (req, res) => {
     }
   };
 
+  const getPostList = async (req, res) => {
+    const user_id = Number(req.params.user_id);
+    try {
+      const posts = await prisma.seller_profile.findMany({
+        orderBy: {
+          user_id: 'asc'
+        },
+        select: {
+          user_id: true,
+          business_name: true,
+          introduction_title: true,
+        }
+      });
+      res.json(posts);
+    } catch (error) {
+      console.error('판매자 정보 조회 오류:', error);
+      res.status(500).json({ error: '서버 오류' });
+    }
+  };
+
   const createFollowRequest = async (req, res) => {
     try {
       const { loginUserId, sellerUserId } = req.body;
@@ -61,4 +81,4 @@ const getPostDetail = async (req, res) => {
     }
   };
 
-module.exports = { getPostDetail, createFollowRequest };
+module.exports = { getPostDetail, createFollowRequest, getPostList };

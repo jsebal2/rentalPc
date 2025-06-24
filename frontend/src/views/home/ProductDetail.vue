@@ -68,7 +68,12 @@ const postsWithAuthor = computed(() => {
 });
 
 const goToPostDetail = (user_id: number) => {
-  router.push(`/post-detail/${user_id}`);
+  router.push({
+    path : `/post-detail/${user_id}`,
+    query : {all : sellerProfile.value.map(s => s.user_id).join(','),
+      title : product.value?.title
+    }
+  });
 };
 
 onMounted(async () => {

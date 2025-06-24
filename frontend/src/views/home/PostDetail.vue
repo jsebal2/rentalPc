@@ -17,15 +17,27 @@
       </div>
   
       <div class="post-footer">
-        <button>이전글 : {{ previousPost?.introduction_title ?? '이전글이 없습니다' }}</button>
+        <button 
+          :disabled="!prevSellerId"
+          :class="{ 'disabled': !prevSellerId }"
+          @click="router.push(`/post-detail/${prevSellerId}?all=${allSellerIds.join(',')}, title : ${rawTitle}`)"
+        >
+          이전글
+        </button>
         <div class="back-button" @click="goBack">목록</div>
-        <button>다음글 : {{ nextPost?.introduction_title ?? '다음글이 없습니다' }}</button>
+        <button 
+          :disabled="!nextSellerId"
+          :class="{ 'disabled': !nextSellerId }"
+          @click="router.push(`/post-detail/${nextSellerId}?all=${allSellerIds.join(',')}, title : ${rawTitle}`)"
+        >
+          다음글
+        </button>
       </div>
     </div>
   </template>
   
   <script setup lang="ts">
-  import { onMounted, ref, computed } from 'vue';
+  import { onMounted, ref, computed, watch } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
   import axios from 'axios';
   import Header from '../../components/Header.vue';
@@ -33,10 +45,11 @@
   const route = useRoute();
   const router = useRouter();
   const post = ref<any>(null);
-  const allPosts = ref<any>(null);
+  const rawTitle = route.query.title as string;
 
   const loginUserId = Number(localStorage.getItem('user_id'));
-  const sellerUserId = Number(route.params.user_id);
+  const sellerUserId = computed(() => Number(route.params.user_id));
+  const allSellerIds = ref<number[]>([]);
   
 
   const handleFollow = async () => {
@@ -56,15 +69,14 @@
   };
   
   onMounted(async () => {
-  try {
-    const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/post-detail/list`);
-    allPosts.value = data;
-    const current = data.find((p: any) => p.user_id === sellerUserId);
-    post.value = current;
-  } catch (e) {
-    console.error('상세 페이지 데이터 조회 오류:', e);
-  }
-});
+    const raw = route.query.all as string;
+    if (raw) {
+      allSellerIds.value = raw.split(',').map(Number);
+    }
+    const { user_id } = route.params;
+    const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/post-detail/${user_id}`);
+    post.value = data;
+  });
 
   const formattedContent = computed(() => {
     if (!post.value?.content) return '';
@@ -72,11 +84,29 @@
   });
   
   const goBack = () => {
-    router.back();
+    router.push(`/product-detail/${rawTitle}`);
   };
+
   
-  const previousPost = ref(null); // 필요시 API 연결
-  const nextPost = ref(null);     // 필요시 API 연결
+  const prevSellerId = computed(() => {
+    const idx = allSellerIds.value.indexOf(sellerUserId.value);
+    return idx > 0 ? allSellerIds.value[idx - 1] : null;
+  });
+
+  const nextSellerId = computed(() => {
+    const idx = allSellerIds.value.indexOf(sellerUserId.value);
+    return idx >= 0 && idx < allSellerIds.value.length - 1
+      ? allSellerIds.value[idx + 1]
+      : null;
+  });
+
+
+watch(() => route.params.user_id, async (newId) => {
+  const { data } = await axios.get(`${import.meta.env.VITE_API_URL}/post-detail/${Number(newId)}`);
+  post.value = data;
+});
+
+
   </script>
   
   <style scoped src="../../style/home_css/post-detail.css"></style>
