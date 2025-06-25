@@ -1,5 +1,5 @@
 <template>
-  <header class="header" :class="$attrs.class">
+  <header class="header" v-bind="$attrs">
     <div class="header-box">
       <router-link to="/" class="logo">RemoteR</router-link>
       <nav class="nav">
@@ -92,7 +92,6 @@ const openSellerRegistrationPopup = () => {
 
 <style scoped>
 .header {
-  margin-bottom: 40px;
   background: transparent;
   color: black;
   display: flex;

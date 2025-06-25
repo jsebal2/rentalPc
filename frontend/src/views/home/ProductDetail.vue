@@ -1,9 +1,12 @@
 <template>
+  <div class="con">
     <div class="product-detail-page">
         <Header />
       <!-- 상단 상세 정보 -->
       <div class="product-header">
-        <div class="product-image">제품 이미지</div>
+        <div class="product-image">
+          <img :src="`/img/${product?.image_src}.png`" alt="product image" />
+        </div>
         <div class="product-summary">
           <div class="product-title">{{ product?.title }}</div>
           <div class="product-info-box">{{ product?.info }}</div>
@@ -32,7 +35,8 @@
         </tbody>
       </table>
     </div>
-  </template>
+  </div>
+</template>
   
   <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router';
@@ -100,26 +104,26 @@ onMounted(async () => {
 
 
 const allProducts = [
-  { title: 'i5-4650', image: 'intel-i5.png', info: '4코어 4스레드 / 3.5GHz / HD 4600' },
-  { title: 'E52660', image: 'intel-e5.png', info: '8코어 16스레드 / 2.2GHz / 서버용' },
-  { title: 'Ryzen 2200G', image: 'ryzen-2200g.png', info: '4코어 4스레드 / 3.5GHz / Vega 8' },
-  { title: 'Ryzen 4350G', image: 'ryzen-4350g.png', info: '4코어 8스레드 / 3.8GHz / Vega 6' },
-  { title: 'Ryzen 4600G', image: 'ryzen-4600g.png', info: '6코어 12스레드 / 3.7GHz / Vega 7' },
-  { title: 'Ryzen 4650G', image: 'ryzen-4650g.png', info: '6코어 12스레드 / 3.7GHz / Vega 7 PRO' },
-  { title: 'Ryzen 5500GT', image: 'ryzen-5500gt.png', info: '6코어 12스레드 / 3.6GHz / 내장그래픽 없음' },
-  { title: 'Ryzen 5600G', image: 'ryzen-5600g.png', info: '6코어 12스레드 / 3.9GHz / Vega 7' },
-  { title: 'Ryzen 5700G', image: 'ryzen-5700g.png', info: '8코어 16스레드 / 3.8GHz / Vega 8' },
-  { title: 'Ryzen 8700G', image: 'ryzen-8700g.png', info: '8코어 16스레드 / 4.2GHz / Radeon 780M' },
-  { title: 'Ryzen 8745hs', image: 'ryzen-8745hs.png', info: '8코어 16스레드 / 4.0GHz / 고성능 모바일' },
-  { title: 'Ryzen 6850H', image: 'ryzen-6850h.png', info: '8코어 16스레드 / 4.4GHz / Radeon 680M' },
-  { title: 'Ryzen 1700', image: 'ryzen-1700.png', info: '8코어 16스레드 / 3.0GHz / 내장그래픽 없음' },
-  { title: 'Ryzen 1700X', image: 'ryzen-1700x.png', info: '8코어 16스레드 / 3.4GHz / 내장그래픽 없음' },
-  { title: 'Ryzen 2600X', image: 'ryzen-2600x.png', info: '6코어 12스레드 / 3.6GHz / 내장그래픽 없음' },
-  { title: 'Ryzen 2700X', image: 'ryzen-2700x.png', info: '8코어 16스레드 / 3.7GHz / 내장그래픽 없음' },
-  { title: 'Ryzen 3700X', image: 'ryzen-3700x.png', info: '8코어 16스레드 / 3.6GHz / 내장그래픽 없음' },
-  { title: 'Ryzen 3800X', image: 'ryzen-3800x.png', info: '8코어 16스레드 / 3.9GHz / 내장그래픽 없음' },
-  { title: 'Ryzen 5600X', image: 'ryzen-5600x.png', info: '6코어 12스레드 / 3.7GHz / 내장그래픽 없음' },
-  { title: 'Ryzen 5700X', image: 'ryzen-5700x.png', info: '8코어 16스레드 / 3.4GHz / 내장그래픽 없음' },
+  { title: 'i5-4650', image: 'intel-i5.png', info: '4코어 4스레드 / 3.5GHz / HD 4600', image_src:'pc1' },
+  { title: 'E52660', image: 'intel-e5.png', info: '8코어 16스레드 / 2.2GHz / 서버용', image_src:'pc2' },
+  { title: 'Ryzen 2200G', image: 'ryzen-2200g.png', info: '4코어 4스레드 / 3.5GHz / Vega 8', image_src:'pc3' },
+  { title: 'Ryzen 4350G', image: 'ryzen-4350g.png', info: '4코어 8스레드 / 3.8GHz / Vega 6', image_src:'pc14' },
+  { title: 'Ryzen 4600G', image: 'ryzen-4600g.png', info: '6코어 12스레드 / 3.7GHz / Vega 7', image_src:'pc5' },
+  { title: 'Ryzen 4650G', image: 'ryzen-4650g.png', info: '6코어 12스레드 / 3.7GHz / Vega 7 PRO', image_src:'pc6' },
+  { title: 'Ryzen 5500GT', image: 'ryzen-5500gt.png', info: '6코어 12스레드 / 3.6GHz / 내장그래픽 없음', image_src:'pc7' },
+  { title: 'Ryzen 5600G', image: 'ryzen-5600g.png', info: '6코어 12스레드 / 3.9GHz / Vega 7', image_src:'pc8' },
+  { title: 'Ryzen 5700G', image: 'ryzen-5700g.png', info: '8코어 16스레드 / 3.8GHz / Vega 8', image_src:'pc9' },
+  { title: 'Ryzen 8700G', image: 'ryzen-8700g.png', info: '8코어 16스레드 / 4.2GHz / Radeon 780M', image_src:'pc10' },
+  { title: 'Ryzen 8745hs', image: 'ryzen-8745hs.png', info: '8코어 16스레드 / 4.0GHz / 고성능 모바일', image_src:'pc11' },
+  { title: 'Ryzen 6850H', image: 'ryzen-6850h.png', info: '8코어 16스레드 / 4.4GHz / Radeon 680M', image_src:'pc12' },
+  { title: 'Ryzen 1700', image: 'ryzen-1700.png', info: '8코어 16스레드 / 3.0GHz / 내장그래픽 없음', image_src:'pc13' },
+  { title: 'Ryzen 1700X', image: 'ryzen-1700x.png', info: '8코어 16스레드 / 3.4GHz / 내장그래픽 없음', image_src:'pc4' },
+  { title: 'Ryzen 2600X', image: 'ryzen-2600x.png', info: '6코어 12스레드 / 3.6GHz / 내장그래픽 없음', image_src:'pc15' },
+  { title: 'Ryzen 2700X', image: 'ryzen-2700x.png', info: '8코어 16스레드 / 3.7GHz / 내장그래픽 없음', image_src:'pc19' },
+  { title: 'Ryzen 3700X', image: 'ryzen-3700x.png', info: '8코어 16스레드 / 3.6GHz / 내장그래픽 없음', image_src:'pc17' },
+  { title: 'Ryzen 3800X', image: 'ryzen-3800x.png', info: '8코어 16스레드 / 3.9GHz / 내장그래픽 없음', image_src:'pc18' },
+  { title: 'Ryzen 5600X', image: 'ryzen-5600x.png', info: '6코어 12스레드 / 3.7GHz / 내장그래픽 없음', image_src:'pc16' },
+  { title: 'Ryzen 5700X', image: 'ryzen-5700x.png', info: '8코어 16스레드 / 3.4GHz / 내장그래픽 없음', image_src:'pc20' },
 ];
 
   </script>

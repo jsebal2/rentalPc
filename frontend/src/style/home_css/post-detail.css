@@ -1,76 +1,121 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.header{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  top: 0;
+  transition: background-color 0.3s;
+  z-index: 999;
+}
+.header.scrolled {
+  background-color: rgba(255, 255, 255, 0.8); /* 또는 투명도 조절 */
+  backdrop-filter: blur(10px); /* 선택사항: 반투명 배경을 더 세련되게 */
+}
+.con{
+  height: auto;
+  padding: 60px 0 30px 0;
+}
 .post-detail {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 24px;
-    font-family: 'Segoe UI', sans-serif;
-  }
-  
-  .post-header {
-    border-bottom: 1px solid #ddd;
-    padding-bottom: 12px;
-    margin-bottom: 24px;
-  }
-  
-  .category-badge {
-    display: inline-block;
-    background-color: #e0e0e0;
-    padding: 4px 8px;
-    font-size: 13px;
-    border-radius: 4px;
-    margin-bottom: 6px;
-  }
-  
-  .post-title {
-    font-size: 24px;
-    margin: 4px 0;
-  }
-  
-  .post-meta {
-    font-size: 14px;
-    color: #666;
-    display: flex;
-    gap: 12px;
-  }
-  
-  .post-content {
-    font-size: 16px;
-    line-height: 1.8;
-    margin-top: 16px;
-    white-space: pre-line;
-  }
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: 'Pretendard', sans-serif;
+  color: #333;
+}
 
-  .follow-btn {
-    margin-top: 20px;
-    padding: 8px 16px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  .follow-btn:hover {
-    background-color: #0056b3;
-  }
-  
-  .post-footer {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 40px;
-    border-top: 1px solid #ddd;
-    padding-top: 16px;
-    font-size: 14px;
-  }
-  
-  .back-button {
-    cursor: pointer;
-    background: #f2f2f2;
-    padding: 6px 12px;
-    border-radius: 4px;
-    font-weight: bold;
-  }
+/* --- Header --- */
+.post-header {
+  border-bottom: 1px solid #e0e0e0;
+  padding: 20px;
+  margin-top: 60px;
+  margin-bottom: 30px;
+}
 
-  button.disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    pointer-events: none;
-  }
+.post-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #212121;
+}
+
+.post-meta {
+  font-size: 14px;
+  color: #666;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+/* --- Content --- */
+.post-content {
+  font-size: 16px;
+  line-height: 1.8;
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 12px;
+  white-space: pre-wrap;
+  /* box-shadow: rgba(50, 50, 93, 0.25) 0px -20px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset; */
+  border-radius: 20px;
+}
+
+/* --- 팔로우 버튼 --- */
+.follow-btn {
+  margin-top: 30px;
+  padding: 10px 20px;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.follow-btn:hover {
+  background-color: #1565c0;
+}
+
+/* --- Footer --- */
+.post-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 50px;
+  border-top: 1px solid #ddd;
+  padding-top: 20px;
+  font-size: 14px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.post-footer button,
+.back-button {
+  padding: 8px 16px;
+  background-color: #f3f3f3;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.post-footer button:hover:not(.disabled),
+.back-button:hover {
+  background-color: #e0e0e0;
+}
+
+.post-footer button.disabled {
+  opacity: 0.4;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+.back-button {
+  background-color: #f3f3f3;
+  font-weight: bold;
+}

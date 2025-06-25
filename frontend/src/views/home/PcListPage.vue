@@ -1,35 +1,37 @@
 <template>
-  <div class="pc-list-page">
-    <Header />
-    <div class="filter-box">
-      <p>상품 개수 : {{ filteredProducts.length }}개</p>
-      <div class="filter-grid">
-        <div class="filter-group">
-          <label>제조사</label>
-          <div class="checkboxes">
-            <label><input type="checkbox" value="Intel" v-model="selectedManufacturers"
-              :checked="selectedManufacturers ==='Intel'" @change="oncheckboxChange('Intel')" /> Intel</label>
-            <label><input type="checkbox" value="AMD" v-model="selectedManufacturers"
-              :checked="selectedManufacturers ==='AMD'" @change="oncheckboxChange('AMD')" /> AMD</label>
+  <div class="con">
+    <div class="pc-list-page">
+      <Header />
+      <div class="filter-box">
+        <p>상품 개수 : {{ filteredProducts.length }}개</p>
+        <div class="filter-grid">
+          <div class="filter-group">
+            <label>제조사</label>
+            <div class="checkboxes">
+              <label><input type="checkbox" value="Intel" v-model="selectedManufacturers"
+                :checked="selectedManufacturers ==='Intel'" @change="oncheckboxChange('Intel')" /> Intel</label>
+              <label><input type="checkbox" value="AMD" v-model="selectedManufacturers"
+                :checked="selectedManufacturers ==='AMD'" @change="oncheckboxChange('AMD')" /> AMD</label>
+            </div>
           </div>
+  
+          <button class="reset-button" @click="resetFilters">필터 초기화</button>
         </div>
-
-        <button class="reset-button" @click="resetFilters">필터 초기화</button>
       </div>
-    </div>
-
-    <div class="sort-tabs">
-      <span>인기순</span>
-      <span>가격순</span>
-      <span>추천순</span>
-      <span>평점순</span>
-    </div>
-
-    <div class="product-grid">
-      <div class="product-card" v-for="(product, index) in filteredProducts" :key="index">
-        <p class="title">{{ product.title }}</p>
-        <p>35,000원/월</p>
-        <button class="purchase" @click="goToDetail(product.id)">구매하기</button>
+  
+      <div class="sort-tabs">
+        <span>인기순</span>
+        <span>가격순</span>
+        <span>추천순</span>
+        <span>평점순</span>
+      </div>
+  
+      <div class="product-grid">
+        <div class="product-card" v-for="(product, index) in filteredProducts" :key="index">
+          <p class="title">{{ product.title }}</p>
+          <p>35,000원/월</p>
+          <button class="purchase" @click="goToDetail(product.id)">구매하기</button>
+        </div>
       </div>
     </div>
   </div>
