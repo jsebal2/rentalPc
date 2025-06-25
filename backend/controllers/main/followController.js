@@ -1,6 +1,6 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
-
+ 
 
 // [GET] /follow/:user_id : 요청 목록 불러오기 (요청자, 수신자 둘 다 가능)
 const getFollowRequests = async (req, res) => {

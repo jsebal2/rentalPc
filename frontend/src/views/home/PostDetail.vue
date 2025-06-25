@@ -1,6 +1,7 @@
 <template>
+  <div class="con">
     <div class="post-detail">
-      <Header />
+      <Header :class="{ scrolled: isScrolled }" />
   
       <div class="post-header">
         <h1 class="post-title">{{ post?.introduction_title }}</h1>
@@ -34,10 +35,11 @@
         </button>
       </div>
     </div>
-  </template>
+  </div>
+</template>
   
   <script setup lang="ts">
-  import { onMounted, ref, computed, watch } from 'vue';
+  import { onMounted, ref, computed, watch, onUnmounted } from 'vue';
   import { useRoute, useRouter } from 'vue-router';
   import axios from 'axios';
   import Header from '../../components/Header.vue';
@@ -106,7 +108,22 @@ watch(() => route.params.user_id, async (newId) => {
   post.value = data;
 });
 
+const isScrolled = ref(false);
 
-  </script>
+const handleScroll = () => {
+  console.log('scrollY:', window.scrollY);
+  isScrolled.value = window.scrollY > 10;
+};
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll);
+});
+
+
+</script>
   
   <style scoped src="../../style/home_css/post-detail.css"></style>

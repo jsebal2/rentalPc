@@ -247,6 +247,12 @@ const handleKeydown = (e) => {
 };
 
 onMounted(() => {
+  if ('scrollRestoration' in history) {
+    history.scrollRestoration = 'manual';
+  }
+
+  window.scrollTo(0, 0);
+  
   window.addEventListener('keydown', handleKeydown);
   window.addEventListener('scroll', handleScroll);
 });

@@ -1,45 +1,35 @@
 <template>
-  <div class="popup-container">
-    <h2 class="title">RemoteR</h2>
+  <div class="login-modal">
+    <h2 class="logo-title">RemoteR</h2>
 
-    <form @submit.prevent="handleLogin">
-  <input
-    type="email"
-    placeholder="이메일을 입력해주세요"
-    class="input-box"
-    v-model="email"
-    required
-  />
-  <input
-    type="password"
-    placeholder="비밀번호를 입력해주세요"
-    class="input-box"
-    v-model="password"
-    required
-  />
-
-  <button type="submit" class="login-btn">로그인</button>
-</form>
-
+    <form @submit.prevent="handleLogin" class="login-form">
+      <input type="email" v-model="email" placeholder="이메일을 입력하세요" required />
+      <input type="password" v-model="password" placeholder="비밀번호를 입력하세요" required />
+      <button type="submit" class="login-btn">로그인</button>
+    </form>
 
     <div class="login-options">
       <label><input type="checkbox" /> 로그인 유지</label>
-      <a href="#" class="find-link">아이디/비밀번호 찾기</a>
+      <a href="#" class="link-text">아이디 / 비밀번호 찾기</a>
     </div>
 
     <div class="divider">
-      <span>SNS 간편 로그인</span>
+      <span>또는 SNS 로그인</span>
     </div>
 
-    <div class="sns-icons">
-      <div class="circle yellow"></div>
-      <div class="circle green"></div>
-      <div class="circle white"></div>
+    <div class="sns-login">
+      <button class="sns-button kakao">Kakao</button>
+      <button class="sns-button naver">Naver</button>
+      <button class="sns-button google">Google</button>
     </div>
 
-    <button class="signup-link" @click.prevent="router.push('/signup')">회원가입</button>
+    <div class="signup-wrap">
+      <span>아직 회원이 아니신가요?</span>
+      <button @click.prevent="router.push('/signup')" class="signup-btn">회원가입</button>
+    </div>
   </div>
 </template>
+
 
 <script setup>
 import { ref } from 'vue';

@@ -6,8 +6,8 @@
       <div class="phrase-header">
         <span>인사말</span>
         <div class="phrase-actions">
-          <button class="edit-btn" @click="editPhrase">✏️</button>
-          <button class="delete-btn" @click="deletePhrase">🗑️</button>
+          <button class="edit-btn" @click="editPhrase">수정</button>
+          <button class="delete-btn" @click="deletePhrase">삭제</button>
         </div>
       </div>
 
