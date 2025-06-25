@@ -1,0 +1,48 @@
+.account-settings {
+    max-width: 500px;
+    margin: auto;
+    padding: 24px;
+    font-family: sans-serif;
+  }
+  .title {
+    font-size: 24px;
+    margin-bottom: 16px;
+  }
+  .form-group {
+    margin-bottom: 16px;
+  }
+  label {
+    display: block;
+    margin-bottom: 4px;
+    font-weight: bold;
+  }
+  input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+  }
+  .password-section button {
+    margin-top: 8px;
+  }
+  .password-form input {
+    margin-top: 8px;
+  }
+  .save-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    width: 100%;
+    border-radius: 8px;
+    margin-top: 16px;
+  }
+  .delete-btn {
+    background-color: #f44336;
+    color: white;
+    padding: 10px;
+    border: none;
+    width: 100%;
+    border-radius: 8px;
+    margin-top: 8px;
+  }

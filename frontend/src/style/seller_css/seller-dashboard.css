@@ -13,15 +13,48 @@
   gap: 16px;
 }
 
-.stat-card, .graph-card, .log-card, .alert-card, .notice-card {
+.stat-card {
+  background-color: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  height: 100px;
+}
+.stat-grid{
+  margin-bottom: 24px;
+}
+
+.stat-title {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 8px;
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: bold;
+  color: #1a55d1;
+}
+
+.graph-card, .log-card {
   background-color: white;
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
-.graph-card, .stat-grid, .alert-card, .notice-card{
+.graph-card, .log-card{
   margin-bottom: 24px;
 }
+
+.notice-card {
+  background-color: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  margin-bottom: 24px;
+  height: 300px;
+}
+
 .notice-table {
   width: 100%;
   border-collapse: collapse;
@@ -40,17 +73,47 @@
   font-weight: bold;
 }
 
-.stat-title {
-  font-size: 14px;
-  color: #666;
-  margin-bottom: 8px;
+.notice-box {
+  background-color: #eef1f7;
+  height: 228px;
+  border-radius: 8px;
 }
 
-.stat-value {
-  font-size: 24px;
-  font-weight: bold;
-  color: #1a55d1;
+.pagination {
+  margin-top: 10px;
+  display: flex;
+  gap: 6px;
+  justify-content: center;
 }
+
+.pagination button {
+  padding: 4px 10px;
+  border: 1px solid #ccc;
+  background: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.pagination button.active {
+  background: #007bff;
+  color: white;
+  font-weight: bold;
+}
+
+.log-box {
+  background-color: #eef1f7;
+  height: 300px;
+  border-radius: 8px;
+}
+
+canvas {
+  width: 100%;
+  height: 100%;
+}
+
+
+
+
 
 .card-title {
   font-size: 16px;
@@ -58,15 +121,42 @@
   margin-bottom: 12px;
 }
 
-.chart-box, .log-box, .notice-box {
+.chart-box {
   background-color: #eef1f7;
-  height: 120px;
+  height: 220px;
   border-radius: 8px;
+  padding: 10px;
+  box-sizing: border-box;
 }
 
-canvas{
-  width: 100%;
+.scrollable-chart {
+  padding: 8px;
+}
+
+
+
+
+.chart-content {
+  display: flex;
+  flex-direction: column;
   height: 100%;
+}
+
+canvas {
+  height: 200px; /* ✅ 차트는 고정된 영역 확보 */
+  width: 100%;
+  margin-bottom: 8px;
+}
+
+.cpu-text-list {
+  flex: 1;
+  overflow-y: auto;
+  font-size: 14px;
+  color: #333;
+}
+
+.cpu-item {
+  margin-bottom: 4px;
 }
 
 .alert-text {
@@ -86,6 +176,15 @@ canvas{
   object-fit: cover;      
   object-position: center;
   display: block;
+}
+
+.alert-card {
+  background-color: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  margin-bottom: 24px;
+  height: 300px;
 }
 
 .action-buttons {
