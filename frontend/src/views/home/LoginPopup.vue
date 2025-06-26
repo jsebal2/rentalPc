@@ -1,6 +1,6 @@
 <template>
   <div class="login-modal">
-    <h2 class="logo-title">RemoteR</h2>
+    <h2 class="logo-title" @click="router.push('/')">RemoteR</h2>
 
     <form @submit.prevent="handleLogin" class="login-form">
       <input type="email" v-model="email" placeholder="이메일을 입력하세요" required />

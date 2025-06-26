@@ -42,10 +42,10 @@
             <span class="header-icon"></span>
             알림
           </button>
-          <button class="header-btn">
+          <router-link class="header-btn" to="/account-setting">
             <span class="header-icon"></span>
             내정보
-          </button>
+          </router-link>
         </div>
       </div>
       <!-- 알림 드롭다운 -->
