@@ -85,6 +85,9 @@ const selectedCustomer = ref<Customer | null>(null);
 const sortByRental = ref(null);
 const user_id = Number(localStorage.getItem('user_id'));
 
+const showUnpaidOnly = ref(false);
+const showAutoExtendOnly = ref(false);
+
 async function fetchCustomers() {
   try {
     const response = await axios.get(`${import.meta.env.VITE_API_URL}/customers/list`,{
@@ -104,10 +107,14 @@ function filterCustomers() {
   if (!keyword) {
     filteredCustomers.value = customers.value;
   } else {
-    filteredCustomers.value = customers.value.filter((customer) =>
-      customer.name.toLowerCase().includes(keyword) ||
-      customer.email.toLowerCase().includes(keyword)
-    );
+    filteredCustomers.value = customers.value.filter((customer) => {
+      const matchKeyword =
+        customer.name.toLowerCase().includes(keyword) ||
+        customer.email.toLowerCase().includes(keyword);
+      const matchUnpaid = !showUnpaidOnly.value || customer.paymentStatus === '미납';
+      const matchAutoExtend = !showAutoExtendOnly.value || customer.autoExtend === true;
+      return matchKeyword && matchUnpaid && matchAutoExtend;
+    });
   }
 }
 
@@ -130,7 +137,7 @@ function sortByRentalCount() {
   }
 
   filteredCustomers.value.sort((a, b) => {
-    const diff = b.pcCount - a.pcCount;
+    const diff = a.pcCount - b.pcCount;
     return sortByRental.value === 'asc' ? diff : -diff;
   });
 }

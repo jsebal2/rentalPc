@@ -66,18 +66,16 @@ const getAllList = async (req, res) => {
 };
 
 const getCustomerList = async (req, res) => {
-  const {user_id} = req.query
+  const { user_id } = req.query;
   try {
     const follows = await prisma.follow.findMany({
-      where: {seller_id :Number(user_id)}
-    })
-
+      where: { seller_id: Number(user_id) },
+    });
 
     const buyerIds = follows.map(f => f.buyer_id);
-    
     const search = req.query.search?.trim().toLowerCase();
 
-    // 1. 사용자 리스트 조회
+    // 1. 고객 목록 조회
     const customers = await prisma.user.findMany({
       where: {
         user_id: { in: buyerIds },
@@ -100,31 +98,28 @@ const getCustomerList = async (req, res) => {
       },
     });
 
-    // 2. 사용자 ID 목록 추출
     const customerIds = customers.map(c => c.user_id);
 
-    // 3. rental 테이블에서 유저별 대여 횟수 그룹화
-    const rentalCounts = await prisma.rental.groupBy({
-      by: ['user_id'],
+    // 2. pc 테이블에서 ACTIVE 상태의 대여 pc 수 (renter_id 기준)
+    const pcCounts = await prisma.pc.groupBy({
+      by: ['renter_id'],
       where: {
-        user_id: { in: customerIds },
-        status: 'ACTIVE',
+        renter_id: { in: customerIds },
+        rental_status: 'RENTED',
       },
       _count: {
-        rental_id: true,
+        pc_id: true,
       },
     });
-    
 
-    // 4. user_id → count 맵핑
-    const rentalMap = Object.fromEntries(
-      rentalCounts.map(r => [r.user_id, r._count.rental_id])
+    const pcCountMap = Object.fromEntries(
+      pcCounts.map(p => [p.renter_id, p._count.pc_id])
     );
 
-    // 5. 최종 사용자 리스트에 pcCount 추가
+    // 3. pcCount 추가
     const processed = customers.map(user => ({
       ...user,
-      pcCount: rentalMap[user.user_id] || 0,
+      pcCount: pcCountMap[user.user_id] || 0,
     }));
 
     res.status(200).json(processed);
@@ -133,7 +128,6 @@ const getCustomerList = async (req, res) => {
     res.status(500).json({ message: '고객 목록 조회 오류' });
   }
 };
-
 
 const getUserRentals = async (req, res) => {
   const user_id = parseInt(req.params.id, 10);  // ✅ 문자열을 숫자로 변환

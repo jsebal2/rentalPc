@@ -9,6 +9,7 @@ const getFollowRequests = async (req, res) => {
   try {
     const requests = await prisma.follow_request.findMany({
       where: {
+        approved:false,
         OR: [
           { requesterId: userId },
           { receiverId: userId }
@@ -49,7 +50,15 @@ const approveFollowRequest = async (req, res) => {
         buyer_id: updated.requesterId
       }
     });
-
+    await prisma.notification.create({
+      data: {
+        user_id: updated.requesterId, // 알림을 받을 사람
+        title: "팔로우 승인 완료",
+        message: `${updated.requesterId}님이 팔로우 요청을 승인했습니다.`,
+        type: "INFO",
+        is_read: false
+      }
+    });
     res.json({ message: '승인 완료' });
   } catch (err) {
     console.error('승인 오류:', err);

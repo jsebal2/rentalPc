@@ -6,7 +6,6 @@
         <router-link to="/">Home</router-link>
         <router-link to="/seller-registration">판매자 등록</router-link>
         <template v-if="isLoggedIn">
-          <div>{{ userName }}님 환영합니다</div>
           <div v-if="user_role === 'Admin'">
             <router-link to="/admin-dashboard">마이페이지</router-link>
           </div>
@@ -18,6 +17,7 @@
           </div>
           <a href="#" @click.prevent="$emit('follows')">팔로우</a>
           <a href="#" @click.prevent="handleLogout">로그아웃</a>
+          <div class="user_info"></div>
         </template>
         <template v-else>
           <a href="#" @click.prevent="handleLoginClick">로그인</a>
@@ -141,5 +141,11 @@ const openSellerRegistrationPopup = () => {
   padding: 6px 12px;
   border-radius: 4px;
   cursor: pointer;
+}
+.user_info{
+  background-color: rgb(116, 172, 34);
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
 }
 </style>

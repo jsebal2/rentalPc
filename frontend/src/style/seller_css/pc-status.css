@@ -284,7 +284,6 @@ td.cpu-column {
   font-size: 13px;
   font-weight: bold;
   color: #726f6f;
-  background-color: #b8b8b9;
   border: none;
   display: block;
   display: flex;
@@ -294,6 +293,5 @@ td.cpu-column {
 }
 
 .pc_status_extension.active{
-  color: #fff;
-  background-color: #1d77ff;
+  color: #1d77ff;
 }

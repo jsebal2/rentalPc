@@ -29,22 +29,22 @@
         <div class="Popular-title">지금 가장 많이 대여 중인 PC</div>
         <div class="card-grid">
           <div class="home-card">
-            <img src="../../img/rentalpc.png" alt="원격 PC">
+            <img src="../../../public/img/homepc1.png" alt="원격 PC">
             <div class="title">원격 PC</div>
             <div class="price">월 79,000원부터</div>
           </div>
           <div class="home-card">
-            <img src="../../img/rentalpc.png" alt="원격 PC">
+            <img src="../../../public/img/homepc2.png" alt="원격 PC">
             <div class="title">원격 PC</div>
             <div class="price">월 79,000원부터</div>
           </div>
           <div class="home-card">
-            <img src="../../img/rentalpc.png" alt="원격 PC">
+            <img src="../../../public/img/homepc3.png" alt="원격 PC">
             <div class="title">원격 PC</div>
             <div class="price">월 79,000원부터</div>
           </div>
           <div class="home-card">
-            <img src="../../img/rentalpc.png" alt="원격 PC">
+            <img src="../../../public/img/homepc4.png" alt="원격 PC">
             <div class="title">원격 PC</div>
             <div class="price">월 79,000원부터</div>
           </div>
@@ -55,22 +55,22 @@
         <div class="new-title">신규 등록 상품</div>
         <div class="card-grid">
           <div class="home-card">
-            <img src="../../img/rentalpc.png" alt="원격 PC">
+            <img src="../../../public/img/homepc7.png" alt="원격 PC">
             <div class="title">원격 PC</div>
             <div class="price">월 79,000원부터</div>
           </div>
           <div class="home-card">
-            <img src="../../img/rentalpc.png" alt="원격 PC">
+            <img src="../../../public/img/homepc5.png" alt="원격 PC">
             <div class="badge">NOW</div>
             <div class="price">월 79,000원부터</div>
           </div>
           <div class="home-card">
-            <img src="../../img/rentalpc.png" alt="원격 PC">
+            <img src="../../../public/img/homepc6.png" alt="원격 PC">
             <div class="badge">NEW</div>
             <div class="price">월 79,000원부터</div>
           </div>
           <div class="home-card">
-            <img src="../../img/rentalpc.png" alt="원격 PC">
+            <img src="../../../public/img/homepc8.png" alt="원격 PC">
             <div class="title">원격 PC</div>
             <div class="price">월 79,000원부터</div>
           </div>

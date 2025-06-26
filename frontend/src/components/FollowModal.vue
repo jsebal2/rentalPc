@@ -83,7 +83,6 @@ onMounted(fetchRequests)
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.4);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -91,13 +90,19 @@ onMounted(fetchRequests)
 }
 
 .modal-box {
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  transform: translate(30%, 0);
   background: #fff;
   padding: 25px 30px;
   border-radius: 10px;
-  width: 500px;
+  width: 400px;
   max-height: 80vh;
   overflow-y: auto;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+
+  animation: slideDown 0.3s ease-out;
 }
 
 h2 {
@@ -157,5 +162,16 @@ button:disabled {
   color: #666;
   font-size: 14px;
   margin-bottom: 20px;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translate(30%, -10%);
+    opacity: 0;
+  }
+  to {
+    transform: translate(30%, 0);
+    opacity: 1;
+  }
 }
 </style>
