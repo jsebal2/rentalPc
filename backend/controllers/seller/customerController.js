@@ -104,7 +104,8 @@ const getCustomerList = async (req, res) => {
     const pcCounts = await prisma.pc.groupBy({
       by: ['renter_id'],
       where: {
-        renter_id: { in: customerIds },
+        user_id: Number(user_id), // 내가 등록한 PC만
+        renter_id: { in: customerIds }, // 나를 팔로우한 고객들
         rental_status: 'RENTED',
       },
       _count: {

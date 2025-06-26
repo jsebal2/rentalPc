@@ -84,13 +84,14 @@ const getCommonPhrases = async (req, res) => {
 
 // 자주 쓰는 문구 추가
 const addCommonPhrase = async (req, res) => {
-  const { userId, content } = req.body;
+  const { userId, content, title } = req.body;
 
   try {
     const phrase = await prisma.Phrase.create({
       data: {
         userId: Number(userId),
-        text: content // ✅ 여기 'text'로 수정해야 함
+        text: content, // ✅ 여기 'text'로 수정해야 함
+        title: title 
       }
     });
     res.status(201).json(phrase);
@@ -100,4 +101,32 @@ const addCommonPhrase = async (req, res) => {
   }
 };
 
-module.exports = { getChatUsers, getMessages, getCommonPhrases, addCommonPhrase };
+// 자주 쓰는 문구 업데이트
+const updateCommonPhrase = async (req, res) => {
+  const { id } = req.params
+  const { title, text } = req.body
+  try {
+    const updated = await prisma.phrase.update({
+      where: { id: Number(id) },
+      data: { title, text }
+    })
+    res.json(updated)
+  } catch (err) {
+    console.error('문구 수정 실패:', err)
+    res.status(500).json({ error: '문구 수정 실패' })
+  }
+}
+
+//자주 쓰는 문구 삭제
+const deleteCommonPhrase = async (req, res) => {
+  const id = Number(req.params.id)
+  try {
+    await prisma.phrase.delete({ where: { id } })
+    res.sendStatus(204) // 삭제 성공
+  } catch (err) {
+    console.error('문구 삭제 실패:', err)
+    res.status(500).json({ error: '문구 삭제 실패' })
+  }
+}
+
+module.exports = { getChatUsers, getMessages, getCommonPhrases, addCommonPhrase,updateCommonPhrase,deleteCommonPhrase };
