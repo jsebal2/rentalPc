@@ -16,13 +16,14 @@
         </div>
         <div class="section">
           <h3>결제 정보</h3>
-          <ul>
+          <span class="info-sections-create" style="font-size: 14px; color: #adadad;">- 추가 예정 -</span>
+          <!-- <ul>
             <li><strong>결제 방식:</strong> 정액제</li>
             <li><strong>결제 금액:</strong> ₩150,000</li>
             <li><strong>결제 이력:</strong> 최근 1건 (일자, 금액, 상태)</li>
             <li><strong>미납 금액:</strong> ₩50,000</li>
             <li><strong>자동 연장 설정:</strong> ON</li>
-          </ul>
+          </ul> -->
         </div>
       </div>
 

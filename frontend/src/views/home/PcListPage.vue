@@ -5,26 +5,23 @@
       <div class="filter-box">
         <p>상품 개수 : {{ filteredProducts.length }}개</p>
         <div class="filter-grid">
-          <div class="filter-group">
-            <label>제조사</label>
-            <div class="checkboxes">
-              <label><input type="checkbox" value="Intel" v-model="selectedManufacturers"
-                :checked="selectedManufacturers ==='Intel'" @change="oncheckboxChange('Intel')" /> Intel</label>
-              <label><input type="checkbox" value="AMD" v-model="selectedManufacturers"
-                :checked="selectedManufacturers ==='AMD'" @change="oncheckboxChange('AMD')" /> AMD</label>
-            </div>
+          <div class="sort-tabs">
+            <span>인기순</span>
+            <span>가격순</span>
+            <span>추천순</span>
+            <span>평점순</span>
           </div>
-  
-          <button class="reset-button" @click="resetFilters">필터 초기화</button>
+          <div class="filter-group">
+            <select id="manufacturer-select" v-model="selectedManufacturer" class="manufacturer-select">
+              <option value="">제조사</option>
+              <option value="">전체</option>
+              <option value="Intel">Intel</option>
+              <option value="AMD">AMD</option>
+            </select>
+          </div>
         </div>
       </div>
   
-      <div class="sort-tabs">
-        <span>인기순</span>
-        <span>가격순</span>
-        <span>추천순</span>
-        <span>평점순</span>
-      </div>
   
       <div class="product-grid">
         <div class="product-card" v-for="(product, index) in filteredProducts" :key="index">
@@ -44,11 +41,7 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
-const selectedManufacturers = ref<string | null>(null);
-
-const oncheckboxChange = (manufacturer: string) => {
-  selectedManufacturers.value = selectedManufacturers.value === manufacturer ? null : manufacturer; 
-};
+const selectedManufacturer = ref('');
 
 const products = [
   { title: 'Intel i5-4650', manufacturer: 'Intel' , id : 'i5-4650'},
@@ -74,13 +67,9 @@ const products = [
 ];
 
 const filteredProducts = computed(() => {
-  if (!selectedManufacturers.value) return products;
-  return products.filter(product => product.manufacturer === selectedManufacturers.value);
+  if (!selectedManufacturer.value) return products;
+  return products.filter(product => product.manufacturer === selectedManufacturer.value);
 });
-
-const resetFilters = () => {
-  selectedManufacturers.value = null;
-};
 
 const goToDetail = (id: string) => {
   router.push(`/product-detail/${id}`);

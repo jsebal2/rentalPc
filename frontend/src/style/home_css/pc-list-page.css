@@ -18,11 +18,11 @@
 
 .filter-box {
   background-color: white;
-  box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
-  border-radius: 12px;
   padding: 20px;
   margin-bottom: 30px;
   margin-top: 40px;
+  border-top: 1px solid rgb(235, 235, 235);
+  border-bottom: 1px solid rgb(235, 235, 235);
 }
 
 .filter-box p {
@@ -33,45 +33,21 @@
 .filter-grid {
   display: flex;
   gap: 24px;
-  align-items: end;
-}
-
-.filter-group label {
-  font-weight: 500;
-  display: block;
-  margin-bottom: 4px;
-}
-
-.checkboxes label {
-  display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 15px;
-  color: #333;
-}
-.filter-group label:nth-child(2){
-  margin: 0;
-}
-.reset-button {
-  padding: 15px 15px;
-  background-color: #f44336;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  font-size: 15px;
+  justify-content: center;
 }
 
-.reset-button:hover {
-  background-color: #d32f2f;
+.manufacturer-select {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
 }
 
 .sort-tabs {
   display: flex;
   justify-content: center;
   gap: 30px;
-  margin-bottom: 30px;
   font-size: 16px;
   font-weight: 600;
   color: #666;
