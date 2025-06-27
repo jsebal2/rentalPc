@@ -6,9 +6,9 @@
       <div class="toolbar">
         <div class="toolbar-bottom">
           <div class="toolbar-left">
-            <label><input type="checkbox" class="filter-checkbox" />전체</label>
+            <!-- <label><input type="checkbox" class="filter-checkbox" />전체</label>
             <label><input type="checkbox" class="filter-checkbox" />미납</label>
-            <label><input type="checkbox" class="filter-checkbox" />자동 연장</label>
+            <label><input type="checkbox" class="filter-checkbox" />자동 연장</label> -->
           </div>
           <div class="toolbar-right">
             <input

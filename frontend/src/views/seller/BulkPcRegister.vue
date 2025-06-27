@@ -36,6 +36,7 @@
           <th>RAM</th>
           <th>SSD</th>
           <th>메모</th>
+          <th>삭제</th>
         </tr>
       </thead>
       <tbody>
@@ -48,6 +49,9 @@
           <td><input v-model="row.ram" /></td>
           <td><input v-model="row.ssd" /></td>
           <td><input v-model="row.memo" /></td>
+          <td>
+            <button class="delete-row-btn" @click="removeRow(index)">삭제</button>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -82,7 +86,35 @@ const rows = ref([
 ])
 
 function addRow() {
-  rows.value.push({ pcId: '', location: '', rentalFee: '', manufacturer: '',cpu: '', ram: '', ssd: '', memo: ''})
+  const last = rows.value[rows.value.length - 1]
+
+  // pcId 숫자만 추출
+  const lastPcNum = Number(last.pcId?.match(/\d+/)?.[0] || 0)
+  const newPcNum = lastPcNum + 1
+  const paddedPcId = `PC-${String(newPcNum).padStart(3, '0')}`
+
+  // 위치 숫자만 추출 (예: A열 3 → 3)
+  const lastLocNum = Number(last.location?.match(/\d+/)?.[0] || 0)
+  const newLoc = `A열 ${lastLocNum + 1}`
+
+  rows.value.push({
+    pcId: paddedPcId,
+    location: newLoc,
+    rentalFee: rows.value[0].rentalFee,
+    manufacturer: rows.value[0].rentalFee,
+    cpu: rows.value[0].cpu,
+    ram: rows.value[0].ram,
+    ssd: rows.value[0].ssd,
+    memo: rows.value[0].memo
+  })
+}
+
+function removeRow(index: number) {
+  if (rows.value.length === 1) {
+    alert('최소 1개 이상의 행이 필요합니다.');
+    return;
+  }
+  rows.value.splice(index, 1);
 }
 
 function onCancel() {

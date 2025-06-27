@@ -42,6 +42,7 @@
             <span class="header-icon"></span>
             알림
           </button>
+          <a href="#" class="header-btn" @click.prevent="showFollowModal = true">팔로우</a>
           <router-link class="header-btn" to="/account-setting">
             <span class="header-icon"></span>
             내정보
@@ -75,6 +76,7 @@
       </div>
       <!-- 실제 페이지 콘텐츠 -->
       <div class="page-body">
+        <FollowModal v-if="showFollowModal" @close="showFollowModal = false" />
         <slot />
       </div>
     </div>
@@ -84,6 +86,8 @@
 <script setup lang="ts">
 import axios from 'axios';
 import { ref, onMounted, onBeforeUnmount } from 'vue';
+import FollowModal from '../components/FollowModal.vue'
+const showFollowModal = ref(false)
 
 const token = localStorage.getItem('token');
 const userStatuses = ref([]);
@@ -379,6 +383,7 @@ const closeNotification = () => {
 .notification-list::-webkit-scrollbar-thumb:hover {
   background-color: #94a3b8;
 }
+
 </style>
 
 <!-- <style src="../style/buyer_css/pc-status.css"></style> -->

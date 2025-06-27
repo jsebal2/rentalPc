@@ -3,7 +3,7 @@
     <div class="main-inner">
       <h1 class="main-title">PC 상태 관리</h1>
       <div class="search-box">
-        <input v-model="searchKeyword" class="search-input" type="text" placeholder="검색어를 입력하세요" @input="onTyping">
+        <input v-model="searchKeyword" class="search-input" type="text" placeholder="검색어를 입력하세요 (PC ID, PC위치, CPU, RAN, SSD, 대여자명)" @input="onTyping">
       </div>
       <div class="table-section">
         <div class="table-header-row">

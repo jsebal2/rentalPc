@@ -50,11 +50,20 @@ const approveFollowRequest = async (req, res) => {
         buyer_id: updated.requesterId
       }
     });
+
+    const user = await prisma.user.findUnique({
+      where: {
+        user_id: updated.receiverId
+      }
+    });
+    
+    
+
     await prisma.notification.create({
       data: {
         user_id: updated.requesterId, // 알림을 받을 사람
         title: "팔로우 승인 완료",
-        message: `${updated.requesterId}님이 팔로우 요청을 승인했습니다.`,
+        message: `${user.name}님이 팔로우 요청을 승인했습니다.`,
         type: "INFO",
         is_read: false
       }

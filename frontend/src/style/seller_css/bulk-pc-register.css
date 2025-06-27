@@ -1,6 +1,6 @@
 .bulk-pc-register {
   padding: 28px;
-  max-width: 700px;
+  max-width: 750px;
   width: 100%;
   margin: 0 auto;
   font-family: 'Segoe UI', sans-serif;
@@ -168,4 +168,16 @@ h2 {
 
 .submit-btn:hover {
   background-color: #0056b3;
+}
+
+.delete-row-btn {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.delete-row-btn:hover {
+  background-color: #c0392b;
 }

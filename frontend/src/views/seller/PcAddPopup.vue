@@ -52,9 +52,9 @@
 
       <!-- ✅ 체크박스 추가 영역 -->
       <div class="options-checkbox">
-        <label><input type="checkbox" v-model="vpnUsage" /> VPN 사용여부</label>
+        <!-- <label><input type="checkbox" v-model="vpnUsage" /> VPN 사용여부</label>
         <label><input type="checkbox" v-model="ipAssigned" /> IP 할당여부</label>
-        <label><input type="checkbox" v-model="wolEnabled" /> WOL 사용가능</label>
+        <label><input type="checkbox" v-model="wolEnabled" /> WOL 사용가능</label> -->
       </div>
 
       <label>자세한 설명</label>
