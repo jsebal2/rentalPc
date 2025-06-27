@@ -1,6 +1,16 @@
 const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
+const accountNumber = async (req, res) => {
+  const user_id = req.params.user_id;
+  const name = await prisma.user.findUnique({
+    where: { user_id: Number(user_id) },
+    select: { name: true },
+  });
+
+  res.json({ name: name.name });
+};
+
 // 판매자 등록
 const registerSellerProfile = async (req, res) => {
   try {
@@ -55,5 +65,5 @@ const registerSellerProfile = async (req, res) => {
   }
 };
 
-module.exports = { registerSellerProfile };
+module.exports = { registerSellerProfile, accountNumber };
 
