@@ -34,7 +34,7 @@ const login = async (req, res) => {
     res.cookie('refreshToken', refreshToken, {
       httpOnly : true,
       secure : false,
-      sameSite : 'Lax',
+      sameSite : 'Strict',
       path : '/',
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
