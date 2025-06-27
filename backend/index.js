@@ -40,8 +40,8 @@ const a_noticeRoutes = require('./routes/admin/a_noticeRoutes');
 dotenv.config();
 
 // 인증서 경로
-const privateKey = fs.readFileSync('./ssl/key.pem', 'utf8');
-const certificate = fs.readFileSync('./ssl/cert.pem', 'utf8');
+const privateKey = fs.readFileSync('/etc/letsencrypt/live/api.myapp.com/privkey.pem');
+const certificate = fs.readFileSync('/etc/letsencrypt/live/api.myapp.com/fullchain.pem');
 const credentials = { key: privateKey, cert: certificate };
 
 // Express 앱 생성
