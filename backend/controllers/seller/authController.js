@@ -33,8 +33,8 @@ const login = async (req, res) => {
     // 쿠키에 refreshToken 저장
     res.cookie('refreshToken', refreshToken, {
       httpOnly : true,
-      secure : false,
-      sameSite : 'Strict',
+      secure : true,
+      sameSite : 'None',
       path : '/',
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
