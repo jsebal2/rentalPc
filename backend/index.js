@@ -54,6 +54,7 @@ const port = process.env.PORT || 3000;
 const allowedOrigins = [
   'https://localhost:5173',
   'https://192.168.0.29:5173',
+  'https://192.168.0.81:5173',
   'https://115.93.85.189:5173',
   'https://211.239.114.71:5173',
   // 필요시 추가
