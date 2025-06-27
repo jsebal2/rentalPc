@@ -45,7 +45,7 @@ const port = process.env.PORT || 3000;
 
 // 미들웨어 설정
 app.use(cors({
-  origin: 'http://192.168.0.29:5173',
+  origin: 'http://115.93.85.189:5173',
   credentials: true
 }));
 app.use(cookieParser());
