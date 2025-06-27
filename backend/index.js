@@ -2,11 +2,12 @@ const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
-const http = require('http');
+const https = require('https');
 const initSocket = require('./socket');
 const { PrismaClient } = require('@prisma/client');
 const errorHandler = require('./middlewares/errorHandler');
 const cookieParser = require('cookie-parser');
+
 // sellerRouters
 const pcRouter = require('./routes/seller/pcRoutes');
 const customerRouter = require('./routes/seller/customerRoutes');
@@ -37,9 +38,14 @@ const a_noticeRoutes = require('./routes/admin/a_noticeRoutes');
 // 환경변수 로드
 dotenv.config();
 
+// 인증서 경로
+const privateKey = fs.readFileSync('./ssl/key.pem', 'utf8');
+const certificate = fs.readFileSync('./ssl/cert.pem', 'utf8');
+const credentials = { key: privateKey, cert: certificate };
+
 // Express 앱 생성
 const app = express();
-const server = http.createServer(app);
+const server = https.createServer(credentials, app);
 initSocket(server);
 const port = process.env.PORT || 3000;
 
@@ -48,7 +54,7 @@ const allowedOrigins = [
   'https://localhost:5173',
   'https://192.168.0.29:5173',
   'https://115.93.85.189:5173',
-  'http://211.239.114.71:5173',
+  'https://211.239.114.71:5173',
   // 필요시 추가
 ];
 
