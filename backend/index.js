@@ -44,8 +44,22 @@ initSocket(server);
 const port = process.env.PORT || 3000;
 
 // 미들웨어 설정
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://192.168.0.29:5173',
+  'http://115.93.85.189:5173',
+  'http://211.239.114.71:5173',
+  // 필요시 추가
+];
+
 app.use(cors({
-  origin: 'http://115.93.85.189:5173',
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('CORS 차단: ' + origin));
+    }
+  },
   credentials: true
 }));
 app.use(cookieParser());
