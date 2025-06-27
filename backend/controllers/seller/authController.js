@@ -41,7 +41,7 @@ const login = async (req, res) => {
     console.log("로컬", accessToken);
     
     // accessToken만 클라이언트에 전달
-    res.json({ token : accessToken, user: { user_id: user.user_id, name: user.name, email: user.email } });
+    res.json({ token : accessToken, user: { user_id: user.user_id, name: user.name, email: user.email, role: user.role } });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: '서버 오류' });
