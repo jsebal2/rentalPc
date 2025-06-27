@@ -1,7 +1,8 @@
 {
   "devDependencies": {
     "@types/cors": "^2.8.18",
-    "@types/swiper": "^5.4.3"
+    "@types/swiper": "^5.4.3",
+    "vite-plugin-mkcert": "^1.17.8"
   },
   "dependencies": {
     "@prisma/client": "^6.9.0",

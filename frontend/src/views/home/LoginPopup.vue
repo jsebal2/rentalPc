@@ -57,8 +57,12 @@ const handleLogin = async () => {
       password : password.value,
     }, { withCredentials : true })
 
-    const token = res.data.token;
+    console.log(res);
+    
+
+    const token = res.token;
     const name = res.data.user.name;
+    
 
     localStorage.setItem('token', token);
     localStorage.setItem('user_id', res.data.user.user_id);
