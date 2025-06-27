@@ -226,6 +226,7 @@ const isLoggedIn = inject('isLoggedIn');
 const userName = inject('userName');
 const setIsLoggedIn = inject('setIsLoggedIn');
 const setUserName = inject('setUserName');
+const userRole = inject('userRole');
 
 // follow 모달창
 const showFollowModal = ref(false)
@@ -259,7 +260,7 @@ onUnmounted(() => {
 });
 
 // Login and logout handlers
-const handleLoginSuccess = (name) => {
+const handleLoginSuccess = ({name, role}) => {
   setIsLoggedIn(true);
   setUserName(name);
   closePopup();

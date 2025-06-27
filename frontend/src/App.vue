@@ -4,10 +4,12 @@ import axios from 'axios'
 // 전역 로그인 상태
 const isLoggedIn = ref(false)
 const userName = ref('')
+const userRole = ref('');
 
 // provide로 하위 컴포넌트에서 inject 가능하게 함
 provide('isLoggedIn', isLoggedIn)
 provide('userName', userName)
+provide('userRole', userRole);
 provide('setIsLoggedIn', val => isLoggedIn.value = val)
 provide('setUserName', val => userName.value = val)
 
@@ -26,6 +28,7 @@ onMounted(async () => {
     });
 
     userName.value = profileRes.data.name;
+    userRole.value = profileRes.data.role;
     isLoggedIn.value = true;
 
     console.log('✅ 토큰 갱신 성공:', newToken)

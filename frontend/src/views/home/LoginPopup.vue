@@ -53,31 +53,28 @@ const handleLogin = async () => {
 
   try {
     const res = await axios.post(import.meta.env.VITE_API_URL + '/users/login', {
-      email : email.value,
-      password : password.value,
-    }, { withCredentials : true })
+      email: email.value,
+      password: password.value,
+    }, { withCredentials: true });
 
     console.log(res);
-    
 
-    const token = res.token;
+    const token = res.data.token;
     const name = res.data.user.name;
+    const role = res.data.user.role;
     
 
     localStorage.setItem('token', token);
     localStorage.setItem('user_id', res.data.user.user_id);
-    console.log(token);
-    console.log(res.data);
-    
 
-    emit('login-success', name);
+    emit('login-success', { name, role });
 
     localStorage.setItem('justLoggedIn', 'true');
     window.location.reload();
   } catch (error) {
     alert('로그인 실패: ' + error.response.data.message);
   }
-}
+};
 
 </script>
 

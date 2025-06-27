@@ -34,7 +34,7 @@
 
 <script setup>
 import axios from 'axios'
-import {ref,onMounted,inject } from 'vue'
+import {ref,onMounted,inject,unref  } from 'vue'
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -45,7 +45,7 @@ const setIsLoggedIn = inject('setIsLoggedIn')
 const setUserName = inject('setUserName')
 const token = localStorage.getItem('token');
 const userStatuses = ref([]);
-const user_role = ref();
+const user_role = inject('userRole');
 
 const emit = defineEmits(['open-login', 'logout'])
 
@@ -63,6 +63,8 @@ const handleLogout = async () => {
     })
 
     localStorage.removeItem('token')
+    localStorage.removeItem('justLoggedIn')
+    localStorage.removeItem('user_id')
     setIsLoggedIn(false)
     setUserName('')
     alert('로그아웃 되었습니다.')
@@ -80,7 +82,6 @@ onMounted(async () => {
       }
     });
     userStatuses.value = res.data;
-    user_role.value = userStatuses.value[0].role;
   } catch (err) {
     console.error(err);
   }
