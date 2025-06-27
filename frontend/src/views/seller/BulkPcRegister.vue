@@ -100,12 +100,12 @@ function addRow() {
   rows.value.push({
     pcId: paddedPcId,
     location: newLoc,
-    rentalFee: rows.value[0].rentalFee,
-    manufacturer: rows.value[0].rentalFee,
-    cpu: rows.value[0].cpu,
-    ram: rows.value[0].ram,
-    ssd: rows.value[0].ssd,
-    memo: rows.value[0].memo
+    rentalFee: last.rentalFee,
+    manufacturer: last.manufacturer,
+    cpu: last.cpu,
+    ram: last.ram,
+    ssd: last.ssd,
+    memo: last.memo
   })
 }
 
