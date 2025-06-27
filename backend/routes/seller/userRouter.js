@@ -12,7 +12,7 @@ router.post('/login', login);
 router.get('/profile', authenticateToken, async(req, res) => {
     const user = await prisma.user.findUnique({
         where: { user_id: req.user.userId },
-        select: {user_id: true, name: true, email: true,},
+        select: {user_id: true, name: true, email: true,role:true},
     });
     res.json(user);
 });
