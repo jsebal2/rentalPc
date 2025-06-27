@@ -32,13 +32,12 @@ const login = async (req, res) => {
 
     // 쿠키에 refreshToken 저장
     res.cookie('refreshToken', refreshToken, {
-      httpOnly : true,
-      secure : true,
-      sameSite : 'None',
-      path : '/',
+      httpOnly: true,
+      secure: false,         // 개발에서는 false
+      sameSite: 'Lax',       // 개발에서는 Lax
+      path: '/',
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
-    
     console.log("로컬", accessToken);
     
     // accessToken만 클라이언트에 전달
