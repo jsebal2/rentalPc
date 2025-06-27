@@ -171,7 +171,7 @@ router.beforeEach(async (to, from, next) => {
   } catch (err) {
     console.warn('토큰 만료 또는 refresh 실패');
     localStorage.removeItem('token');
-    return next('/login');
+    return next('/');
   }
 });
 

@@ -19,7 +19,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(row, index) in expirationData" :key="index">
+          <tr v-for="(row, index) in pagedData" :key="index">
             <td>{{ row.pcName }}</td>
             <td>{{ row.startDate }}</td>
             <td>{{ row.endDate }}</td>

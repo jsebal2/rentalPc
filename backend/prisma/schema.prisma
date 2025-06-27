@@ -182,7 +182,7 @@ model seller_profile {
   user_id            Int      @unique
   business_name      String?
   introduction_title String?   @db.VarChar(500)
-  introduction_content String? @db.VarChar(500)
+  introduction_content String? @db.Text
   business_number    String?   @db.VarChar(20)
   business_license   String?   @db.VarChar(255)
   contact_phone      String?   @db.VarChar(20)

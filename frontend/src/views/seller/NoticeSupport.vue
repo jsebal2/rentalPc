@@ -10,7 +10,9 @@
           <ul>
             <li v-for="(item, index) in [...notices, ...Array(Math.max(0, 5 - notices.length)).fill(null)]" :key="index">
               <template v-if="item">
-                <span class="title-clickable" @click="openModal(item)">{{ item.title }}</span>
+                <span class="title-clickable" @click="openModal(item)">
+                  <span v-if="item.pinned">📌</span>
+                  {{ item.title }}</span>
                 <span class="btn-group">
                   <button @click="startEditNotice(item)">수정</button>
                 <button @click="deleteNotice(item.notice_id)">삭제</button>
@@ -40,7 +42,9 @@
           <ul>
             <li v-for="(faq, index) in [...faqs, ...Array(Math.max(0, 5 - faqs.length)).fill(null)]" :key="index">
               <template v-if="faq">
-                <span class="title-clickable" @click="openModal(faq)">Q. {{ faq.title }}</span>
+                <span class="title-clickable" @click="openModal(faq)">
+                  <span v-if="faq.pinned">📌</span>
+                  Q. {{ faq.title }}</span>
                 <span class="btn-group">
                   <button @click="startEditNotice(faq)">수정</button>
                   <button @click="deleteNotice(faq.notice_id)">삭제</button>
