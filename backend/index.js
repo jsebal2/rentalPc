@@ -3,6 +3,7 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
 const https = require('https');
+const fs = require('fs');
 const initSocket = require('./socket');
 const { PrismaClient } = require('@prisma/client');
 const errorHandler = require('./middlewares/errorHandler');
