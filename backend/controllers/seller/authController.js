@@ -34,11 +34,13 @@ const login = async (req, res) => {
     res.cookie('refreshToken', refreshToken, {
       httpOnly : true,
       secure : false,
-      sameSite : 'Lax',
+      sameSite : 'None',
       path : '/',
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
-
+    
+    console.log(accessToken);
+    
     // accessToken만 클라이언트에 전달
     res.json({ token : accessToken, user: { user_id: user.user_id, name: user.name, email: user.email } });
   } catch (err) {
