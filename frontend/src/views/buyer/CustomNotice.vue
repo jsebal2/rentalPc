@@ -81,7 +81,8 @@
       <div class="modal-content">
         <button class="close-btn" @click="showDetailModal = false">X</button>
         <h2>{{ selectedItem?.title }}</h2>
-        <p>{{ selectedItem?.content || selectedItem?.question }}</p>
+        <p>내용: {{ selectedItem?.content || selectedItem?.question }}</p>
+        <p v-if="selectedItem?.answer">질문 답변: {{ selectedItem?.answer }}</p>
         <p v-if="selectedItem?.user?.name">작성자: {{ selectedItem.user.name }}</p>
       </div>
     </div>
@@ -131,6 +132,19 @@ const submitQuestion = async () => {
   }
 };
 
+const fetchFollowedSellers = async () => {
+  try {
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/buyer-notice/followed-sellers`, {
+      params: { user_id: userId }
+    });
+    const sellers = res.data.sellers || [];
+    seller_id.value = sellers.map((s: any) => s.admin_id);
+    selectedAdmin.value = seller_id.value[0] ?? null;
+  } catch (err) {
+    console.error('팔로우한 판매자 조회 실패:', err);
+  }
+};
+
 onMounted(async () => {
   try {
       const res = await axios.get(`${import.meta.env.VITE_API_URL}/buyer-dashboard/notice`)
@@ -145,8 +159,13 @@ onMounted(async () => {
           }
         }
       }
-      seller_id.value = [...sellerSet]
-      selectedAdmin.value = seller_id.value[0] ?? null
+      if (sellerSet.size === 0) {
+      // 공지 기반 seller가 없다면 fallback
+      await fetchFollowedSellers();
+    } else {
+      seller_id.value = [...sellerSet];
+      selectedAdmin.value = seller_id.value[0] ?? null;
+    }
       
       await fetchQuestions();
     } catch (error) {

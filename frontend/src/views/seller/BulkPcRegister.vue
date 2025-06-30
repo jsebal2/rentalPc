@@ -80,9 +80,9 @@ const uploadedFileName = ref('')
 const tab = ref<'excel' | 'manual'>('excel')
 
 const rows = ref([
-  { pcId: 'PC-001', location: 'A열 1', rentalFee: '10,000', manufacturer: 'AMD', cpu: 'Ryzen 5700', ram: '32GB', ssd: '250GB', memo: '-' },
-  { pcId: 'PC-002', location: 'A열 2', rentalFee: '10,000', manufacturer: 'AMD', cpu: 'Ryzen 5700', ram: '32GB', ssd: '250GB', memo: '-' },
-  { pcId: 'PC-003', location: 'A열 3', rentalFee: '10,000', manufacturer: 'AMD', cpu: 'Ryzen 5700', ram: '32GB', ssd: '250GB', memo: '-' },
+  { pcId: 'PC-001', location: 'A열 1', rentalFee: '10,000', manufacturer: 'AMD', cpu: 'Ryzen 5700G', ram: '32GB', ssd: '250GB', memo: '-' },
+  { pcId: 'PC-002', location: 'A열 2', rentalFee: '10,000', manufacturer: 'AMD', cpu: 'Ryzen 5700G', ram: '32GB', ssd: '250GB', memo: '-' },
+  { pcId: 'PC-003', location: 'A열 3', rentalFee: '10,000', manufacturer: 'AMD', cpu: 'Ryzen 5700G', ram: '32GB', ssd: '250GB', memo: '-' },
 ])
 
 function addRow() {

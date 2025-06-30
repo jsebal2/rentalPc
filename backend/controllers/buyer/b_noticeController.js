@@ -52,4 +52,32 @@ const getQnaList = async (req, res) => {
   }
 };
 
-module.exports = { WriteInsert, getQnaList };
+const getFollowedSellers = async (req, res) => {
+  const { user_id } = req.query;
+
+  if (!user_id) {
+    return res.status(400).json({ error: 'user_id가 필요합니다.' });
+  }
+
+  try {
+    const follows = await prisma.follow.findMany({
+      where: { buyer_id: Number(user_id) }
+    });
+
+    const sellerIds = follows.map(f => f.seller_id);
+
+    const sellers = await prisma.user.findMany({
+      where: { user_id: { in: sellerIds } },
+      select: { user_id: true, name: true }
+    });
+
+    res.status(200).json({
+      sellers: sellers.map(s => ({ admin_id: s.user_id, name: s.name }))
+    });
+  } catch (error) {
+    console.error('팔로우한 판매자 조회 실패:', error);
+    res.status(500).json({ error: '서버 오류' });
+  }
+};
+
+module.exports = { WriteInsert, getQnaList, getFollowedSellers };
