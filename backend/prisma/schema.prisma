@@ -193,6 +193,8 @@ model seller_profile {
   account_holder     String?   @db.VarChar(50)
   verified_at        DateTime?
   last_sale_at       DateTime?
+  start_time         Int?
+  end_time           Int?
 
   user user @relation(fields: [user_id], references: [user_id])
   images  seller_profile_image[]
@@ -393,6 +395,7 @@ enum user_role {
   Customer
   Seller
   Admin
+  pcSeller
 }
 
 enum rental_status {

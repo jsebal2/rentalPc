@@ -17,6 +17,9 @@
           <div v-else-if="user_role === 'Customer'">
             <router-link to="/custom-dashboard">마이페이지</router-link>
           </div>
+          <div v-else-if="user_role === 'pcSeller'">
+            <router-link to="/pc-seller-dashboard">마이페이지</router-link>
+          </div>
           <a href="#" @click.prevent="$emit('follows')">팔로우</a>
           <a href="#" @click.prevent="handleLogout">로그아웃</a>
           <div class="user_info"></div>
