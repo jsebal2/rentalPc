@@ -2,7 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
-const https = require('https');
+// const https = require('https');
+const http = require('http');
 const fs = require('fs');
 const initSocket = require('./socket');
 const { PrismaClient } = require('@prisma/client');
@@ -40,23 +41,32 @@ const a_noticeRoutes = require('./routes/admin/a_noticeRoutes');
 dotenv.config();
 
 // 인증서 경로
-const privateKey = fs.readFileSync('./ssl/key.pem', 'utf8');
-const certificate = fs.readFileSync('./ssl/cert.pem', 'utf8');
-const credentials = { key: privateKey, cert: certificate };
+// const privateKey = fs.readFileSync('./ssl/key.pem', 'utf8');
+// const certificate = fs.readFileSync('./ssl/cert.pem', 'utf8');
+// const credentials = { key: privateKey, cert: certificate };
 
 // Express 앱 생성
 const app = express();
-const server = https.createServer(credentials, app);
+// const server = http.createServer(credentials, app);
+const server = http.createServer(app);
 initSocket(server);
 const port = process.env.PORT || 3000;
 
 // 미들웨어 설정
+// const allowedOrigins = [
+//   'https://localhost:5173',
+//   'https://192.168.0.29:5173',
+//   'https://192.168.0.81:5173',
+//   'https://115.93.85.189:5173',
+//   'https://211.239.114.71:5173',
+//   // 필요시 추가
+// ];
 const allowedOrigins = [
-  'https://localhost:5173',
-  'https://192.168.0.29:5173',
-  'https://192.168.0.81:5173',
-  'https://115.93.85.189:5173',
-  'https://211.239.114.71:5173',
+  'http://localhost:5173',
+  'http://192.168.0.29:5173',
+  'http://192.168.0.81:5173',
+  'http://115.93.85.189:5173',
+  'http://211.239.114.71:5173',
   // 필요시 추가
 ];
 
@@ -124,6 +134,6 @@ app.use('/admin-notice', a_noticeRoutes);
 
 // 서버 실행
 server.listen(port, () => {
-  console.log(`Server is running on https://localhost:${port}`);
+  console.log(`Server is running on http://localhost:${port}`);
 });
 

@@ -140,6 +140,7 @@ const fetchFollowedSellers = async () => {
     const sellers = res.data.sellers || [];
     seller_id.value = sellers.map((s: any) => s.admin_id);
     selectedAdmin.value = seller_id.value[0] ?? null;
+    
   } catch (err) {
     console.error('팔로우한 판매자 조회 실패:', err);
   }
