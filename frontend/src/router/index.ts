@@ -25,6 +25,7 @@ import AdminUserManage from '../views/admin/AdminUserManage.vue';
 import AdminNotice from '../views/admin/AdminNotice.vue';
 import PostDetail from '../views/home/PostDetail.vue';
 import AccountSetting from '../views/home/AccountSetting.vue';
+import ComputerSales from '../views/ComputerSales.vue';
 import PcSellerDashboard from '../views/home/PcSellerDashboard.vue';
 
 const routes: RouteRecordRaw[] = [
@@ -138,11 +139,6 @@ const routes: RouteRecordRaw[] = [
     path: '/account-setting',
     name: 'AccountSetting',
     component: AccountSetting,
-  },
-  {
-    path: '/pc-seller-dashboard',
-    name: 'PcSellerDashboard',
-    component: PcSellerDashboard,
   },
 
   // 기존 라우트가 있다면 아래에 추가
