@@ -83,7 +83,7 @@
         <div class="contact-info" v-if="sellerProfile">
           <span>P.H: {{ sellerProfile.contact_phone }}</span> | 
           <span>Kakao: {{ sellerProfile.introduction_title }}</span> | 
-          <span>상담 가능 시간: {{ sellerProfile.start_time }} ~ {{ sellerProfile.end_time }}</span>
+          <span>상담 가능 시간: {{ sellerProfile.start_time }}시 ~ {{ sellerProfile.end_time }}시</span>
         </div>
         <div class="floating-buttons">
           <a href="https://pf.kakao.com/3080ti" target="_blank" class="btn kakao">카톡문의</a>

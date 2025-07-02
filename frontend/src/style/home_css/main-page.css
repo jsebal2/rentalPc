@@ -175,12 +175,12 @@
 }
 
 .process-steps {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: 30px;
-  flex-wrap: wrap;
-  justify-content: center;
+  max-width: 1000px;
+  margin: 0 auto;
 }
-
 .step-card {
   background: white;
   color: #1f2937;
