@@ -51,17 +51,21 @@
 
         <!-- 제품 카드 -->
         <div class="product-info-section">
-          <div class="product-image" />
-
-          <div class="product-field">
-            <label class="product-label">제품명</label>
-            <input type="text" class="product-input" v-model="pc.pc_name" />
+          <div class="top_box">
+            <div class="product-image" />
+            <div class="price_box">
+              <div class="product-field">
+                <label class="product-label">제품명</label>
+                <input type="text" class="product-input" v-model="pc.pc_name" />
+              </div>
+    
+              <div class="product-field">
+                <label class="product-label">가격</label>
+                <input type="text" class="product-input" v-model="pc.price" @input="pc.price = formatWithComma($event.target.value)" />
+              </div>
+            </div>
           </div>
 
-          <div class="product-field">
-            <label class="product-label">가격</label>
-            <input type="text" class="product-input" v-model="pc.price" @input="pc.price = formatWithComma($event.target.value)" />
-          </div>
 
           <div class="product-field">
             <label class="product-label">설명</label>
