@@ -80,10 +80,10 @@
     <div class="sales-wrapper">
       <div class="sellercon">
         <h2 class="sales-title">PC 판매 상품</h2>
-        <div class="contact-info">
-          <span>P.H: 010-1234-5678</span> | 
-          <span>Kakao: blazePC</span> | 
-          <span>상담시간: 10:00 ~ 18:00</span>
+        <div class="contact-info" v-if="sellerProfile">
+          <span>P.H: {{ sellerProfile.contact_phone }}</span> | 
+          <span>Kakao: {{ sellerProfile.introduction_title }}</span> | 
+          <span>상담 가능 시간: {{ sellerProfile.start_time }} ~ {{ sellerProfile.end_time }}</span>
         </div>
         <div class="floating-buttons">
           <a href="https://pf.kakao.com/_your_kakao_id" target="_blank" class="btn kakao">카톡문의</a>
@@ -104,7 +104,7 @@
               >
                 <div class="pc-title">{{ item.cpu }}</div>
                 <div class="pc-price">{{ item.price.toLocaleString() }}원</div>
-                <div class="pc-spec">{{ item.cpu }} / {{ item.ram }} RAM / {{ item.ssd }} SSD</div>
+                <div class="pc-spec">{{ item.memo }}</div>
               </router-link>
             </div>
           </div>
@@ -347,6 +347,7 @@ const hoveredIndex = ref(null)
 // ]);
 
 const products = ref([])
+const sellerProfile = ref([])
 
 // pc판매 데이터 가져오기
 async function salesList() {
@@ -360,6 +361,15 @@ async function salesList() {
   }
 }
 
+async function fusellerProfile() {
+  try {
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/salespc/sellerProfile`);
+    sellerProfile.value = res.data;
+  } catch (error) {
+    console.error('판매자 프로필 불러오기 실패:', error);
+  }
+}
+
 onMounted(() => {
   if ('scrollRestoration' in history) {
     history.scrollRestoration = 'manual';
@@ -370,6 +380,7 @@ onMounted(() => {
   window.addEventListener('keydown', handleKeydown);
   window.addEventListener('scroll', handleScroll);
   salesList();
+  fusellerProfile();
 });
 onUnmounted(() => {
   window.removeEventListener('keydown', handleKeydown);
