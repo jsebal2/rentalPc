@@ -104,7 +104,7 @@
               >
                 <div class="pc-title">{{ item.cpu }}</div>
                 <div class="pc-price">{{ item.price.toLocaleString() }}원</div>
-                <div class="pc-spec">{{ item.memo }}</div>
+                <pre class="pc-spec">{{ item.memo }}</pre>
               </router-link>
             </div>
           </div>
