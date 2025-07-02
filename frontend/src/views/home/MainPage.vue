@@ -80,17 +80,10 @@
     <div class="sales-wrapper">
       <div class="sellercon">
         <h2 class="sales-title">PC 판매 상품</h2>
-<<<<<<< HEAD
         <div class="contact-info" v-if="sellerProfile">
           <span>P.H: {{ sellerProfile.contact_phone }}</span> | 
           <span>Kakao: {{ sellerProfile.introduction_title }}</span> | 
           <span>상담 가능 시간: {{ sellerProfile.start_time }} ~ {{ sellerProfile.end_time }}</span>
-=======
-        <div class="contact-info">
-          <span>P.H: 010-4446-0071</span> | 
-          <span>Kakao: blazePC</span> | 
-          <span>상담시간: 10:00 ~ 18:00</span>
->>>>>>> c363a9d00e54635c80ba599e84fe42b9d6ec1507
         </div>
         <div class="floating-buttons">
           <a href="https://pf.kakao.com/3080ti" target="_blank" class="btn kakao">카톡문의</a>
