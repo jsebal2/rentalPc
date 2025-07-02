@@ -81,12 +81,12 @@
       <div class="sellercon">
         <h2 class="sales-title">PC 판매 상품</h2>
         <div class="contact-info">
-          <span>P.H: 010-1234-5678</span> | 
+          <span>P.H: 010-4446-0071</span> | 
           <span>Kakao: blazePC</span> | 
           <span>상담시간: 10:00 ~ 18:00</span>
         </div>
         <div class="floating-buttons">
-          <a href="https://pf.kakao.com/_your_kakao_id" target="_blank" class="btn kakao">카톡문의</a>
+          <a href="https://pf.kakao.com/3080ti" target="_blank" class="btn kakao">카톡문의</a>
           <a href="tel:01012345678" class="btn call">전화하기</a>
         </div>
         <section class="process">

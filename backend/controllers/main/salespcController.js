@@ -7,7 +7,7 @@ const pclist = async (req, res) => {
         const pclist = await prisma.pc.findMany({
             where: {user_id: 9},
             orderBy: { reg_date: 'desc' },
-            take: 4,
+            take: 5,
          });
          res.json(pclist);
     } catch (error) {
