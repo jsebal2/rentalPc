@@ -71,7 +71,7 @@ const getPcList = async (req, res) => {
     try {
         const pcs = await prisma.pc.findMany({
             where: { user_id: parseInt(userId) },
-            orderBy: { pc_id: 'desc' }
+            orderBy: { reg_date: 'asc' }
         })
 
         res.json(pcs)
