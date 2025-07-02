@@ -97,3 +97,12 @@
   border: 1px solid #ccc;
   border-radius: 4px;
 }
+
+.product-input-memo {
+  width: 100%;
+  height: 200px;
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: none;
+}

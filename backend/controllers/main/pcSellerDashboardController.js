@@ -64,6 +64,45 @@ const updateSellerProfile = async (req, res) => {
       res.status(500).json({ error: '프로필 업데이트 실패' })
     }
   }
-  
 
-module.exports = { getSellerProfile, updateSellerProfile }
+const getPcList = async (req, res) => {
+    const { userId } = req.params
+
+    try {
+        const pcs = await prisma.pc.findMany({
+            where: { user_id: parseInt(userId) },
+            orderBy: { pc_id: 'desc' }
+        })
+
+        res.json(pcs)
+        console.log(pcs)
+    } catch (error) {
+        console.error('PC 목록 조회 오류:', error)
+        res.status(500).json({ error: 'PC 목록 조회 오류' })
+    }
+}
+
+const updatePcInfo = async (req, res) => {
+  const { pcId } = req.params
+  const pc_id = parseInt(pcId)
+  const { cpu, price, memo } = req.body
+  const parsedPrice = parseInt(price,10)
+
+  try {
+    const updatedPc = await prisma.pc.update({
+      where: { pc_id: pc_id },
+      data: {
+        cpu,
+        price: parsedPrice,
+        memo
+      }
+    })
+
+    res.json({ message: '제품 정보 수정 완료', pc: updatedPc })
+  } catch (error) {
+    console.error('PC 수정 오류:', error)
+    res.status(500).json({ error: 'PC 수정 중 오류 발생' })
+  }
+}
+
+module.exports = { getSellerProfile, updateSellerProfile, getPcList, updatePcInfo }
