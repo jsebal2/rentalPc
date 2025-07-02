@@ -140,6 +140,16 @@ const routes: RouteRecordRaw[] = [
     name: 'AccountSetting',
     component: AccountSetting,
   },
+  {
+    path: '/computer-sales',
+    name: 'ComputerSales',
+    component: ComputerSales,
+  },
+  {
+    path: '/pc-seller-dashboard',
+    name: 'PcSellerDashboard',
+    component: PcSellerDashboard,
+  },
 
   // 기존 라우트가 있다면 아래에 추가
 ];
