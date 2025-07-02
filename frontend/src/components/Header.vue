@@ -32,39 +32,51 @@
         </template>
       </nav>
     </div>
+
+    <!-- 모바일 메뉴 -->
+    <div class="mobile-menu" v-if="isMobile">
+      <button class="menu-toggle" @click="toggleMenu">⋯</button>
+    </div>
+    <div v-if="menuOpen" class="dropdown-menu">
+      <router-link to="/">Home</router-link>
+      <router-link v-if="user_role !== 'Seller'" to="/seller-registration">판매자 등록</router-link>
+      <router-link v-if="isLoggedIn" :to="dashboardPath">마이페이지</router-link>
+      <a v-if="isLoggedIn" href="#" @click.prevent="$emit('follows')">팔로우</a>
+      <a v-if="isLoggedIn" href="#" @click.prevent="handleLogout">로그아웃</a>
+      <a v-else href="#" @click.prevent="handleLoginClick">로그인</a>
+      <router-link v-if="!isLoggedIn" to="/signup">회원가입</router-link>
+    </div>
   </header>
 </template>
 
 <script setup>
 import axios from 'axios'
-import {ref,onMounted,inject,unref  } from 'vue'
-import { useRouter } from 'vue-router';
+import { ref, onMounted, onUnmounted, inject, computed } from 'vue'
+import { useRouter } from 'vue-router'
 
-const router = useRouter();
+const router = useRouter()
 
-const isLoggedIn = inject('isLoggedIn') // ref
+const isLoggedIn = inject('isLoggedIn')
 const userName = inject('userName')
 const setIsLoggedIn = inject('setIsLoggedIn')
 const setUserName = inject('setUserName')
-const token = localStorage.getItem('token');
-const userStatuses = ref([]);
-const user_role = inject('userRole');
+const user_role = inject('userRole')
+const token = localStorage.getItem('token')
 
-const emit = defineEmits(['open-login', 'logout'])
+const emit = defineEmits(['open-login', 'logout', 'follows'])
 
-
+// 로그인 팝업 열기
 const handleLoginClick = () => {
   localStorage.removeItem('token')
   emit('open-login')
 }
 
-
+// 로그아웃
 const handleLogout = async () => {
   try {
-    await axios.post(import.meta.env.VITE_API_URL + '/users/logout', {}, {
+    await axios.post(`${import.meta.env.VITE_API_URL}/users/logout`, {}, {
       withCredentials: true
     })
-
     localStorage.removeItem('token')
     localStorage.removeItem('justLoggedIn')
     localStorage.removeItem('user_id')
@@ -77,26 +89,66 @@ const handleLogout = async () => {
   }
 }
 
+// 사용자 상태 확인 (선택적 기능)
+const userStatuses = ref([])
 onMounted(async () => {
   try {
-    const res = await axios.get(import.meta.env.VITE_API_URL + '/users/status',{
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/users/status`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
-    });
-    userStatuses.value = res.data;
+    })
+    userStatuses.value = res.data
   } catch (err) {
-    console.error(err);
+    console.error(err)
   }
-});
+})
 
-const openSellerRegistrationPopup = () => {
-  emit('open-seller-registration')
+// 반응형: 모바일 감지
+const isMobile = ref(false)
+const menuOpen = ref(false)
+
+const toggleMenu = () => {
+  menuOpen.value = !menuOpen.value
 }
 
+const checkMobile = () => {
+  isMobile.value = window.innerWidth <= 768
+}
+
+onMounted(() => {
+  checkMobile()
+  window.addEventListener('resize', checkMobile)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', checkMobile)
+})
+
+// 역할에 따른 마이페이지 경로 계산
+const dashboardPath = computed(() => {
+  switch (user_role) {
+    case 'Admin':
+      return '/admin-dashboard'
+    case 'Seller':
+      return '/seller-dashboard'
+    case 'Customer':
+      return '/custom-dashboard'
+    case 'pcSeller':
+      return '/pc-seller-dashboard'
+    default:
+      return '/'
+  }
+})
 </script>
 
+
 <style scoped>
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
 .header {
   background: transparent;
   color: black;
@@ -153,5 +205,62 @@ const openSellerRegistrationPopup = () => {
   width: 25px;
   height: 25px;
   border-radius: 50%;
+}
+
+/* 모바일 */
+@media (max-width: 768px) {
+.header .header-box{
+  padding: 0px 20px;
+}
+.header .header-box .logo{
+  font-size: 20px;
+}
+.header .header-box .nav a{
+  font-size: 12px;
+}
+.header-box .nav{
+  display: none;
+}
+
+.mobile-menu {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.menu-toggle {
+  background: none;
+  border: none;
+  font-size: 26px;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.dropdown-menu {
+  position: absolute;
+  width: 100%;
+  top: 60px;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 999;
+}
+
+.dropdown-menu a,
+.dropdown-menu router-link {
+  font-size: 14px;
+  color: black;
+  text-decoration: none;
+}
+.dropdown-menu a{
+  display: flex;
+  justify-content: center;
+}
 }
 </style>

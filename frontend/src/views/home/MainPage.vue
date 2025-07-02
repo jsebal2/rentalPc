@@ -87,7 +87,7 @@
         </div>
         <div class="floating-buttons">
           <a href="https://pf.kakao.com/3080ti" target="_blank" class="btn kakao">카톡문의</a>
-          <a href="tel:01012345678" class="btn call">전화하기</a>
+          <a href="tel:01022928361" class="btn call">전화하기</a>
         </div>
         <section class="process">
           <div class="process-box">
@@ -111,21 +111,21 @@
         </section>
         <section class="process" id="new_process">
           <div class="process-box">
-            <div class="process-title">신규 등록 상품</div>
+            <div class="process-title">인기 등록 상품</div>
             <div class="process-steps">
-              <a
+              <router-link
                 class="step-card"
                 v-for="(item, index) in products"
                 :key="index"
-                :to="'/computer-sales/' + item.id"
+                :to="'/computer-sales/' + item.pc_id"
                 @mouseenter="hoveredIndex = index"
                 @mouseleave="hoveredIndex = null"
                 @mousemove="updateTooltipPosition"
               >
-                <div class="pc-title">{{ item?.cpu }}</div>
-                <div class="pc-price">{{ item?.price.toLocaleString() }}원</div>
-                <div class="pc-spec">'Intel i7 / 16GB RAM / RTX 3060'</div>
-              </a>
+                <div class="pc-title">{{ item.cpu }}</div>
+                <div class="pc-price">{{ item.price.toLocaleString() }}원</div>
+                <div class="pc-spec">{{ item.memo }}</div>
+              </router-link>
             </div>
           </div>
         </section>
@@ -401,18 +401,3 @@ const handleLogout = () => {
 </script>
 
 <style src="../../style/home_css/main-page.css" scoped></style>
-
-<style scoped>
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.4);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
-.memo-text {
-  white-space: pre-line;
-}
-</style>
