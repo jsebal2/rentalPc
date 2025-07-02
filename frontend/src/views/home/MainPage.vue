@@ -93,18 +93,38 @@
           <div class="process-box">
             <div class="process-title">인기 등록 상품</div>
             <div class="process-steps">
-              <a
+              <router-link
                 class="step-card"
                 v-for="(item, index) in products"
                 :key="index"
-                :href="`/computer-sales/`"
+                :to="'/computer-sales/' + item.pc_id"
                 @mouseenter="hoveredIndex = index"
                 @mouseleave="hoveredIndex = null"
                 @mousemove="updateTooltipPosition"
               >
-                <div class="pc-title">{{ item.title }}</div>
-                <div class="pc-price">{{ item.price }}</div>
-                <div class="pc-spec">{{ item.spec }}</div>
+                <div class="pc-title">{{ item.cpu }}</div>
+                <div class="pc-price">{{ item.price.toLocaleString() }}원</div>
+                <div class="pc-spec">{{ item.cpu }} / {{ item.ram }} RAM / {{ item.ssd }} SSD</div>
+              </router-link>
+            </div>
+          </div>
+        </section>
+        <section class="process" id="new_process">
+          <div class="process-box">
+            <div class="process-title">신규 등록 상품</div>
+            <div class="process-steps">
+              <a
+                class="step-card"
+                v-for="(item, index) in products"
+                :key="index"
+                :to="'/computer-sales/' + item.id"
+                @mouseenter="hoveredIndex = index"
+                @mouseleave="hoveredIndex = null"
+                @mousemove="updateTooltipPosition"
+              >
+                <div class="pc-title">{{ item?.cpu }}</div>
+                <div class="pc-price">{{ item?.price.toLocaleString() }}원</div>
+                <div class="pc-spec">'Intel i7 / 16GB RAM / RTX 3060'</div>
               </a>
             </div>
           </div>
@@ -114,35 +134,8 @@
           class="tooltip"
           :style="{ top: tooltipY + 'px', left: tooltipX + 'px' }"
         >
-          {{ products[hoveredIndex].description }}
+          <div class="memo-text">{{ products[hoveredIndex]?.memo }}</div>
         </div>
-        <section class="process" id="new_process">
-          <div class="process-box">
-            <div class="process-title">신규 등록 상품</div>
-            <div class="process-steps">
-              <div class="step-card">
-                <div class="pc-title">헌터 프로 PC</div>
-                <div class="pc-price">₩1,350,000</div>
-                <div class="pc-spec">Intel i5 / 16GB RAM / RTX 4060</div>
-              </div>
-              <div class="step-card">
-                <div class="pc-title">노마드 스튜디오 PC</div>
-                <div class="pc-price">₩2,200,000</div>
-                <div class="pc-spec">Ryzen 9 / 64GB RAM / RTX 4080</div>
-              </div>
-              <div class="step-card">
-                <div class="pc-title">제로 노트북형 PC</div>
-                <div class="pc-price">₩720,000</div>
-                <div class="pc-spec">Intel i5 / 16GB RAM / SSD 512GB</div>
-              </div>
-              <div class="step-card">
-                <div class="pc-title">큐브 컴팩트 PC</div>
-                <div class="pc-price">₩460,000</div>
-                <div class="pc-spec">AMD Ryzen 3 / 8GB RAM / 256GB SSD</div>
-              </div>
-            </div>
-          </div>
-        </section>
       </div>
     </div>
 
@@ -264,6 +257,7 @@ import { ref, onMounted, onUnmounted, inject } from 'vue';
 import LoginPopup from './LoginPopup.vue';
 import Header from '../../components/Header.vue';
 import FollowModal from '../../components/FollowModal.vue'
+import axios from 'axios';
 
 const showLoginPopup = ref(false);
 
@@ -301,56 +295,70 @@ const updateTooltipPosition = (e) => {
 
 const hoveredIndex = ref(null)
 
-const products = ref([
-  {
-    title: '블레이즈 게이밍 PC',
-    price: '₩1,250,000',
-    spec: 'Intel i7 / 16GB RAM / RTX 3060',
-    description: '고사양 게이밍을 위한 최적의 구성'
-  },
-  {
-    title: '스톰 오피스 PC',
-    price: '₩490,000',
-    spec: 'Intel i3 / 8GB RAM / SSD 256GB',
-    description: '사무용, 가정용으로 가성비 최고의 PC'
-  },
-  {
-    title: '레이서 하이엔드 PC',
-    price: '₩2,500,000',
-    spec: 'Intel i9 / 32GB RAM / RTX 4080',
-    description: '영상 편집 및 고사양 게임에 적합한 하이엔드 PC'
-  },
-  {
-    title: '에코 미니 PC',
-    price: '₩350,000',
-    spec: 'Intel Celeron / 4GB RAM / SSD 128GB',
-    description: '웹서핑, 문서작업에 최적화된 초소형 PC'
-  },
-  {
-    title: '노마드 디자이너 PC',
-    price: '₩1,480,000',
-    spec: 'Ryzen 7 / 32GB RAM / RTX 3070',
-    description: '그래픽 작업에 최적화된 디자이너용 PC'
-  },
-  {
-    title: '큐브 학습용 PC',
-    price: '₩420,000',
-    spec: 'Intel Pentium / 8GB RAM / SSD 256GB',
-    description: '학생을 위한 온라인 수업 및 문서 작업용 PC'
-  },
-  {
-    title: '프로 스트리머 PC',
-    price: '₩1,980,000',
-    spec: 'Ryzen 9 / 32GB RAM / RTX 4070 Ti',
-    description: '방송 송출 및 고화질 게임 플레이에 최적화'
-  },
-  {
-    title: '제로 서버용 PC',
-    price: '₩3,300,000',
-    spec: 'Intel Xeon / 64GB RAM / 2TB NVMe SSD',
-    description: '서버 및 데이터 처리용 전문가 시스템'
+// const products = ref([
+//   {
+//     title: '블레이즈 게이밍 PC',
+//     price: '₩1,250,000',
+//     spec: 'Intel i7 / 16GB RAM / RTX 3060',
+//     description: '고사양 게이밍을 위한 최적의 구성'
+//   },
+//   {
+//     title: '스톰 오피스 PC',
+//     price: '₩490,000',
+//     spec: 'Intel i3 / 8GB RAM / SSD 256GB',
+//     description: '사무용, 가정용으로 가성비 최고의 PC'
+//   },
+//   {
+//     title: '레이서 하이엔드 PC',
+//     price: '₩2,500,000',
+//     spec: 'Intel i9 / 32GB RAM / RTX 4080',
+//     description: '영상 편집 및 고사양 게임에 적합한 하이엔드 PC'
+//   },
+//   {
+//     title: '에코 미니 PC',
+//     price: '₩350,000',
+//     spec: 'Intel Celeron / 4GB RAM / SSD 128GB',
+//     description: '웹서핑, 문서작업에 최적화된 초소형 PC'
+//   },
+//   {
+//     title: '노마드 디자이너 PC',
+//     price: '₩1,480,000',
+//     spec: 'Ryzen 7 / 32GB RAM / RTX 3070',
+//     description: '그래픽 작업에 최적화된 디자이너용 PC'
+//   },
+//   {
+//     title: '큐브 학습용 PC',
+//     price: '₩420,000',
+//     spec: 'Intel Pentium / 8GB RAM / SSD 256GB',
+//     description: '학생을 위한 온라인 수업 및 문서 작업용 PC'
+//   },
+//   {
+//     title: '프로 스트리머 PC',
+//     price: '₩1,980,000',
+//     spec: 'Ryzen 9 / 32GB RAM / RTX 4070 Ti',
+//     description: '방송 송출 및 고화질 게임 플레이에 최적화'
+//   },
+//   {
+//     title: '제로 서버용 PC',
+//     price: '₩3,300,000',
+//     spec: 'Intel Xeon / 64GB RAM / 2TB NVMe SSD',
+//     description: '서버 및 데이터 처리용 전문가 시스템'
+//   }
+// ]);
+
+const products = ref([])
+
+// pc판매 데이터 가져오기
+async function salesList() {
+  try {
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/salespc/youngpclist`);
+    products.value = res.data
+    console.log(products.value);
+    
+  } catch (error) {
+    console.error('상품 불러오기 실패:', err)
   }
-]);
+}
 
 onMounted(() => {
   if ('scrollRestoration' in history) {
@@ -361,6 +369,7 @@ onMounted(() => {
   
   window.addEventListener('keydown', handleKeydown);
   window.addEventListener('scroll', handleScroll);
+  salesList();
 });
 onUnmounted(() => {
   window.removeEventListener('keydown', handleKeydown);
@@ -391,5 +400,8 @@ const handleLogout = () => {
   align-items: center;
   justify-content: center;
   z-index: 1000;
+}
+.memo-text {
+  white-space: pre-line;
 }
 </style>

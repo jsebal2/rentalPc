@@ -30,31 +30,38 @@
 
         <!-- Right: Info Section -->
         <div class="info-section">
-          <h1 class="title">헌터 프로 PC</h1>
-          <div class="price">849,000원</div>
+          <h1 class="title">{{ products.cpu }}</h1>
+          <div class="price">{{ (products?.price ?? 0).toLocaleString() }}원</div>
 
           <ul class="spec-list">
             <li><strong>별점</strong> ★★★★★ (50개)</li>
             <li><strong>평점</strong> ★★★★☆</li>
             <li><strong>조회수</strong> 500</li>
-            <li><strong>비이비</strong> 뚜툴''</li>
+            <li><strong>제조사</strong>용산 pc</li>
           </ul>
 
           <div class="service">
-            <label for="service-title">서비스</label>
-            <select id="service-option" v-model="selectedService">
-              <option disabled value="">서비스 선택</option>
-              <option>기본 서비스</option>
-              <option>프리미엄 서비스</option>
-            </select>
+            <label>부품 추가</label>
+            <label>
+              <input type="checkbox" v-model="addCase" />
+              케이스 미니 신품 추가
+            </label>
+            <label>
+              <input type="checkbox" v-model="addCooler" />
+              쿨러 공냉 타워 쿨러 추가
+            </label>
+            <label>
+              <input type="checkbox" v-model="addNvme" />
+              nvme 512g 추가
+            </label>
           </div>
 
           <div class="detailInfo">
             <div class="detailContent">
-                <p>Intel i7 / 16GB RAM / RTX 3060</p>
+                <p>cpu:{{products.cpu}} / ram:{{products.ram}} / ssd:{{products.ssd}}</p>
                 <p>고사양 게이밍을 위한 최적의 구성</p>
             </div>
-            <div class="detailPrice">849,000원</div>
+            <div class="detailPrice">{{ (products?.price ?? 0).toLocaleString() }}원</div>
           </div>
           <div class="action-buttons">
             <button class="cart-btn">장바구니</button>
@@ -76,9 +83,11 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted, inject } from 'vue';
+import { useRoute } from 'vue-router';
 import LoginPopup from './home/LoginPopup.vue';
 import Header from '../components/Header.vue';
 import FollowModal from '../components/FollowModal.vue';
+import axios from 'axios';
 
 const showLoginPopup = ref(false);
 const showFollowModal = ref(false);
@@ -112,9 +121,27 @@ const handleScroll = () => {
   isScrolled.value = window.scrollY > 10;
 };
 
+const products = ref([])
+const route = useRoute();
+
+// pc판매 데이터 가져오기
+async function pcIdList() {
+  try {
+    const pc_id = route.params.id;
+    const res = await axios.get(`${import.meta.env.VITE_API_URL}/salespc/youngpcIdlist/${pc_id}`);
+    products.value = res.data
+    console.log(products.value);
+    
+  } catch (error) {
+    console.error('상품 불러오기 실패:', error)
+  }
+}
+
 onMounted(() => {
   window.addEventListener('keydown', handleKeydown);
   window.addEventListener('scroll', handleScroll);
+
+  pcIdList()
 });
 
 onUnmounted(() => {
@@ -242,32 +269,38 @@ const selectedService = ref('');
 
 .service {
   display: flex;
-  align-items: center;
-  gap: 12px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
   width: 100%;
-  margin-top: 12px;
+  margin-top: 16px;
+  padding: 16px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.service > label:first-child {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #222;
 }
 
 .service label {
+  display: flex;
+  align-items: center;
   font-size: 14px;
-  color: #333;
-  min-width: 70px;
   font-weight: 500;
+  gap: 8px;
+  color: #333;
 }
 
-.service select {
-  flex: 1;
-  padding: 10px;
-  font-size: 14px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  background-color: #fafafa;
-  transition: border-color 0.2s;
-}
-
-.service select:focus {
-  border-color: #888;
-  outline: none;
+.service input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #000; /* 체크박스 색상 */
+  cursor: pointer;
 }
 
 .detailInfo{

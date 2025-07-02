@@ -30,6 +30,7 @@ const followRouter = require('./routes/main/followRoutes');
 const chatRouter = require('./routes/main/chatRoutes');
 const accountSettingRouter = require('./routes/main/accountSettingRouter');
 const pcSellerDashboardRouter = require('./routes/main/pcSellerDashboardRouter');
+const salespcRouter = require('./routes/main/salespcRouter');
 // layout
 const layoutRouter = require('./routes/layout/notificationRoutes');
 
@@ -126,6 +127,7 @@ app.use('/follow', followRouter);
 app.use('/chat', chatRouter);
 app.use('/account-setting', accountSettingRouter);
 app.use('/pc-seller-dashboard', pcSellerDashboardRouter);
+app.use('/salespc', salespcRouter);
 // layout
 app.use('/layout', layoutRouter);
 //admin
