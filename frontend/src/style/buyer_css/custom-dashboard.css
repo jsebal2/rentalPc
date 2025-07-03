@@ -4,7 +4,7 @@
   box-sizing: border-box;
 }
 .dashboard-container {
-max-width: 1200px;
+  max-width: 1200px;
   margin: 20px 40px;
   padding: 20px;
   font-family: 'Noto Sans KR', sans-serif;
@@ -188,4 +188,95 @@ max-width: 1200px;
   font-size: 14px;
   color: #374151;
   text-align: start;
+}
+
+/* 모바일 */
+@media (max-width: 768px) {
+  .dashboard-container {
+    margin: 10px;
+    padding: 10px;
+  }
+
+  .summary-boxes {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .summary-box {
+    padding: 16px;
+  }
+
+  .summary-box .value {
+    font-size: 20px;
+  }
+
+  .dashboard-split-wrapper {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .dashboard-left,
+  .dashboard-right {
+    min-width: 100%;
+  }
+
+  .section {
+    height: auto;
+    padding: 16px;
+  }
+
+  .section-title {
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+
+  .table-scroll-wrapper {
+    max-height: 300px;
+  }
+
+  .usage-table th,
+  .usage-table td {
+    font-size: 13px;
+    padding: 10px;
+  }
+
+  .notice-box {
+    height: auto;
+    padding: 16px;
+  }
+
+  .notice-wrapper {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .notice-admins {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .notice-admins li {
+    flex: 1 1 30%;
+    font-size: 13px;
+    padding: 6px;
+  }
+
+  .notice-content {
+    padding: 0;
+  }
+
+  .notice-content ul {
+    height: auto;
+    max-height: 200px;
+  }
+
+  .notice-content li {
+    font-size: 13px;
+    padding: 6px 0;
+  }
+
+  .chart-placeholder {
+    height: 200px;
+  }
 }

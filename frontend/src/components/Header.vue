@@ -127,17 +127,12 @@ onUnmounted(() => {
 
 // 역할에 따른 마이페이지 경로 계산
 const dashboardPath = computed(() => {
-  switch (user_role) {
-    case 'Admin':
-      return '/admin-dashboard'
-    case 'Seller':
-      return '/seller-dashboard'
-    case 'Customer':
-      return '/custom-dashboard'
-    case 'pcSeller':
-      return '/pc-seller-dashboard'
-    default:
-      return '/'
+  switch (user_role.value) {
+    case 'Admin': return '/admin-dashboard'
+    case 'Seller': return '/seller-dashboard'
+    case 'Customer': return '/custom-dashboard'
+    case 'pcSeller': return '/pc-seller-dashboard'
+    default: return '/'
   }
 })
 </script>
@@ -243,7 +238,8 @@ const dashboardPath = computed(() => {
   right: 0;
   background: white;
   border: 1px solid #ddd;
-  border-radius: 6px;
+  border-top: none;
+  border-radius: 0px 0px 20px 20px;
   padding: 10px;
   display: flex;
   flex-direction: column;

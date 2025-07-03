@@ -104,7 +104,6 @@
           <textarea v-model="content" placeholder="내용을 입력하세요">공지드립니다..</textarea>
 
           <div class="file-upload" v-for="n in 2" :key="n">
-            첨부파일{{ n }}:
             <input type="file" />
             <button>파일첨부</button>
             <button>보기</button>

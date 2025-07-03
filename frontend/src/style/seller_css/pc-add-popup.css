@@ -162,3 +162,65 @@ mark {
   color: #000;
   font-weight: bold;
 }
+
+/* 기존 CSS 유지 (생략하지 않음) */
+
+/* ✅ 모바일 환경 대응 */
+@media screen and (max-width: 768px) {
+  .pc-add-popup {
+    width: 90%;
+    padding: 20px;
+    border-radius: 16px;
+    height: 400px;
+    overflow-y: auto;
+  }
+
+  .pc-add-popup h2 {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+
+  .pc-form {
+    gap: 12px;
+  }
+
+  .input-field,
+  textarea,
+  select,
+  .spec-field input {
+    font-size: 13px;
+    padding: 9px 10px;
+    border-radius: 8px;
+  }
+
+  .spec-field label {
+    font-size: 12px;
+  }
+
+  .ram-input-wrap,
+  .ssd-input-wrap {
+    gap: 6px;
+  }
+
+  .unit-label {
+    font-size: 13px;
+  }
+
+  .btn-group {
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 16px;
+  }
+
+  .cancel-btn,
+  .submit-btn {
+    width: 100%;
+    font-size: 13px;
+    padding: 10px;
+  }
+
+  .suggestions li {
+    padding: 8px;
+    font-size: 13px;
+  }
+}

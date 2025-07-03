@@ -31,10 +31,18 @@ const login = async (req, res) => {
     );
 
     // 쿠키에 refreshToken 저장
+    // https일때
+    // res.cookie('refreshToken', refreshToken, {
+    //   httpOnly: true,
+    //   secure: true,         // 개발에서는 false
+    //   sameSite: 'none',       // 개발에서는 Strict
+    //   path: '/',
+    //   maxAge: 7 * 24 * 60 * 60 * 1000,
+    // });
     res.cookie('refreshToken', refreshToken, {
       httpOnly: true,
-      secure: true,         // 개발에서는 false
-      sameSite: 'none',       // 개발에서는 Lax
+      secure: false,         // 개발에서는 false
+      sameSite: 'Strict',       // 개발에서는 Strict
       path: '/',
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });

@@ -15,73 +15,74 @@
             <button class="add-btn" @click="pcExtension">연장</button>
           </div>
         </div>
-        <table class="dummy-table">
-          <thead>
-            <tr>
-              <th>번호</th>
-              <th>PC ID</th>
-              <th>PC 위치</th>
-              <th>대여상태</th>
-              <th>임대료</th>
-              <th>CPU</th>
-              <th>RAM</th>
-              <th>SSD</th>
-              <th>대여자명</th>
-              <th>연장 신청</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-             v-for="(pc, index) in pcList"
-              :key="pc.pc_id"
-              :class="{ selected: selectedRows.includes(pc.no) }"
-              @click="selectPc(pc, index, $event)"
-              @contextmenu.prevent="openContextMenu(pc, $event)">
-              <td>{{ pc.no }}</td>
-              <td>
-                <span v-if="!isEditing">{{ pc.pcName }}</span>
-                <input v-else v-model="pc.pcName" />
-              </td>
-              <td>
-                <span v-if="!isEditing">{{ pc.location }}</span>
-                <input v-else v-model="pc.location" />
-              </td>
-              <td>
-                <span v-if="!isEditing">{{ stateMap[pc.state]||'-' }}</span>
-                <input v-else v-model="pc.state" />
-              </td>
-              <td>
-                <span v-if="!isEditing">{{ Number(pc.price).toLocaleString() }}</span>
-                <input v-else v-model="pc.price" />
-              </td> 
-              <td class="cpu-column">
-                <span v-if="!isEditing">{{ pc.cpu }}</span>
-                <input v-else v-model="pc.cpu" @input="pc.cpu = pc.cpu.replace(/\s+/g, '').toUpperCase()" />
-              </td>
-              <td>
-                <span v-if="!isEditing">{{ pc.ram }}</span>
-                <input v-else v-model="pc.ram" />
-              </td>
-              <td>
-                <span v-if="!isEditing">{{ pc.ssd }}</span>
-                <input v-else v-model="pc.ssd" />
-              </td>
-              <td>
-                <span>{{ pc.renter?.name || '미대여' }}</span>
-              </td>
-              <td>
-                <span
-                  class="pc_status_extension"
-                  :class="{ active: pc.rental_extensions?.[0]?.status === 'PENDING' }"
-                  :disabled="pc.rental_extensions?.[0]?.status !== 'PENDING'"
-                >
-                    연장
-                </span>
-              </td>
-            </tr>
-
-          </tbody>
-        </table>
+        <div class="table-scroll-wrapper">
+          <table class="dummy-table">
+            <thead>
+              <tr>
+                <th>번호</th>
+                <th>PC ID</th>
+                <th>PC 위치</th>
+                <th>대여상태</th>
+                <th>임대료</th>
+                <th>CPU</th>
+                <th>RAM</th>
+                <th>SSD</th>
+                <th>대여자명</th>
+                <th>연장 신청</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+               v-for="(pc, index) in pcList"
+                :key="pc.pc_id"
+                :class="{ selected: selectedRows.includes(pc.no) }"
+                @click="selectPc(pc, index, $event)"
+                @contextmenu.prevent="openContextMenu(pc, $event)">
+                <td>{{ pc.no }}</td>
+                <td>
+                  <span v-if="!isEditing">{{ pc.pcName }}</span>
+                  <input v-else v-model="pc.pcName" />
+                </td>
+                <td>
+                  <span v-if="!isEditing">{{ pc.location }}</span>
+                  <input v-else v-model="pc.location" />
+                </td>
+                <td>
+                  <span v-if="!isEditing">{{ stateMap[pc.state]||'-' }}</span>
+                  <input v-else v-model="pc.state" />
+                </td>
+                <td>
+                  <span v-if="!isEditing">{{ Number(pc.price).toLocaleString() }}</span>
+                  <input v-else v-model="pc.price" />
+                </td> 
+                <td class="cpu-column">
+                  <span v-if="!isEditing">{{ pc.cpu }}</span>
+                  <input v-else v-model="pc.cpu" @input="pc.cpu = pc.cpu.replace(/\s+/g, '').toUpperCase()" />
+                </td>
+                <td>
+                  <span v-if="!isEditing">{{ pc.ram }}</span>
+                  <input v-else v-model="pc.ram" />
+                </td>
+                <td>
+                  <span v-if="!isEditing">{{ pc.ssd }}</span>
+                  <input v-else v-model="pc.ssd" />
+                </td>
+                <td>
+                  <span>{{ pc.renter?.name || '미대여' }}</span>
+                </td>
+                <td>
+                  <span
+                    class="pc_status_extension"
+                    :class="{ active: pc.rental_extensions?.[0]?.status === 'PENDING' }"
+                    :disabled="pc.rental_extensions?.[0]?.status !== 'PENDING'"
+                  >
+                      연장
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
     <div v-if="showAddPopup" class="modal-overlay">

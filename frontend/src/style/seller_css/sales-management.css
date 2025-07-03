@@ -33,7 +33,7 @@
   font-weight: bold;
   font-size: 16px;
   justify-content: center;
-  margin: 40px 0 24px;
+  margin: 0px 0 24px;
 }
 
 .month-selector button {
@@ -232,4 +232,124 @@
 .pagination button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+@media screen and (max-width: 768px) {
+  .sales-container {
+    padding: 16px;
+    margin: 16px 0;
+  }
+
+  .page-title {
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+
+  .alert-box {
+    font-size: 12px;
+    padding: 8px;
+    text-align: center;
+  }
+
+  .month-selector {
+    gap: 6px;
+    font-size: 13px;
+    margin: 0;
+    margin-bottom: 25px;
+  }
+
+  .month-selector button {
+    font-size: 12px;
+    padding: 4px 10px;
+  }
+
+  .expiration-table table {
+    font-size: 11px;
+  }
+
+  .expiration-table th,
+  .expiration-table td {
+    padding: 6px 4px;
+  }
+
+  .expiration-table th {
+    font-size: 11px;
+  }
+
+  .sms-btn {
+    font-size: 11px;
+    padding: 4px 8px;
+  }
+
+  .sales-table th,
+  .sales-table td {
+    font-size: 11px;
+    padding: 4px;
+  }
+  .sales-table td {
+    height: 50px;
+  }
+  .sales-table tr{
+    height: 30px; 
+  }
+
+  .cell {
+    padding: 2px;
+    justify-content: start;
+  }
+
+  .day {
+    font-size: 11px;
+    margin-bottom: 8px;
+  }
+
+  .amount {
+    margin: 0;
+    font-size: 11px;
+  }
+
+  .pagination {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .pagination button {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+
+  .summary-cards {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 250px;
+    padding: 16px;
+  }
+
+  .card-title {
+    font-size: 12px;
+  }
+
+  .card-value {
+    font-size: 16px;
+  }
+
+  .search-section {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .search-section input {
+    font-size: 12px;
+    padding: 6px;
+  }
+
+  .csv-button {
+    font-size: 11px;
+    padding: 6px 10px;
+  }
 }

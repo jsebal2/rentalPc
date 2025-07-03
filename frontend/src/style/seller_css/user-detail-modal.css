@@ -119,24 +119,66 @@
 
 @media (max-width: 768px) {
   .modal-content {
-    padding: 20px;
+    width: 95%;
+    padding: 16px;
+    border-radius: 12px;
+    max-height: 85vh;
+    margin: 0 25px;
+    height: 500px;
+    overflow-y: auto;
+  }
+
+  .modal-content h2 {
+    font-size: 20px;
+    margin-bottom: 16px;
   }
 
   .info-sections {
     flex-direction: column;
-    gap: 20px;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .section {
+    min-width: 100%;
   }
 
   .section h3 {
-    font-size: 16px;
+    font-size: 15px;
+    padding-left: 6px;
+  }
+
+  .section ul {
+    font-size: 13px;
+  }
+
+  .section li {
+    margin-bottom: 5px;
   }
 
   .rental-table {
-    font-size: 12px;
+    display: block;
+    overflow-x: auto;
+    font-size: 13px;
+    margin-top: 12px;
+  }
+
+  .rental-table table {
+    min-width: 600px; /* 스크롤 유도 */
+  }
+
+  .rental-table th,
+  .rental-table td {
+    padding: 8px;
+    white-space: nowrap;
   }
 
   .close-btn {
     width: 100%;
+    padding: 12px;
+    font-size: 14px;
+    margin-top: 20px;
     float: none;
   }
 }
+

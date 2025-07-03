@@ -19,11 +19,22 @@ router.get('/profile', authenticateToken, async(req, res) => {
 
 router.post('/register', register);
 
+// https 일때
+// router.post('/logout', (req, res) => {
+//     res.clearCookie('refreshToken', {
+//         httpOnly: true,
+//         secure : true,
+//         sameSite: 'none',
+//         path : '/',
+//     });
+//     res.sendStatus(200)
+// });
+
 router.post('/logout', (req, res) => {
     res.clearCookie('refreshToken', {
         httpOnly: true,
-        secure : true,
-        sameSite: 'none',
+        secure : false,
+        sameSite: 'Strict',
         path : '/',
     });
     res.sendStatus(200)

@@ -1,3 +1,8 @@
+*{
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
 .monitoring-page {
   max-width: 1200px;
   width: 100%;
@@ -146,3 +151,63 @@
   background-color: #e5e7eb;
   z-index: 1;
 }
+
+@media (max-width: 768px) {
+  .monitoring-page {
+    padding: 15px;
+    margin-top: 20px;
+  }
+
+  .c_m_header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .title {
+    font-size: 20px;
+  }
+
+  .subtitle {
+    font-size: 14px;
+  }
+
+  .controls {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .search-input,
+  .sort-select,
+  .additional-loan {
+    width: 100%;
+    font-size: 13px;
+  }
+
+  .additional-loan {
+    padding: 10px 0;
+  }
+
+  .c-table-scroll-wrapper {
+    overflow-x: auto;
+    max-height: none;
+  }
+
+  .c-usage-table {
+    min-width: 800px; /* 테이블이 너무 좁아지는 것을 방지 */
+    font-size: 13px;
+  }
+
+  .c-usage-table th,
+  .c-usage-table td {
+    padding: 10px;
+    white-space: nowrap;
+  }
+
+  .context-menu {
+    font-size: 13px;
+  }
+}
+
